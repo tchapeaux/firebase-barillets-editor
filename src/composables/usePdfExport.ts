@@ -50,7 +50,6 @@ export function usePdfExport() {
   const drawThemeCard = (
     doc: jsPDF,
     theme: Theme,
-    themeNumber: number,
     x: number,
     y: number,
     width: number,
