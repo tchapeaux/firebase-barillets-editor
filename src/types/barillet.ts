@@ -242,18 +242,11 @@ export const isValidTheme = (theme: Theme): boolean => {
   if (!theme) return false;
 
   const validTypes: ThemeType[] = ["Mixte", "Comparée"];
-  const validParticipations: ThemeParticipation[] = [
-    "2",
-    "2 par équipe",
-    "illimitée",
-    "équivalente",
-    "tout le monde",
-  ];
   const validDurationTypes = ["fixed", "special"];
 
   return (
     validTypes.includes(theme.type) &&
-    validParticipations.includes(theme.participation) &&
+    typeof theme.participation === "string" &&
     typeof theme.category === "string" &&
     !!theme.duration &&
     typeof theme.duration.value === "string" &&

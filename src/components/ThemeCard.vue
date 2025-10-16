@@ -5,7 +5,7 @@ import Card from '@/components/ui/card.vue';
 import Input from '@/components/ui/input.vue';
 import Label from '@/components/ui/label.vue';
 import Checkbox from '@/components/ui/checkbox.vue';
-import Badge from '@/components/ui/badge.vue';
+import { ArrowLeftRight } from 'lucide-vue-next';
 
 interface Props {
   theme: Theme;
@@ -26,6 +26,7 @@ watch(
   (newTheme) => {
     localTheme.value = { ...newTheme };
     noTitle.value = newTheme.title === null;
+    updateDurationInputs(newTheme.duration.value);
   },
   { deep: true }
 );
@@ -49,101 +50,207 @@ const toggleTitle = () => {
 };
 
 watch(noTitle, toggleTitle);
+
+// Smart duration input - numeric by default, free text when "special"
+const durationMinutes = ref("3");
+const durationSeconds = ref("00");
+
+// Parse initial duration value
+const updateDurationInputs = (value: string) => {
+  // Handle "MM:SS" format
+  const timeMatch = value.match(/^(\d+):(\d+)$/);
+  if (timeMatch) {
+    durationMinutes.value = timeMatch[1];
+    durationSeconds.value = timeMatch[2];
+  }
+};
+
+// Initialize duration inputs
+updateDurationInputs(props.theme.duration.value);
+
+// Update duration value when numeric inputs change
+const updateDurationFromInputs = () => {
+  const mins = parseInt(durationMinutes.value || "0", 10);
+  const secs = parseInt(durationSeconds.value || "0", 10);
+  localTheme.value.duration.value = `${mins}:${secs.toString().padStart(2, "0")}`;
+  updateTheme();
+};
+
+// Format seconds input to always be 2 digits
+const formatSeconds = () => {
+  const secs = parseInt(durationSeconds.value || "0", 10);
+  if (secs > 59) {
+    durationSeconds.value = "59";
+  } else {
+    durationSeconds.value = secs.toString().padStart(2, "0");
+  }
+  updateDurationFromInputs();
+};
+
+// When switching duration type, convert format if needed
+const toggleDurationType = (isSpecial: boolean) => {
+  localTheme.value.duration.type = isSpecial ? 'special' : 'fixed';
+
+  if (!isSpecial && localTheme.value.duration.value) {
+    // If switching to fixed and value is not in MM:SS format, reset to default
+    const timeMatch = localTheme.value.duration.value.match(/^(\d+):(\d+)$/);
+    if (!timeMatch) {
+      durationMinutes.value = "3";
+      durationSeconds.value = "00";
+      localTheme.value.duration.value = "3:00";
+    }
+  }
+
+  updateTheme();
+};
 </script>
 
 <template>
-  <Card class="p-5 hover:shadow-md transition-shadow">
-    <!-- Header -->
-    <div class="flex justify-between items-center pb-3 mb-4 border-b">
-      <h3 class="text-lg font-semibold">Thème {{ themeNumber }}</h3>
-      <div class="flex gap-2">
-        <Badge :class="localTheme.type === 'Mixte' ? 'bg-blue-600' : 'bg-purple-600'">
-          {{ localTheme.type }}
-        </Badge>
-      </div>
-    </div>
-
-    <!-- Type Selection (Radio buttons styled as toggle) -->
-    <div class="flex gap-3 mb-4">
-      <label class="flex items-center gap-2 cursor-pointer">
-        <input
-          type="radio"
-          :value="'Mixte'"
-          v-model="localTheme.type"
-          @change="updateTheme"
-          class="w-4 h-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm">Mixte</span>
-      </label>
-      <label class="flex items-center gap-2 cursor-pointer">
-        <input
-          type="radio"
-          :value="'Comparée'"
-          v-model="localTheme.type"
-          @change="updateTheme"
-          class="w-4 h-4 text-purple-600 focus:ring-purple-500"
-        />
-        <span class="text-sm">Comparée</span>
-      </label>
-    </div>
-
-    <!-- Title Field -->
-    <div class="space-y-2 mb-4">
+  <Card class="overflow-hidden hover:shadow-md transition-shadow">
+    <!-- Header with Title Input and Type Selector -->
+    <div class="bg-gray-50 px-3 py-2 border-b border-gray-200">
       <div class="flex items-center gap-2">
-        <Checkbox :checked="noTitle" @update:checked="noTitle = $event" id="no-title" />
-        <Label for="no-title" class="cursor-pointer">Pas de titre</Label>
+        <!-- Type Selector as Button -->
+        <button
+          type="button"
+          @click="localTheme.type = localTheme.type === 'Mixte' ? 'Comparée' : 'Mixte'; updateTheme()"
+          :class="localTheme.type === 'Mixte' ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'bg-purple-100 text-purple-700 hover:bg-purple-200'"
+          class="text-xs px-2 py-1 rounded font-medium transition-colors shrink-0 flex items-center gap-1 group"
+          :title="`Changer en ${localTheme.type === 'Mixte' ? 'Comparée' : 'Mixte'}`"
+        >
+          {{ localTheme.type }}
+          <ArrowLeftRight class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </button>
+
+        <!-- Title Input or Add Title Button -->
+        <div v-if="!noTitle" class="flex items-center gap-2 flex-1">
+          <Input
+            v-model="localTheme.title!"
+            @blur="updateTheme"
+            :placeholder="`Thème ${themeNumber}`"
+            class="text-sm font-medium flex-1 bg-white"
+          />
+          <button
+            type="button"
+            @click="noTitle = true"
+            class="text-xs text-gray-400 hover:text-gray-600 shrink-0 px-1"
+            title="Supprimer le titre"
+          >
+            ✕
+          </button>
+        </div>
+        <button
+          v-else
+          type="button"
+          @click="noTitle = false"
+          class="text-xs text-gray-500 hover:text-gray-700 italic shrink-0 flex-1 text-left"
+        >
+          Thème {{ themeNumber }} - Cliquer pour ajouter un titre
+        </button>
       </div>
-      <Input
-        v-if="!noTitle"
-        v-model="localTheme.title!"
-        @blur="updateTheme"
-        placeholder="Titre du thème"
-      />
     </div>
 
-    <!-- Participation Field -->
-    <div class="space-y-2 mb-4">
-      <Label>Participation</Label>
-      <Input
-        v-model="localTheme.participation"
-        @blur="updateTheme"
-        placeholder="Participation"
-      />
-    </div>
-
-    <!-- Category Field -->
-    <div class="space-y-2 mb-4">
-      <Label>Catégorie</Label>
-      <Input
-        v-model="localTheme.category"
-        @blur="updateTheme"
-        placeholder="Libre"
-      />
-    </div>
-
-    <!-- Duration Field -->
-    <div class="space-y-2">
-      <Label>Durée</Label>
-      <Input
-        v-model="localTheme.duration.value"
-        @blur="updateTheme"
-        placeholder="3:00 ou 2 fois 3:00"
-      />
-      <div class="flex gap-4 mt-2">
-        <label class="flex items-center gap-2 cursor-pointer text-sm">
-          <Checkbox
-            :checked="localTheme.duration.type === 'special'"
-            @update:checked="localTheme.duration.type = $event ? 'special' : 'fixed'; updateTheme()"
+    <!-- Card Body -->
+    <div class="px-3 py-3 bg-white space-y-3">
+      <!-- Row 1: Category and Participation -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- Category Field -->
+        <div>
+          <Label class="text-xs text-gray-500 mb-1 block">Catégorie</Label>
+          <Input
+            v-model="localTheme.category"
+            @blur="updateTheme"
+            placeholder="Libre"
+            class="text-sm h-8"
           />
-          Spéciale
-        </label>
-        <label class="flex items-center gap-2 cursor-pointer text-sm">
-          <Checkbox
-            :checked="localTheme.duration.maximum"
-            @update:checked="localTheme.duration.maximum = $event; updateTheme()"
+        </div>
+
+        <!-- Participation Field -->
+        <div>
+          <Label class="text-xs text-gray-500 mb-1 block">Participation</Label>
+          <Input
+            v-model="localTheme.participation"
+            @blur="updateTheme"
+            placeholder="2 / équipe"
+            class="text-sm h-8"
           />
-          Maximum
-        </label>
+        </div>
+      </div>
+
+      <!-- Row 2: Duration (full width) -->
+      <div>
+        <Label class="text-xs text-gray-500 mb-1.5 block">Durée</Label>
+
+        <!-- Duration Type Selector (Radio buttons) -->
+        <div class="flex items-center gap-4 mb-2">
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input
+              type="radio"
+              :checked="localTheme.duration.type === 'fixed'"
+              @change="toggleDurationType(false)"
+              class="w-3.5 h-3.5 text-blue-600"
+            />
+            <span class="text-xs text-gray-600">Fixe</span>
+          </label>
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input
+              type="radio"
+              :checked="localTheme.duration.type === 'special'"
+              @change="toggleDurationType(true)"
+              class="w-3.5 h-3.5 text-blue-600"
+            />
+            <span class="text-xs text-gray-600">Spéciale</span>
+          </label>
+        </div>
+
+        <!-- Numeric Duration Input (fixed) -->
+        <div v-if="localTheme.duration.type === 'fixed'" class="flex items-center gap-2">
+          <Input
+            type="number"
+            v-model="durationMinutes"
+            @blur="updateDurationFromInputs"
+            min="0"
+            max="60"
+            placeholder="3"
+            class="text-sm w-16 h-8 text-center"
+          />
+          <span class="text-gray-400 text-sm">:</span>
+          <Input
+            type="number"
+            v-model="durationSeconds"
+            @blur="formatSeconds"
+            min="0"
+            max="59"
+            placeholder="00"
+            class="text-sm w-16 h-8 text-center"
+          />
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <Checkbox
+              :checked="localTheme.duration.maximum"
+              @update:checked="localTheme.duration.maximum = $event; updateTheme()"
+              class="h-3 w-3"
+            />
+            <span class="text-xs text-gray-500">Maximum</span>
+          </label>
+        </div>
+
+        <!-- Free Text Duration Input (special) -->
+        <div v-else class="space-y-2">
+          <Input
+            v-model="localTheme.duration.value"
+            @blur="updateTheme"
+            placeholder="jusqu'à la fin du spectacle"
+            class="text-sm h-8"
+          />
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <Checkbox
+              :checked="localTheme.duration.maximum"
+              @update:checked="localTheme.duration.maximum = $event; updateTheme()"
+              class="h-3 w-3"
+            />
+            <span class="text-xs text-gray-500">Maximum</span>
+          </label>
+        </div>
       </div>
     </div>
   </Card>
