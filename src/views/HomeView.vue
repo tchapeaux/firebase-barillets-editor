@@ -1,21 +1,7 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Header -->
-    <header
-      class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b"
-    >
-      <h1 class="text-3xl font-bold tracking-tight">Editeur de barillets</h1>
-      <div class="flex items-center gap-4">
-        <span class="text-sm text-muted-foreground">{{ user?.email }}</span>
-        <Button variant="outline" @click="handleSignOut">
-          <LogOut class="h-4 w-4 mr-2" />
-          Déconnexion
-        </Button>
-      </div>
-    </header>
-
     <!-- Content -->
-    <main>
+    <div>
       <div
         class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
       >
@@ -67,7 +53,7 @@
           @export-pdf="handleExportPdf"
         />
       </div>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -79,10 +65,10 @@ import { usePdfExport } from '../composables/usePdfExport';
 import BarilletCard from '../components/BarilletCard.vue';
 import Button from '@/components/ui/button.vue';
 import Alert from '@/components/ui/alert.vue';
-import { Plus, LogOut } from 'lucide-vue-next';
+import { Plus } from 'lucide-vue-next';
 
 const router = useRouter();
-const { user, signOut } = useAuth();
+const { user } = useAuth();
 const { exportBarilletToPdf } = usePdfExport();
 
 // Get user's barillets
@@ -94,16 +80,6 @@ const {
   duplicateBarillet,
   deleteBarillet,
 } = useBarillets(user);
-
-const handleSignOut = async () => {
-  const result = await signOut();
-  if (!result.success) {
-    console.error('Error signing out:', result.error);
-  } else {
-    // Successfully signed out, navigate to login
-    router.push({ name: 'login' });
-  }
-};
 
 const handleCreateBarillet = async () => {
   const result = await createBarillet({

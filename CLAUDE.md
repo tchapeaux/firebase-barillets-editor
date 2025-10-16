@@ -36,7 +36,7 @@ A web application for creating and managing "barillets" (theme collections) for 
 - [x] Protected routes with authentication guards
 - [x] Sign out functionality
 
-#### ✅ Routing
+#### ✅ Routing & Layout
 
 - [x] Vue Router 4 integration
 - [x] Route definitions for Home, Login, and Editor (placeholder)
@@ -44,6 +44,11 @@ A web application for creating and managing "barillets" (theme collections) for 
 - [x] Automatic redirects based on auth state
 - [x] Named routes for programmatic navigation
 - [x] Views vs Components architecture
+- [x] **App Layout System** - Consistent layout across authenticated pages:
+  - Header with app title, user info, and sign-out/sign-in buttons
+  - Footer with branding
+  - Route metadata (`requiresLayout`) controls layout application
+  - Login page maintains standalone centered design
 
 #### ✅ Type System
 
@@ -87,6 +92,12 @@ Strongly typed data structures in [`src/types/barillet.ts`](src/types/barillet.t
 
 **Components** (reusable UI in `src/components/`):
 
+- [x] **AppLayout.vue** - Main layout wrapper with:
+  - Sticky header with app title (clickable, links to home)
+  - User section (authenticated: email + sign-out; non-authenticated: sign-in link)
+  - Main content slot for page content
+  - Footer with "Vibe-coded with care"
+  - Controlled by route metadata `requiresLayout`
 - [x] **BarilletCard.vue** - Summary card with:
   - Title, date, location
   - Computed stats (duration, type counts, libre percentage)
@@ -130,18 +141,19 @@ firebase-barillets-editor/
 │   │   ├── useAuth.ts            # Authentication logic
 │   │   └── useBarillets.ts       # Firestore CRUD + Timestamp conversion
 │   ├── router/
-│   │   └── index.ts              # Vue Router configuration
+│   │   └── index.ts              # Vue Router configuration + layout metadata
 │   ├── views/
-│   │   ├── LoginView.vue         # Login page
-│   │   ├── HomeView.vue          # Dashboard page
-│   │   └── BarilletEditorView.vue # Full editor implementation
+│   │   ├── LoginView.vue         # Login page (standalone, no layout)
+│   │   ├── HomeView.vue          # Dashboard page (wrapped in AppLayout)
+│   │   └── BarilletEditorView.vue # Full editor (wrapped in AppLayout)
 │   ├── components/
+│   │   ├── AppLayout.vue         # App-wide layout with header & footer
 │   │   ├── BarilletCard.vue      # Barillet summary card
 │   │   ├── ThemeCard.vue         # Individual theme editor
 │   │   └── ThemeList.vue         # Container for 18 themes
 │   ├── firebase-app.ts           # Firebase initialization
 │   ├── styles.css                # Global styles
-│   ├── App.vue                   # Root component (router-view)
+│   ├── App.vue                   # Root component (conditional layout wrapper)
 │   └── main.ts                   # Entry point
 ├── .gitignore                    # Git ignore rules
 ├── FIREBASE_SETUP.md             # Firebase configuration guide
@@ -157,11 +169,11 @@ firebase-barillets-editor/
 
 **Available Routes**:
 
-| Route                | Name            | Component          | Auth Required | Description                     |
-| -------------------- | --------------- | ------------------ | ------------- | ------------------------------- |
-| `/`                  | `home`          | HomeView           | ✅ Yes        | Dashboard with barillet list    |
-| `/login`             | `login`         | LoginView          | ❌ No         | Authentication page             |
-| `/barillet/:id/edit` | `barillet-edit` | BarilletEditorView | ✅ Yes        | Full editor for barillet themes |
+| Route                | Name            | Component          | Auth Required | Layout | Description                     |
+| -------------------- | --------------- | ------------------ | ------------- | ------ | ------------------------------- |
+| `/`                  | `home`          | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list    |
+| `/login`             | `login`         | LoginView          | ❌ No         | ❌ No  | Authentication page             |
+| `/barillet/:id/edit` | `barillet-edit` | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes |
 
 **Authentication Guards**:
 
@@ -176,11 +188,18 @@ The router implements an async `beforeEach` navigation guard that:
 
 **Important**: The guard uses `onAuthStateChanged` wrapped in a Promise to ensure Firebase Auth state is resolved before making routing decisions. This prevents race conditions during login/logout.
 
+**Layout System**:
+
+Routes control layout application via `meta.requiresLayout`:
+
+- `true`: Wrapped in AppLayout (header + footer)
+- `false`: Rendered standalone (e.g., login page)
+
 **Navigation Flow**:
 
-- **Login**: After successful authentication, [LoginView.vue:83](src/views/LoginView.vue#L83) navigates to home using `router.push({ name: 'home' })`
-- **Logout**: After signing out, [HomeView.vue:74](src/views/HomeView.vue#L74) navigates to login using `router.push({ name: 'login' })`
-- **Protected Routes**: The router guard automatically redirects unauthenticated users attempting to access protected routes
+- **Login**: After successful authentication, [LoginView.vue:111](src/views/LoginView.vue#L111) navigates to home
+- **Logout**: After signing out, [AppLayout.vue:60](src/components/AppLayout.vue#L60) navigates to login
+- **Protected Routes**: Router guard automatically redirects unauthenticated users
 
 **Views vs Components**:
 
@@ -442,4 +461,4 @@ npm run build
 
 This file should always be updated to reflect the latest changes in the project.
 
-**Last Updated**: 2025-10-16
+**Last Updated**: 2025-10-17
