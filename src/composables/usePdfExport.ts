@@ -89,9 +89,9 @@ export function usePdfExport() {
 
     // Calculate appropriate font size based on text length
     let titleFontSize = 16;
-    if (titleText.length > 20) {
+    if (titleText.length > 25) {
       titleFontSize = 13;
-    } else if (titleText.length > 30) {
+    } else if (titleText.length > 33) {
       titleFontSize = 11;
     }
 
@@ -140,17 +140,41 @@ export function usePdfExport() {
       categoryParticipationY
     );
 
-    // Duration (bottom)
-    const durationY = y + height - 8;
+    // Duration and Notes (bottom)
+    const bottomY = y + height - 8;
+
+    // Duration (left-aligned)
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(0, 0, 0);
 
-    const durationText = theme.duration.value || '-';
+    const prefix =
+      theme.type === 'Comparée' && theme.duration.type === 'fixed' ? '2x ' : '';
 
-    // Center the duration text
-    const durationWidth = doc.getTextWidth(durationText);
-    doc.text(durationText, x + (width - durationWidth) / 2, durationY);
+    const durationText = theme.duration.value || '-';
+    doc.text(prefix + durationText, x + padding, bottomY);
+
+    // Notes (right-aligned, multiline if needed)
+    if (theme.notes && theme.notes.trim() !== '') {
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(100, 100, 100); // Gray color for notes
+
+      const maxNotesWidth =
+        width - padding * 2 - doc.getTextWidth(durationText) - 5; // Leave space between duration and notes
+      const notesLines = doc.splitTextToSize(theme.notes, maxNotesWidth);
+
+      // Calculate starting Y position for notes (bottom-aligned)
+      const lineHeight = 3;
+      const notesStartY = bottomY - (notesLines.length - 1) * lineHeight;
+
+      // Draw notes lines (right-aligned)
+      notesLines.forEach((line: string, lineIndex: number) => {
+        const lineWidth = doc.getTextWidth(line);
+        const lineY = notesStartY + lineIndex * lineHeight;
+        doc.text(line, x + width - padding - lineWidth, lineY);
+      });
+    }
   };
 
   return {

@@ -211,66 +211,82 @@ const toggleDurationType = (isSpecial: boolean) => {
         </div>
       </div>
 
-      <!-- Row 2: Duration (full width) -->
-      <div>
-        <Label class="text-xs text-gray-500 mb-1.5 block">Durée</Label>
+      <!-- Row 2: Duration and Notes (2 columns on desktop) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- Duration Field -->
+        <div>
+          <Label class="text-xs text-gray-500 mb-1.5 block">Durée</Label>
 
-        <!-- Duration Type Selector (Radio buttons) -->
-        <div class="flex items-center gap-4 mb-2">
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <input
-              type="radio"
-              :checked="localTheme.duration.type === 'fixed'"
-              class="w-3.5 h-3.5 text-blue-600"
-              @change="toggleDurationType(false)"
+          <!-- Duration Type Selector (Radio buttons) -->
+          <div class="flex items-center gap-4 mb-2">
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input
+                type="radio"
+                :checked="localTheme.duration.type === 'fixed'"
+                class="w-3.5 h-3.5 text-blue-600"
+                @change="toggleDurationType(false)"
+              />
+              <span class="text-xs text-gray-600">Fixe</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input
+                type="radio"
+                :checked="localTheme.duration.type === 'special'"
+                class="w-3.5 h-3.5 text-blue-600"
+                @change="toggleDurationType(true)"
+              />
+              <span class="text-xs text-gray-600">Spéciale</span>
+            </label>
+          </div>
+
+          <!-- Numeric Duration Input (fixed) -->
+          <div
+            v-if="localTheme.duration.type === 'fixed'"
+            class="flex items-center gap-2"
+          >
+            <Input
+              v-model="durationMinutes"
+              type="number"
+              min="0"
+              max="60"
+              placeholder="3"
+              class="text-sm w-16 h-8 text-center"
+              @blur="updateDurationFromInputs"
             />
-            <span class="text-xs text-gray-600">Fixe</span>
-          </label>
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <input
-              type="radio"
-              :checked="localTheme.duration.type === 'special'"
-              class="w-3.5 h-3.5 text-blue-600"
-              @change="toggleDurationType(true)"
+            <span class="text-gray-400 text-sm">:</span>
+            <Input
+              v-model="durationSeconds"
+              type="number"
+              min="0"
+              max="59"
+              placeholder="00"
+              class="text-sm w-16 h-8 text-center"
+              @blur="formatSeconds"
             />
-            <span class="text-xs text-gray-600">Spéciale</span>
-          </label>
+          </div>
+
+          <!-- Free Text Duration Input (special) -->
+          <div v-else>
+            <Input
+              v-model="localTheme.duration.value"
+              placeholder="jusqu'à la fin du spectacle"
+              class="text-sm h-8"
+              @blur="updateTheme"
+            />
+          </div>
         </div>
 
-        <!-- Numeric Duration Input (fixed) -->
-        <div
-          v-if="localTheme.duration.type === 'fixed'"
-          class="flex items-center gap-2"
-        >
-          <Input
-            v-model="durationMinutes"
-            type="number"
-            min="0"
-            max="60"
-            placeholder="3"
-            class="text-sm w-16 h-8 text-center"
-            @blur="updateDurationFromInputs"
-          />
-          <span class="text-gray-400 text-sm">:</span>
-          <Input
-            v-model="durationSeconds"
-            type="number"
-            min="0"
-            max="59"
-            placeholder="00"
-            class="text-sm w-16 h-8 text-center"
-            @blur="formatSeconds"
-          />
-        </div>
-
-        <!-- Free Text Duration Input (special) -->
-        <div v-else>
-          <Input
-            v-model="localTheme.duration.value"
-            placeholder="jusqu'à la fin du spectacle"
-            class="text-sm h-8"
+        <!-- Notes Field -->
+        <div>
+          <Label class="text-xs text-gray-500 mb-1.5 block">Notes</Label>
+          <textarea
+            v-model="localTheme.notes"
+            placeholder="Notes internes"
+            maxlength="250"
+            class="w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+            rows="3"
             @blur="updateTheme"
-          />
+          ></textarea>
         </div>
       </div>
     </div>

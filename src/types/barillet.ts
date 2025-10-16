@@ -25,6 +25,7 @@ export interface Theme {
   participation: ThemeParticipation;
   category: string; // "Libre" or custom category name
   duration: ThemeDuration;
+  notes?: string; // Optional internal notes
 }
 
 /**
