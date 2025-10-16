@@ -36,7 +36,7 @@ export function usePdfExport() {
       const x = margin + col * (cardWidth + margin);
       const y = margin + row * (cardHeight + margin);
 
-      drawThemeCard(doc, theme, index + 1, x, y, cardWidth, cardHeight);
+      drawThemeCard(doc, theme, x, y, cardWidth, cardHeight);
     });
 
     // Save the PDF

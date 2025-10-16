@@ -31,7 +31,9 @@ interface OperationResult {
  * Convert Firestore Timestamp to JavaScript Date
  * Handles various date formats from Firestore
  */
-function convertTimestampToDate(value: any): Date | null {
+function convertTimestampToDate(
+  value: Date | Timestamp | { seconds: number } | null | undefined
+): Date | null {
   if (!value) return null;
   if (value instanceof Date) return value;
   if (value instanceof Timestamp) return value.toDate();
@@ -96,9 +98,9 @@ export function useBarillets(user: Ref<User | null>) {
             loading.value = false;
           }
         );
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Error setting up barillets listener:', err);
-        error.value = err.message;
+        error.value = err instanceof Error ? err.message : 'An error occurred';
         loading.value = false;
       }
     },
@@ -125,15 +127,15 @@ export function useBarillets(user: Ref<User | null>) {
       }
 
       // Create barillet with defaults
-      const newBarillet: any = {
+      const newBarillet = {
         ...createEmptyBarillet(user.value.uid),
         ...barilletData,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
 
-      // Validate barillet
-      const validation = validateBarillet(newBarillet);
+      // Validate barillet (cast for validation as serverTimestamp will be resolved by Firestore)
+      const validation = validateBarillet(newBarillet as unknown as Barillet);
       if (!validation.valid) {
         return { success: false, error: validation.errors.join(', ') };
       }
@@ -142,9 +144,10 @@ export function useBarillets(user: Ref<User | null>) {
       const docRef = await addDoc(collection(db, 'barillets'), newBarillet);
 
       return { success: true, id: docRef.id };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error creating barillet:', err);
-      return { success: false, error: err.message };
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      return { success: false, error: message };
     }
   };
 
@@ -164,7 +167,7 @@ export function useBarillets(user: Ref<User | null>) {
       }
 
       // Add updatedAt timestamp
-      const updateData: any = {
+      const updateData = {
         ...updates,
         updatedAt: serverTimestamp(),
       };
@@ -174,9 +177,10 @@ export function useBarillets(user: Ref<User | null>) {
       await updateDoc(barilletRef, updateData);
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error updating barillet:', err);
-      return { success: false, error: err.message };
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      return { success: false, error: message };
     }
   };
 
@@ -198,9 +202,10 @@ export function useBarillets(user: Ref<User | null>) {
       await deleteDoc(barilletRef);
 
       return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error deleting barillet:', err);
-      return { success: false, error: err.message };
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      return { success: false, error: message };
     }
   };
 
@@ -231,9 +236,10 @@ export function useBarillets(user: Ref<User | null>) {
       };
 
       return await createBarillet(duplicate);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error duplicating barillet:', err);
-      return { success: false, error: err.message };
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      return { success: false, error: message };
     }
   };
 

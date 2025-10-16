@@ -29,7 +29,7 @@ const router = createRouter({
 });
 
 // Helper function to get current auth state
-const getCurrentUser = (): Promise<any> => {
+const getCurrentUser = (): Promise<import('firebase/auth').User | null> => {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       unsubscribe();

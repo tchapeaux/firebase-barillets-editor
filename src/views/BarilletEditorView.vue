@@ -75,7 +75,7 @@ const dateInputValue = computed({
   get: () => {
     if (!localBarillet.value?.date) return '';
     const date = localBarillet.value.date;
-    const dateObj = date instanceof Date ? date : new Date(date as any);
+    const dateObj = date instanceof Date ? date : new Date(String(date));
     return dateObj.toISOString().split('T')[0];
   },
   set: (value: string) => {

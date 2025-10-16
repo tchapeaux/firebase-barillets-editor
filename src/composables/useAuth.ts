@@ -41,8 +41,10 @@ export function useAuth() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'An error occurred';
+      return { success: false, error: message };
     }
   };
 
@@ -53,8 +55,10 @@ export function useAuth() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'An error occurred';
+      return { success: false, error: message };
     }
   };
 
@@ -62,8 +66,10 @@ export function useAuth() {
     try {
       await firebaseSignOut(auth);
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'An error occurred';
+      return { success: false, error: message };
     }
   };
 
