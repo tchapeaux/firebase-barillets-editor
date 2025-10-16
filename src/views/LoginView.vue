@@ -1,49 +1,62 @@
 <template>
-  <div class="login-container">
-    <div class="login-card">
-      <h1>Editeur de barillets</h1>
-      <h2>{{ isSignUp ? 'Créer un compte' : 'Connexion' }}</h2>
-
-      <form @submit.prevent="handleSubmit" class="login-form">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            required
-            placeholder="votre@email.com"
-            autocomplete="email"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="password">Mot de passe</label>
-          <input
-            id="password"
-            v-model="password"
-            type="password"
-            required
-            placeholder="••••••••"
-            autocomplete="current-password"
-            minlength="6"
-          />
-        </div>
-
-        <div v-if="error" class="error-message">
-          {{ error }}
-        </div>
-
-        <button type="submit" class="btn-primary" :disabled="isLoading">
-          {{ isLoading ? 'Chargement...' : (isSignUp ? 'Créer un compte' : 'Se connecter') }}
-        </button>
-      </form>
-
-      <div class="toggle-mode">
-        <button type="button" @click="toggleMode" class="btn-link">
-          {{ isSignUp ? 'Déjà un compte ? Se connecter' : 'Pas de compte ? Créer un compte' }}
-        </button>
+  <div class="flex justify-center items-center min-h-screen p-4 bg-muted/30">
+    <div class="w-full max-w-md space-y-6">
+      <!-- Title Card -->
+      <div class="text-center space-y-2">
+        <h1 class="text-3xl font-bold tracking-tight">Editeur de barillets</h1>
+        <h2 class="text-xl font-medium text-muted-foreground">
+          {{ isSignUp ? 'Créer un compte' : 'Connexion' }}
+        </h2>
       </div>
+
+      <!-- Login Card -->
+      <Card class="p-6">
+        <form @submit.prevent="handleSubmit" class="space-y-4">
+          <!-- Email Field -->
+          <div class="space-y-2">
+            <Label for="email">Email</Label>
+            <Input
+              id="email"
+              v-model="email"
+              type="email"
+              required
+              placeholder="votre@email.com"
+              autocomplete="email"
+            />
+          </div>
+
+          <!-- Password Field -->
+          <div class="space-y-2">
+            <Label for="password">Mot de passe</Label>
+            <Input
+              id="password"
+              v-model="password"
+              type="password"
+              required
+              placeholder="••••••••"
+              autocomplete="current-password"
+              minlength="6"
+            />
+          </div>
+
+          <!-- Error Message -->
+          <Alert v-if="error" variant="destructive">
+            {{ error }}
+          </Alert>
+
+          <!-- Submit Button -->
+          <Button type="submit" class="w-full" :disabled="isLoading">
+            {{ isLoading ? 'Chargement...' : (isSignUp ? 'Créer un compte' : 'Se connecter') }}
+          </Button>
+        </form>
+
+        <!-- Toggle Mode -->
+        <div class="mt-6 text-center">
+          <Button type="button" @click="toggleMode" variant="link">
+            {{ isSignUp ? 'Déjà un compte ? Se connecter' : 'Pas de compte ? Créer un compte' }}
+          </Button>
+        </div>
+      </Card>
     </div>
   </div>
 </template>
@@ -52,6 +65,11 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
+import Button from '@/components/ui/button.vue';
+import Input from '@/components/ui/input.vue';
+import Label from '@/components/ui/label.vue';
+import Card from '@/components/ui/card.vue';
+import Alert from '@/components/ui/alert.vue';
 
 const router = useRouter();
 const { signIn, signUp } = useAuth();
@@ -103,121 +121,3 @@ const getErrorMessage = (errorCode: string): string => {
   return errorKey ? errorMessages[errorKey] : 'Une erreur est survenue. Veuillez réessayer.';
 };
 </script>
-
-<style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 1rem;
-  background-color: var(--surface);
-}
-
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  padding: 2rem;
-  background-color: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow);
-}
-
-.login-card h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
-  text-align: center;
-  color: var(--text-primary);
-}
-
-.login-card h2 {
-  margin: 0 0 2rem 0;
-  font-size: 1.25rem;
-  font-weight: 500;
-  text-align: center;
-  color: var(--text-secondary);
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-group label {
-  font-weight: 500;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-}
-
-.form-group input {
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: var(--background);
-  color: var(--text-primary);
-  transition: border-color 0.2s;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: var(--team1color);
-}
-
-.error-message {
-  padding: 0.75rem;
-  background-color: #fee;
-  border: 1px solid #fcc;
-  border-radius: 4px;
-  color: #c33;
-  font-size: 0.9rem;
-}
-
-.btn-primary {
-  padding: 0.75rem 1.5rem;
-  background-color: var(--team1color);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-primary:hover:not(:disabled) {
-  opacity: 0.9;
-}
-
-.btn-primary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.toggle-mode {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.btn-link {
-  background: none;
-  border: none;
-  color: var(--team1color);
-  cursor: pointer;
-  font-size: 0.9rem;
-  text-decoration: underline;
-  padding: 0.5rem;
-}
-
-.btn-link:hover {
-  opacity: 0.8;
-}
-</style>

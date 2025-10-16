@@ -5,6 +5,12 @@ import { useAuth } from "../composables/useAuth";
 import { useBarillets } from "../composables/useBarillets";
 import { validateBarillet } from "../types/barillet";
 import ThemeList from "../components/ThemeList.vue";
+import Button from '@/components/ui/button.vue';
+import Input from '@/components/ui/input.vue';
+import Label from '@/components/ui/label.vue';
+import Alert from '@/components/ui/alert.vue';
+import Card from '@/components/ui/card.vue';
+import { Loader2, AlertCircle } from 'lucide-vue-next';
 import type { Barillet, Theme } from "../types/barillet";
 
 const route = useRoute();
@@ -69,9 +75,8 @@ const dateInputValue = computed({
   get: () => {
     if (!localBarillet.value?.date) return "";
     const date = localBarillet.value.date;
-    // Handle both Date objects and Firestore Timestamps
     const dateObj = date instanceof Date ? date : new Date(date as any);
-    return dateObj.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+    return dateObj.toISOString().split("T")[0];
   },
   set: (value: string) => {
     if (localBarillet.value) {
@@ -101,11 +106,7 @@ const saveChanges = async () => {
     await updateBarillet(localBarillet.value.id, localBarillet.value);
     hasUnsavedChanges.value = false;
     saveSuccess.value = true;
-
-    // Update the original barillet reference
     barillet.value = JSON.parse(JSON.stringify(localBarillet.value));
-
-    // Redirect to Home after successful save
     router.push({ name: "home" });
   } catch (err) {
     console.error("Error saving barillet:", err);
@@ -144,320 +145,99 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="editor">
+  <div class="min-h-screen px-4 sm:px-6 lg:px-8 py-8 bg-muted/30">
     <!-- Loading state -->
-    <div v-if="barilletsLoading" class="editor-message">
-      <div class="spinner"></div>
-      <p>Chargement du barillet...</p>
-    </div>
+    <Card v-if="barilletsLoading" class="max-w-2xl mx-auto p-12 text-center">
+      <Loader2 class="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
+      <p class="text-muted-foreground">Chargement du barillet...</p>
+    </Card>
 
     <!-- Error state -->
-    <div v-else-if="barilletsError" class="editor-message error">
-      <p>❌ Erreur: {{ barilletsError }}</p>
-      <button @click="cancel" class="btn-secondary">Retour à la liste</button>
-    </div>
+    <Card v-else-if="barilletsError" class="max-w-2xl mx-auto p-8 text-center border-destructive">
+      <AlertCircle class="h-12 w-12 mx-auto mb-4 text-destructive" />
+      <p class="text-destructive mb-4">Erreur: {{ barilletsError }}</p>
+      <Button @click="cancel" variant="outline">Retour à la liste</Button>
+    </Card>
 
     <!-- Not found state -->
-    <div v-else-if="barilletNotFound" class="editor-message error">
-      <h2>Barillet introuvable</h2>
-      <p>
-        Le barillet demandé n'existe pas ou vous n'avez pas l'autorisation d'y
-        accéder.
+    <Card v-else-if="barilletNotFound" class="max-w-2xl mx-auto p-8 text-center border-destructive">
+      <AlertCircle class="h-12 w-12 mx-auto mb-4 text-destructive" />
+      <h2 class="text-xl font-semibold mb-2">Barillet introuvable</h2>
+      <p class="text-muted-foreground mb-6">
+        Le barillet demandé n'existe pas ou vous n'avez pas l'autorisation d'y accéder.
       </p>
-      <button @click="cancel" class="btn-secondary">Retour à la liste</button>
-    </div>
+      <Button @click="cancel" variant="outline">Retour à la liste</Button>
+    </Card>
 
     <!-- Editor content -->
-    <div v-else-if="localBarillet" class="editor-content">
+    <div v-else-if="localBarillet" class="max-w-7xl mx-auto">
       <!-- Header -->
-      <div class="editor-header">
-        <div class="header-left">
-          <h1>Éditer le barillet</h1>
-          <div class="metadata-form">
-            <div class="form-row">
-              <div class="form-field">
-                <label>Titre</label>
-                <input
-                  type="text"
-                  v-model="localBarillet.title"
-                  @input="updateMetadata"
-                  placeholder="Titre du barillet"
-                  class="input-text"
-                />
-              </div>
-              <div class="form-field">
-                <label>Lieu</label>
-                <input
-                  type="text"
-                  v-model="localBarillet.location"
-                  @input="updateMetadata"
-                  placeholder="Lieu"
-                  class="input-text"
-                />
-              </div>
-              <div class="form-field">
-                <label>Date</label>
-                <input
-                  type="date"
-                  v-model="dateInputValue"
-                  class="input-text"
-                />
-              </div>
-            </div>
+      <Card class="p-6 mb-6">
+        <h1 class="text-2xl font-bold mb-6">Éditer le barillet</h1>
+
+        <!-- Metadata form -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="space-y-2">
+            <Label>Titre</Label>
+            <Input
+              v-model="localBarillet.title"
+              @input="updateMetadata"
+              placeholder="Titre du barillet"
+            />
+          </div>
+          <div class="space-y-2">
+            <Label>Lieu</Label>
+            <Input
+              v-model="localBarillet.location"
+              @input="updateMetadata"
+              placeholder="Lieu"
+            />
+          </div>
+          <div class="space-y-2">
+            <Label>Date</Label>
+            <Input
+              type="date"
+              v-model="dateInputValue"
+            />
           </div>
         </div>
 
-        <div class="header-actions">
-          <button @click="cancel" class="btn-secondary" :disabled="saving">
+        <!-- Action buttons -->
+        <div class="flex justify-end gap-3">
+          <Button @click="cancel" variant="outline" :disabled="saving">
             Annuler
-          </button>
-          <button @click="saveChanges" class="btn-primary" :disabled="saving">
-            <span v-if="saving">Enregistrement...</span>
-            <span v-else>Enregistrer</span>
-          </button>
+          </Button>
+          <Button @click="saveChanges" :disabled="saving">
+            <Loader2 v-if="saving" class="mr-2 h-4 w-4 animate-spin" />
+            {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
+          </Button>
         </div>
-      </div>
+      </Card>
 
       <!-- Status messages -->
-      <div v-if="saveSuccess" class="alert alert-success">
+      <Alert v-if="saveSuccess" class="mb-6 bg-green-50 border-green-200 text-green-800">
         ✓ Modifications enregistrées avec succès !
-      </div>
+      </Alert>
 
-      <div v-if="saveError" class="alert alert-error">
+      <Alert v-if="saveError" variant="destructive" class="mb-6">
         {{ saveError }}
-      </div>
+      </Alert>
 
-      <div v-if="validationErrors.length > 0" class="alert alert-warning">
+      <Alert v-if="validationErrors.length > 0" class="mb-6 bg-yellow-50 border-yellow-200 text-yellow-800">
         <strong>Erreurs de validation :</strong>
-        <ul>
+        <ul class="mt-2 ml-5 list-disc">
           <li v-for="(error, index) in validationErrors" :key="index">
             {{ error }}
           </li>
         </ul>
-      </div>
+      </Alert>
 
-      <div v-if="hasUnsavedChanges && !saveSuccess" class="alert alert-info">
+      <Alert v-if="hasUnsavedChanges && !saveSuccess" class="mb-6 bg-blue-50 border-blue-200 text-blue-800">
         ⚠️ Vous avez des modifications non enregistrées
-      </div>
+      </Alert>
 
       <!-- Theme list -->
       <ThemeList :themes="localBarillet.themes" @update="handleThemesUpdate" />
     </div>
   </div>
 </template>
-
-<style scoped>
-.editor {
-  min-height: 100vh;
-  padding: 2rem;
-  background-color: #f5f5f5;
-}
-
-.editor-message {
-  max-width: 600px;
-  margin: 4rem auto;
-  text-align: center;
-  background: white;
-  padding: 3rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.editor-message.error {
-  border: 2px solid #f44336;
-}
-
-.editor-message h2 {
-  margin-top: 0;
-  color: #2c3e50;
-}
-
-.editor-message p {
-  color: #666;
-  margin-bottom: 1.5rem;
-}
-
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #4caf50;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.editor-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.editor-header {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.header-left h1 {
-  margin: 0 0 1.5rem 0;
-  color: #2c3e50;
-  font-size: 1.75rem;
-}
-
-.metadata-form {
-  margin-bottom: 1.5rem;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 1rem;
-}
-
-.form-field {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-field label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 0.375rem;
-}
-
-.input-text {
-  padding: 0.625rem 0.875rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: border-color 0.2s ease;
-}
-
-.input-text:focus {
-  outline: none;
-  border-color: #4caf50;
-}
-
-.header-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-}
-
-.btn-primary,
-.btn-secondary {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-primary {
-  background-color: #4caf50;
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #45a049;
-}
-
-.btn-primary:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background-color: #f5f5f5;
-  color: #555;
-  border: 1px solid #ddd;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background-color: #e0e0e0;
-}
-
-.btn-secondary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.alert {
-  padding: 1rem 1.25rem;
-  border-radius: 4px;
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
-}
-
-.alert ul {
-  margin: 0.5rem 0 0 1.25rem;
-  padding: 0;
-}
-
-.alert li {
-  margin: 0.25rem 0;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.alert-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-.alert-warning {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
-}
-
-.alert-info {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .editor {
-    padding: 1rem;
-  }
-
-  .editor-header {
-    padding: 1.5rem;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
-  .header-actions {
-    flex-direction: column;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-  }
-}
-</style>
