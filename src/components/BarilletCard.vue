@@ -40,24 +40,40 @@
     <CardContent class="pt-4">
       <div class="flex flex-wrap gap-4 border-t pt-4">
         <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide">Durée totale</span>
+          <span class="text-xs text-muted-foreground uppercase tracking-wide"
+            >Durée totale</span
+          >
           <span class="text-base font-semibold">{{ stats.totalDuration }}</span>
         </div>
         <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide">Thèmes</span>
+          <span class="text-xs text-muted-foreground uppercase tracking-wide"
+            >Thèmes</span
+          >
           <span class="text-base font-semibold">{{ stats.themeCount }}</span>
         </div>
         <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide">Mixtes</span>
-          <Badge variant="default" class="bg-blue-600 w-fit">{{ stats.typeProportions.mixte }}</Badge>
+          <span class="text-xs text-muted-foreground uppercase tracking-wide"
+            >Mixtes</span
+          >
+          <Badge variant="default" class="bg-blue-600 w-fit">{{
+            stats.typeProportions.mixte
+          }}</Badge>
         </div>
         <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide">Comparées</span>
-          <Badge variant="default" class="bg-purple-600 w-fit">{{ stats.typeProportions.comparee }}</Badge>
+          <span class="text-xs text-muted-foreground uppercase tracking-wide"
+            >Comparées</span
+          >
+          <Badge variant="default" class="bg-purple-600 w-fit">{{
+            stats.typeProportions.comparee
+          }}</Badge>
         </div>
         <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide">Libres</span>
-          <Badge variant="secondary" class="w-fit">{{ stats.libreCount }} ({{ stats.librePercentage }}%)</Badge>
+          <span class="text-xs text-muted-foreground uppercase tracking-wide"
+            >Libres</span
+          >
+          <Badge variant="secondary" class="w-fit"
+            >{{ stats.libreCount }} ({{ stats.librePercentage }}%)</Badge
+          >
         </div>
       </div>
     </CardContent>
@@ -75,7 +91,14 @@ import Button from '@/components/ui/button.vue';
 import Badge from '@/components/ui/badge.vue';
 import DropdownMenu from '@/components/ui/dropdownMenu.vue';
 import DropdownMenuItem from '@/components/ui/dropdownMenuItem.vue';
-import { Calendar, MapPin, MoreVertical, Pencil, Copy, Trash2 } from 'lucide-vue-next';
+import {
+  Calendar,
+  MapPin,
+  MoreVertical,
+  Pencil,
+  Copy,
+  Trash2,
+} from 'lucide-vue-next';
 
 interface Props {
   barillet: Barillet;
@@ -97,7 +120,7 @@ const formatDate = (date: Date | null): string => {
   return new Intl.DateTimeFormat('fr-FR', {
     day: 'numeric',
     month: 'long',
-    year: 'numeric'
+    year: 'numeric',
   }).format(date);
 };
 
@@ -114,7 +137,12 @@ const handleDuplicate = () => {
 };
 
 const handleDelete = () => {
-  if (props.barillet.id && confirm(`Êtes-vous sûr de vouloir supprimer "${props.barillet.title || 'ce barillet'}" ?`)) {
+  if (
+    props.barillet.id &&
+    confirm(
+      `Êtes-vous sûr de vouloir supprimer "${props.barillet.title || 'ce barillet'}" ?`
+    )
+  ) {
     emit('delete', props.barillet.id);
   }
 };

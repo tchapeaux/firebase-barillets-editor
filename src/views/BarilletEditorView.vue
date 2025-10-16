@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useAuth } from "../composables/useAuth";
-import { useBarillets } from "../composables/useBarillets";
-import { validateBarillet } from "../types/barillet";
-import ThemeList from "../components/ThemeList.vue";
-import Button from "@/components/ui/button.vue";
-import Input from "@/components/ui/input.vue";
-import Label from "@/components/ui/label.vue";
-import Alert from "@/components/ui/alert.vue";
-import Card from "@/components/ui/card.vue";
-import { Loader2, AlertCircle } from "lucide-vue-next";
-import type { Barillet, Theme } from "../types/barillet";
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useAuth } from '../composables/useAuth';
+import { useBarillets } from '../composables/useBarillets';
+import { validateBarillet } from '../types/barillet';
+import ThemeList from '../components/ThemeList.vue';
+import Button from '@/components/ui/button.vue';
+import Input from '@/components/ui/input.vue';
+import Label from '@/components/ui/label.vue';
+import Alert from '@/components/ui/alert.vue';
+import Card from '@/components/ui/card.vue';
+import { Loader2, AlertCircle } from 'lucide-vue-next';
+import type { Barillet, Theme } from '../types/barillet';
 
 const route = useRoute();
 const router = useRouter();
@@ -73,10 +73,10 @@ const updateMetadata = () => {
 // Computed property for date input (converts Date to/from string)
 const dateInputValue = computed({
   get: () => {
-    if (!localBarillet.value?.date) return "";
+    if (!localBarillet.value?.date) return '';
     const date = localBarillet.value.date;
     const dateObj = date instanceof Date ? date : new Date(date as any);
-    return dateObj.toISOString().split("T")[0];
+    return dateObj.toISOString().split('T')[0];
   },
   set: (value: string) => {
     if (localBarillet.value) {
@@ -107,9 +107,9 @@ const saveChanges = async () => {
     hasUnsavedChanges.value = false;
     saveSuccess.value = true;
     barillet.value = JSON.parse(JSON.stringify(localBarillet.value));
-    router.push({ name: "home" });
+    router.push({ name: 'home' });
   } catch (err) {
-    console.error("Error saving barillet:", err);
+    console.error('Error saving barillet:', err);
     saveError.value = "Erreur lors de l'enregistrement. Veuillez réessayer.";
   } finally {
     saving.value = false;
@@ -120,27 +120,27 @@ const saveChanges = async () => {
 const cancel = () => {
   if (hasUnsavedChanges.value) {
     const confirmed = confirm(
-      "Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?"
+      'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?'
     );
     if (!confirmed) return;
   }
-  router.push({ name: "home" });
+  router.push({ name: 'home' });
 };
 
 // Warn before leaving with unsaved changes
 const handleBeforeUnload = (e: BeforeUnloadEvent) => {
   if (hasUnsavedChanges.value) {
     e.preventDefault();
-    e.returnValue = "";
+    e.returnValue = '';
   }
 };
 
 onMounted(() => {
-  window.addEventListener("beforeunload", handleBeforeUnload);
+  window.addEventListener('beforeunload', handleBeforeUnload);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("beforeunload", handleBeforeUnload);
+  window.removeEventListener('beforeunload', handleBeforeUnload);
 });
 </script>
 
@@ -159,7 +159,7 @@ onBeforeUnmount(() => {
     >
       <AlertCircle class="h-12 w-12 mx-auto mb-4 text-destructive" />
       <p class="text-destructive mb-4">Erreur: {{ barilletsError }}</p>
-      <Button @click="cancel" variant="outline">Retour à la liste</Button>
+      <Button variant="outline" @click="cancel">Retour à la liste</Button>
     </Card>
 
     <!-- Not found state -->
@@ -173,7 +173,7 @@ onBeforeUnmount(() => {
         Le barillet demandé n'existe pas ou vous n'avez pas l'autorisation d'y
         accéder.
       </p>
-      <Button @click="cancel" variant="outline">Retour à la liste</Button>
+      <Button variant="outline" @click="cancel">Retour à la liste</Button>
     </Card>
 
     <!-- Editor content -->
@@ -188,32 +188,32 @@ onBeforeUnmount(() => {
             <Label>Titre</Label>
             <Input
               v-model="localBarillet.title"
-              @input="updateMetadata"
               placeholder="Titre du barillet"
+              @input="updateMetadata"
             />
           </div>
           <div class="space-y-2">
             <Label>Lieu</Label>
             <Input
               v-model="localBarillet.location"
-              @input="updateMetadata"
               placeholder="Lieu"
+              @input="updateMetadata"
             />
           </div>
           <div class="space-y-2">
             <Label>Date</Label>
-            <Input type="date" v-model="dateInputValue" />
+            <Input v-model="dateInputValue" type="date" />
           </div>
         </div>
 
         <!-- Action buttons -->
         <div class="flex justify-end gap-3">
-          <Button @click="cancel" variant="outline" :disabled="saving">
+          <Button variant="outline" :disabled="saving" @click="cancel">
             Annuler
           </Button>
-          <Button @click="saveChanges" :disabled="saving">
+          <Button :disabled="saving" @click="saveChanges">
             <Loader2 v-if="saving" class="mr-2 h-4 w-4 animate-spin" />
-            {{ saving ? "Enregistrement..." : "Enregistrer" }}
+            {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
           </Button>
         </div>
       </Card>

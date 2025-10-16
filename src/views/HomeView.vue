@@ -1,11 +1,13 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Header -->
-    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b">
+    <header
+      class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b"
+    >
       <h1 class="text-3xl font-bold tracking-tight">Editeur de barillets</h1>
       <div class="flex items-center gap-4">
         <span class="text-sm text-muted-foreground">{{ user?.email }}</span>
-        <Button @click="handleSignOut" variant="outline">
+        <Button variant="outline" @click="handleSignOut">
           <LogOut class="h-4 w-4 mr-2" />
           Déconnexion
         </Button>
@@ -14,7 +16,9 @@
 
     <!-- Content -->
     <main>
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+      <div
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
+      >
         <h2 class="text-2xl font-semibold">Mes barillets</h2>
         <Button @click="handleCreateBarillet">
           <Plus class="h-4 w-4 mr-2" />
@@ -33,11 +37,17 @@
       </Alert>
 
       <!-- Empty state -->
-      <div v-else-if="barillets.length === 0" class="text-center py-16 max-w-md mx-auto">
+      <div
+        v-else-if="barillets.length === 0"
+        class="text-center py-16 max-w-md mx-auto"
+      >
         <div class="text-6xl mb-4">🎭</div>
-        <h3 class="text-xl font-semibold mb-2">Aucun barillet pour le moment</h3>
+        <h3 class="text-xl font-semibold mb-2">
+          Aucun barillet pour le moment
+        </h3>
         <p class="text-muted-foreground mb-6 leading-relaxed">
-          Créez votre premier barillet pour commencer à organiser vos spectacles d'improvisation.
+          Créez votre premier barillet pour commencer à organiser vos spectacles
+          d'improvisation.
         </p>
         <Button @click="handleCreateBarillet">
           <Plus class="h-4 w-4 mr-2" />
@@ -73,7 +83,14 @@ const router = useRouter();
 const { user, signOut } = useAuth();
 
 // Get user's barillets
-const { barillets, loading, error, createBarillet, duplicateBarillet, deleteBarillet } = useBarillets(user);
+const {
+  barillets,
+  loading,
+  error,
+  createBarillet,
+  duplicateBarillet,
+  deleteBarillet,
+} = useBarillets(user);
 
 const handleSignOut = async () => {
   const result = await signOut();
@@ -89,7 +106,7 @@ const handleCreateBarillet = async () => {
   const result = await createBarillet({
     title: 'Nouveau barillet',
     date: new Date(),
-    location: ''
+    location: '',
   });
 
   if (!result.success) {

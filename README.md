@@ -47,6 +47,7 @@ A web application for creating and managing "barillets" (theme collections) for 
 The Firebase configuration is stored in `src/firebase-app.ts`. These values are safe to commit publicly - Firebase security relies on Firestore security rules and authentication, not on hiding config values.
 
 If you want to use your own Firebase project:
+
 1. Create a new project at [Firebase Console](https://console.firebase.google.com/)
 2. Update the config in `src/firebase-app.ts`
 3. Deploy security rules: `firebase deploy --only firestore:rules`

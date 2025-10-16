@@ -11,7 +11,7 @@
 
       <!-- Login Card -->
       <Card class="p-6">
-        <form @submit.prevent="handleSubmit" class="space-y-4">
+        <form class="space-y-4" @submit.prevent="handleSubmit">
           <!-- Email Field -->
           <div class="space-y-2">
             <Label for="email">Email</Label>
@@ -46,14 +46,24 @@
 
           <!-- Submit Button -->
           <Button type="submit" class="w-full" :disabled="isLoading">
-            {{ isLoading ? 'Chargement...' : (isSignUp ? 'Créer un compte' : 'Se connecter') }}
+            {{
+              isLoading
+                ? 'Chargement...'
+                : isSignUp
+                  ? 'Créer un compte'
+                  : 'Se connecter'
+            }}
           </Button>
         </form>
 
         <!-- Toggle Mode -->
         <div class="mt-6 text-center">
-          <Button type="button" @click="toggleMode" variant="link">
-            {{ isSignUp ? 'Déjà un compte ? Se connecter' : 'Pas de compte ? Créer un compte' }}
+          <Button type="button" variant="link" @click="toggleMode">
+            {{
+              isSignUp
+                ? 'Déjà un compte ? Se connecter'
+                : 'Pas de compte ? Créer un compte'
+            }}
           </Button>
         </div>
       </Card>
@@ -113,11 +123,15 @@ const getErrorMessage = (errorCode: string): string => {
     'auth/wrong-password': 'Mot de passe incorrect',
     'auth/email-already-in-use': 'Cet email est déjà utilisé',
     'auth/weak-password': 'Le mot de passe doit contenir au moins 6 caractères',
-    'auth/invalid-credential': 'Email ou mot de passe incorrect'
+    'auth/invalid-credential': 'Email ou mot de passe incorrect',
   };
 
   // Extract error code from message if present
-  const errorKey = Object.keys(errorMessages).find(key => errorCode.includes(key));
-  return errorKey ? errorMessages[errorKey] : 'Une erreur est survenue. Veuillez réessayer.';
+  const errorKey = Object.keys(errorMessages).find((key) =>
+    errorCode.includes(key)
+  );
+  return errorKey
+    ? errorMessages[errorKey]
+    : 'Une erreur est survenue. Veuillez réessayer.';
 };
 </script>

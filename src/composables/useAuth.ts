@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, type Ref } from "vue";
+import { ref, onMounted, onUnmounted, type Ref } from 'vue';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -6,8 +6,8 @@ import {
   onAuthStateChanged,
   type User,
   type Unsubscribe,
-} from "firebase/auth";
-import { auth } from "../firebase-app";
+} from 'firebase/auth';
+import { auth } from '../firebase-app';
 
 interface AuthResult {
   success: boolean;

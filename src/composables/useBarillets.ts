@@ -1,4 +1,4 @@
-import { ref, watch, onUnmounted, type Ref } from "vue";
+import { ref, watch, onUnmounted, type Ref } from 'vue';
 import {
   collection,
   query,
@@ -12,14 +12,14 @@ import {
   onSnapshot,
   type Unsubscribe,
   Timestamp,
-} from "firebase/firestore";
-import type { User } from "firebase/auth";
-import { db } from "../firebase-app";
+} from 'firebase/firestore';
+import type { User } from 'firebase/auth';
+import { db } from '../firebase-app';
 import {
   createEmptyBarillet,
   validateBarillet,
   type Barillet,
-} from "../types/barillet";
+} from '../types/barillet';
 
 interface OperationResult {
   success: boolean;
@@ -67,9 +67,9 @@ export function useBarillets(user: Ref<User | null>) {
       try {
         // Create query for user's barillets, ordered by date (newest first)
         const barilletsQuery = query(
-          collection(db, "barillets"),
-          where("userId", "==", currentUser.uid),
-          orderBy("date", "desc")
+          collection(db, 'barillets'),
+          where('userId', '==', currentUser.uid),
+          orderBy('date', 'desc')
         );
 
         // Set up real-time listener
@@ -91,13 +91,13 @@ export function useBarillets(user: Ref<User | null>) {
             error.value = null;
           },
           (err) => {
-            console.error("Error fetching barillets:", err);
+            console.error('Error fetching barillets:', err);
             error.value = err.message;
             loading.value = false;
           }
         );
       } catch (err: any) {
-        console.error("Error setting up barillets listener:", err);
+        console.error('Error setting up barillets listener:', err);
         error.value = err.message;
         loading.value = false;
       }
@@ -121,7 +121,7 @@ export function useBarillets(user: Ref<User | null>) {
   ): Promise<OperationResult> => {
     try {
       if (!user.value || !user.value.uid) {
-        return { success: false, error: "User not authenticated" };
+        return { success: false, error: 'User not authenticated' };
       }
 
       // Create barillet with defaults
@@ -135,15 +135,15 @@ export function useBarillets(user: Ref<User | null>) {
       // Validate barillet
       const validation = validateBarillet(newBarillet);
       if (!validation.valid) {
-        return { success: false, error: validation.errors.join(", ") };
+        return { success: false, error: validation.errors.join(', ') };
       }
 
       // Add to Firestore
-      const docRef = await addDoc(collection(db, "barillets"), newBarillet);
+      const docRef = await addDoc(collection(db, 'barillets'), newBarillet);
 
       return { success: true, id: docRef.id };
     } catch (err: any) {
-      console.error("Error creating barillet:", err);
+      console.error('Error creating barillet:', err);
       return { success: false, error: err.message };
     }
   };
@@ -160,7 +160,7 @@ export function useBarillets(user: Ref<User | null>) {
   ): Promise<OperationResult> => {
     try {
       if (!barilletId) {
-        return { success: false, error: "Barillet ID is required" };
+        return { success: false, error: 'Barillet ID is required' };
       }
 
       // Add updatedAt timestamp
@@ -170,12 +170,12 @@ export function useBarillets(user: Ref<User | null>) {
       };
 
       // Update in Firestore
-      const barilletRef = doc(db, "barillets", barilletId);
+      const barilletRef = doc(db, 'barillets', barilletId);
       await updateDoc(barilletRef, updateData);
 
       return { success: true };
     } catch (err: any) {
-      console.error("Error updating barillet:", err);
+      console.error('Error updating barillet:', err);
       return { success: false, error: err.message };
     }
   };
@@ -190,16 +190,16 @@ export function useBarillets(user: Ref<User | null>) {
   ): Promise<OperationResult> => {
     try {
       if (!barilletId) {
-        return { success: false, error: "Barillet ID is required" };
+        return { success: false, error: 'Barillet ID is required' };
       }
 
       // Delete from Firestore
-      const barilletRef = doc(db, "barillets", barilletId);
+      const barilletRef = doc(db, 'barillets', barilletId);
       await deleteDoc(barilletRef);
 
       return { success: true };
     } catch (err: any) {
-      console.error("Error deleting barillet:", err);
+      console.error('Error deleting barillet:', err);
       return { success: false, error: err.message };
     }
   };
@@ -215,11 +215,16 @@ export function useBarillets(user: Ref<User | null>) {
     try {
       const original = barillets.value.find((b) => b.id === barilletId);
       if (!original) {
-        return { success: false, error: "Barillet not found" };
+        return { success: false, error: 'Barillet not found' };
       }
 
       // Create copy without id and timestamps
-      const { id, createdAt, updatedAt, ...barilletData } = original;
+      const {
+        id: _id,
+        createdAt: _createdAt,
+        updatedAt: _updatedAt,
+        ...barilletData
+      } = original;
       const duplicate: Partial<Barillet> = {
         ...barilletData,
         title: `${barilletData.title} (copie)`,
@@ -227,7 +232,7 @@ export function useBarillets(user: Ref<User | null>) {
 
       return await createBarillet(duplicate);
     } catch (err: any) {
-      console.error("Error duplicating barillet:", err);
+      console.error('Error duplicating barillet:', err);
       return { success: false, error: err.message };
     }
   };

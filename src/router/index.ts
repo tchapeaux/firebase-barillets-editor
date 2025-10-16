@@ -11,21 +11,21 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: false },
     },
     {
       path: '/barillet/:id/edit',
       name: 'barillet-edit',
       component: () => import('../views/BarilletEditorView.vue'), // Lazy-loaded, will be created later
-      meta: { requiresAuth: true }
-    }
-  ]
+      meta: { requiresAuth: true },
+    },
+  ],
 });
 
 // Helper function to get current auth state

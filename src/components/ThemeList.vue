@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import ThemeCard from "./ThemeCard.vue";
-import Badge from "@/components/ui/badge.vue";
-import type { Theme } from "../types/barillet";
+import { ref, watch } from 'vue';
+import ThemeCard from './ThemeCard.vue';
+import Badge from '@/components/ui/badge.vue';
+import type { Theme } from '../types/barillet';
 
 interface Props {
   themes: Theme[];
@@ -28,7 +28,7 @@ watch(
 // Update a specific theme
 const updateTheme = (index: number, updatedTheme: Theme) => {
   localThemes.value[index] = updatedTheme;
-  emit("update", [...localThemes.value]);
+  emit('update', [...localThemes.value]);
 };
 </script>
 

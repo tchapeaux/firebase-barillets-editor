@@ -3,7 +3,7 @@
  */
 export interface ThemeDuration {
   value: string; // e.g., "3:00", "2 fois 3:00", "jusqu'à la fin du spectacle"
-  type: "fixed" | "special";
+  type: 'fixed' | 'special';
   maximum: boolean;
 }
 
@@ -15,7 +15,7 @@ export type ThemeParticipation = string;
 /**
  * Theme type
  */
-export type ThemeType = "Mixte" | "Comparée";
+export type ThemeType = 'Mixte' | 'Comparée';
 
 /**
  * Individual theme within a barillet
@@ -91,13 +91,13 @@ export interface ValidationResult {
  * Default theme template
  */
 export const createEmptyTheme = (): Theme => ({
-  type: "Mixte",
-  title: "", // Empty string by default
-  participation: "illimitée",
-  category: "Libre",
+  type: 'Mixte',
+  title: '', // Empty string by default
+  participation: 'illimitée',
+  category: 'Libre',
   duration: {
-    value: "3:00",
-    type: "fixed",
+    value: '3:00',
+    type: 'fixed',
     maximum: false,
   },
 });
@@ -107,12 +107,12 @@ export const createEmptyTheme = (): Theme => ({
  */
 const createTheme = (type: ThemeType, category: string): Theme => ({
   type,
-  title: "",
-  participation: "illimitée",
+  title: '',
+  participation: 'illimitée',
   category,
   duration: {
-    value: "3:00",
-    type: "fixed",
+    value: '3:00',
+    type: 'fixed',
     maximum: false,
   },
 });
@@ -123,20 +123,20 @@ const createTheme = (type: ThemeType, category: string): Theme => ({
 export const createEmptyBarillet = (userId: string): Barillet => {
   const themes: Theme[] = [
     // 8 Mixte / Libre
-    ...Array.from({ length: 8 }, () => createTheme("Mixte", "Libre")),
+    ...Array.from({ length: 8 }, () => createTheme('Mixte', 'Libre')),
     // 4 Mixte / À définir
-    ...Array.from({ length: 4 }, () => createTheme("Mixte", "À définir")),
+    ...Array.from({ length: 4 }, () => createTheme('Mixte', 'À définir')),
     // 4 Comparée / Libre
-    ...Array.from({ length: 4 }, () => createTheme("Comparée", "Libre")),
+    ...Array.from({ length: 4 }, () => createTheme('Comparée', 'Libre')),
     // 2 Comparée / À définir
-    ...Array.from({ length: 2 }, () => createTheme("Comparée", "À définir")),
+    ...Array.from({ length: 2 }, () => createTheme('Comparée', 'À définir')),
   ];
 
   return {
     userId,
-    title: "Nouveau barillet",
+    title: 'Nouveau barillet',
     date: new Date(),
-    location: "",
+    location: '',
     createdAt: new Date(),
     updatedAt: new Date(),
     folderId: null,
@@ -150,7 +150,7 @@ export const createEmptyBarillet = (userId: string): Barillet => {
  * @returns Duration in minutes, or 0 if not parseable
  */
 export const parseDurationToMinutes = (duration: ThemeDuration): number => {
-  if (!duration || duration.type === "special") {
+  if (!duration || duration.type === 'special') {
     return 0; // Special durations don't count toward total time
   }
 
@@ -184,7 +184,7 @@ export const parseDurationToMinutes = (duration: ThemeDuration): number => {
 export const formatDuration = (totalMinutes: number): string => {
   const minutes = Math.floor(totalMinutes);
   const seconds = Math.round((totalMinutes - minutes) * 60);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
 
 /**
@@ -195,7 +195,7 @@ export const formatDuration = (totalMinutes: number): string => {
 export const calculateBarilletStats = (barillet: Barillet): BarilletStats => {
   if (!barillet || !barillet.themes || barillet.themes.length === 0) {
     return {
-      totalDuration: "0:00",
+      totalDuration: '0:00',
       totalMinutes: 0,
       typeProportions: { mixte: 0, comparee: 0 },
       libreCount: 0,
@@ -212,11 +212,11 @@ export const calculateBarilletStats = (barillet: Barillet): BarilletStats => {
   }, 0);
 
   // Calculate type proportions
-  const mixteCount = themes.filter((t) => t.type === "Mixte").length;
-  const compareeCount = themes.filter((t) => t.type === "Comparée").length;
+  const mixteCount = themes.filter((t) => t.type === 'Mixte').length;
+  const compareeCount = themes.filter((t) => t.type === 'Comparée').length;
 
   // Calculate libre count and percentage
-  const libreCount = themes.filter((t) => t.category === "Libre").length;
+  const libreCount = themes.filter((t) => t.category === 'Libre').length;
   const librePercentage =
     themes.length > 0 ? (libreCount / themes.length) * 100 : 0;
 
@@ -241,17 +241,17 @@ export const calculateBarilletStats = (barillet: Barillet): BarilletStats => {
 export const isValidTheme = (theme: Theme): boolean => {
   if (!theme) return false;
 
-  const validTypes: ThemeType[] = ["Mixte", "Comparée"];
-  const validDurationTypes = ["fixed", "special"];
+  const validTypes: ThemeType[] = ['Mixte', 'Comparée'];
+  const validDurationTypes = ['fixed', 'special'];
 
   return (
     validTypes.includes(theme.type) &&
-    typeof theme.participation === "string" &&
-    typeof theme.category === "string" &&
+    typeof theme.participation === 'string' &&
+    typeof theme.category === 'string' &&
     !!theme.duration &&
-    typeof theme.duration.value === "string" &&
+    typeof theme.duration.value === 'string' &&
     validDurationTypes.includes(theme.duration.type) &&
-    typeof theme.duration.maximum === "boolean"
+    typeof theme.duration.maximum === 'boolean'
   );
 };
 
@@ -264,17 +264,17 @@ export const validateBarillet = (barillet: Barillet): ValidationResult => {
   const errors: string[] = [];
 
   if (!barillet.userId) {
-    errors.push("userId is required");
+    errors.push('userId is required');
   }
 
-  if (!barillet.title || barillet.title.trim() === "") {
-    errors.push("title is required");
+  if (!barillet.title || barillet.title.trim() === '') {
+    errors.push('title is required');
   }
 
   if (!barillet.themes || !Array.isArray(barillet.themes)) {
-    errors.push("themes must be an array");
+    errors.push('themes must be an array');
   } else if (barillet.themes.length !== 18) {
-    errors.push("barillet must have exactly 18 themes");
+    errors.push('barillet must have exactly 18 themes');
   } else {
     barillet.themes.forEach((theme, index) => {
       if (!isValidTheme(theme)) {
