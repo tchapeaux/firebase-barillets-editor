@@ -4,7 +4,6 @@ import type { Theme } from '../types/barillet';
 import Card from '@/components/ui/card.vue';
 import Input from '@/components/ui/input.vue';
 import Label from '@/components/ui/label.vue';
-import Checkbox from '@/components/ui/checkbox.vue';
 import { ArrowLeftRight } from 'lucide-vue-next';
 
 interface Props {
@@ -167,9 +166,8 @@ const toggleDurationType = (isSpecial: boolean) => {
         <!-- Category Field -->
         <div>
           <Label class="text-xs text-gray-500 mb-1.5 block">Catégorie</Label>
-
-          <!-- Preset button for Libre -->
-          <div class="flex items-center gap-2 mb-1.5">
+          <div class="flex items-center gap-2">
+            <!-- Preset button for Libre -->
             <button
               type="button"
               :class="
@@ -177,7 +175,7 @@ const toggleDurationType = (isSpecial: boolean) => {
                   ? 'bg-green-100 text-green-700 border-green-300'
                   : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
               "
-              class="text-xs px-2.5 py-1 rounded border font-medium transition-colors"
+              class="text-xs px-2.5 py-1 rounded border font-medium transition-colors shrink-0"
               @click="
                 localTheme.category = 'Libre';
                 updateTheme();
@@ -185,21 +183,20 @@ const toggleDurationType = (isSpecial: boolean) => {
             >
               Libre
             </button>
-            <span class="text-xs text-gray-400">ou personnalisée ↓</span>
-          </div>
 
-          <!-- Custom category input -->
-          <Input
-            v-model="localTheme.category"
-            placeholder="Catégorie personnalisée..."
-            class="text-sm h-8"
-            :class="
-              localTheme.category === 'Libre'
-                ? 'border-green-300 bg-green-50/30'
-                : ''
-            "
-            @blur="updateTheme"
-          />
+            <!-- Custom category input -->
+            <Input
+              v-model="localTheme.category"
+              placeholder="Catégorie personnalisée..."
+              class="text-sm h-8 flex-1"
+              :class="
+                localTheme.category === 'Libre'
+                  ? 'border-green-300 bg-green-50/30'
+                  : ''
+              "
+              @blur="updateTheme"
+            />
+          </div>
         </div>
 
         <!-- Participation Field -->
@@ -264,38 +261,16 @@ const toggleDurationType = (isSpecial: boolean) => {
             class="text-sm w-16 h-8 text-center"
             @blur="formatSeconds"
           />
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <Checkbox
-              :checked="localTheme.duration.maximum"
-              class="h-3 w-3"
-              @update:checked="
-                localTheme.duration.maximum = $event;
-                updateTheme();
-              "
-            />
-            <span class="text-xs text-gray-500">Maximum</span>
-          </label>
         </div>
 
         <!-- Free Text Duration Input (special) -->
-        <div v-else class="space-y-2">
+        <div v-else>
           <Input
             v-model="localTheme.duration.value"
             placeholder="jusqu'à la fin du spectacle"
             class="text-sm h-8"
             @blur="updateTheme"
           />
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <Checkbox
-              :checked="localTheme.duration.maximum"
-              class="h-3 w-3"
-              @update:checked="
-                localTheme.duration.maximum = $event;
-                updateTheme();
-              "
-            />
-            <span class="text-xs text-gray-500">Maximum</span>
-          </label>
         </div>
       </div>
     </div>

@@ -4,7 +4,6 @@
 export interface ThemeDuration {
   value: string; // e.g., "3:00", "2 fois 3:00", "jusqu'à la fin du spectacle"
   type: 'fixed' | 'special';
-  maximum: boolean;
 }
 
 /**
@@ -98,7 +97,6 @@ export const createEmptyTheme = (): Theme => ({
   duration: {
     value: '3:00',
     type: 'fixed',
-    maximum: false,
   },
 });
 
@@ -113,7 +111,6 @@ const createTheme = (type: ThemeType, category: string): Theme => ({
   duration: {
     value: '3:00',
     type: 'fixed',
-    maximum: false,
   },
 });
 
@@ -146,7 +143,7 @@ export const createEmptyBarillet = (userId: string): Barillet => {
 
 /**
  * Parse duration value to minutes
- * @param duration - Duration object { value, type, maximum }
+ * @param duration - Duration object { value, type }
  * @returns Duration in minutes, or 0 if not parseable
  */
 export const parseDurationToMinutes = (duration: ThemeDuration): number => {
@@ -250,8 +247,7 @@ export const isValidTheme = (theme: Theme): boolean => {
     typeof theme.category === 'string' &&
     !!theme.duration &&
     typeof theme.duration.value === 'string' &&
-    validDurationTypes.includes(theme.duration.type) &&
-    typeof theme.duration.maximum === 'boolean'
+    validDurationTypes.includes(theme.duration.type)
   );
 };
 
