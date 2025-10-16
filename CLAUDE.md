@@ -12,7 +12,9 @@ A web application for creating and managing "barillets" (theme collections) for 
 - **Routing**: Vue Router 4.x
 - **Backend**: Firebase (Firestore + Authentication)
 - **Build Tool**: Vite 7.x
-- **Styling**: Vanilla CSS with CSS variables
+- **Styling**: Tailwind CSS 3.4+ with PostCSS & Autoprefixer
+- **UI Components**: shadcn-vue (Radix Vue primitives + Tailwind)
+- **Icons**: Lucide Vue Next
 
 ### What's Been Implemented
 
@@ -22,6 +24,9 @@ A web application for creating and managing "barillets" (theme collections) for 
 - [x] Full TypeScript migration with strict mode
 - [x] Firebase SDK integration (Firestore + Auth)
 - [x] Development and build scripts
+- [x] Tailwind CSS 3.4+ configuration with custom theme
+- [x] shadcn-vue component library setup
+- [x] CSS variables for theming (light/dark mode ready)
 
 #### ✅ Authentication
 
@@ -102,7 +107,7 @@ Strongly typed data structures in [`src/types/barillet.ts`](src/types/barillet.t
 
 - Create new barillets with default 18 empty themes
 - **Edit barillet themes (all 18 themes fully editable)**
-- **Edit barillet metadata (title, location)**
+- **Edit barillet metadata (title, date, location)**
 - View all user's barillets in a grid
 - Duplicate existing barillets
 - Delete barillets with confirmation
@@ -179,67 +184,6 @@ The router implements an async `beforeEach` navigation guard that:
 
 - **Views**: Route-level components in `src/views/` that represent full pages
 - **Components**: Reusable UI pieces in `src/components/` used within views
-
----
-
-## Recent Improvements
-
-### ✅ Barillet Editor Implementation (Completed)
-
-**What Was Built**: Full-featured editor for individual barillet themes.
-
-**Accomplishments**:
-
-- [x] Created `BarilletEditorView.vue` component
-- [x] Created `ThemeCard.vue` - individual theme editor
-- [x] Created `ThemeList.vue` - container for 18 themes
-- [x] Theme editing form with all fields:
-  - Type selector (Mixte/Comparée) ✅
-  - Title input with "Pas de titre" checkbox ✅
-  - Participation dropdown (5 options) ✅
-  - Category input ✅
-  - Duration input with type (fixed/special) and maximum flag ✅
-- [x] Display all 18 themes in a card-based list
-- [x] Save button with validation and error handling
-- [x] Loading and error states
-- [x] Unsaved changes warnings (browser + navigation)
-- [x] Responsive design (desktop + mobile)
-
-**Acceptance Criteria Met**:
-
-- ✅ User can click "Edit" on a barillet card
-- ✅ Navigate to `/barillet/:id/edit`
-- ✅ Modify all 18 themes
-- ✅ Changes persist to Firestore
-- ✅ Navigate back to home with confirmation if unsaved
-- ✅ Validation with user-facing error messages
-- ✅ Users cannot access other users' barillets (Firestore rules)
-
-### ✅ Data Harmonization (Completed)
-
-**What Was Fixed**: Multiple date/timestamp representations causing type inconsistencies.
-
-**Problem**:
-
-- Firestore Timestamps, JavaScript Dates, and plain objects coexisted
-- Required complex type checking in components
-- JSON.stringify broke Timestamp methods
-
-**Solution Implemented**:
-
-- [x] Updated all type definitions to use `Date` instead of `Timestamp`
-- [x] Added `convertTimestampToDate()` helper in `useBarillets.ts`
-- [x] Normalized all dates at data boundary (Firestore → App)
-- [x] Simplified `BarilletCard.formatDate()` (23 lines → 6 lines, 74% reduction)
-- [x] Single source of truth: JavaScript `Date` objects throughout the app
-
-**Benefits**:
-
-- ✅ Type safety enforced by TypeScript
-- ✅ JSON serialization works correctly
-- ✅ No more defensive type checking
-- ✅ Cleaner, more maintainable code
-- ✅ Consistent data flow
 
 ---
 
@@ -462,52 +406,12 @@ At the end of each coding session, you MUST:
 ## Development Commands
 
 ```bash
-# Start development server
-npm run dev
-
 # Type check without building
 npm run type-check
 
 # Build for production (with type check)
 npm run build
-
-# Preview production build
-npm run preview
-
-# Deploy to Firebase hosting
-npm run deploy
-
-# Deploy everything (rules + indexes + hosting)
-firebase deploy
 ```
-
----
-
-## Environment Setup Checklist
-
-For new developers joining the project:
-
-- [ ] Node.js 18+ installed
-- [ ] Firebase CLI installed (`npm i -g firebase-tools`)
-- [ ] Firebase account with access to project
-- [ ] Firebase login (`firebase login`)
-- [ ] Dependencies installed (`npm install`)
-- [ ] Firebase Console access for debugging
-
-### Firebase Configuration
-
-The Firebase configuration is stored directly in [src/firebase-app.ts](src/firebase-app.ts). These values are safe to commit publicly because:
-
-- Firebase security relies on **Firestore security rules** and **authentication**
-- The API key is not a secret - it's meant to identify your Firebase project
-- Your data is protected by the security rules in `firestore.rules`
-- All write operations require authentication (`request.auth != null`)
-
-If you need to use a different Firebase project:
-
-1. Create a new Firebase project in the [Firebase Console](https://console.firebase.google.com/)
-2. Update the config values in [src/firebase-app.ts](src/firebase-app.ts)
-3. Deploy your security rules: `firebase deploy --only firestore:rules`
 
 ---
 
