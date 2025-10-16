@@ -412,16 +412,23 @@ The router implements an async `beforeEach` navigation guard that:
 - [ ] Add unit tests (Vitest)
 - [ ] Add component tests (Vue Test Utils)
 - [ ] Add E2E tests (Playwright)
-- [ ] Set up ESLint + Prettier
-- [ ] Add pre-commit hooks (husky + lint-staged)
+- [x] Set up ESLint + Prettier ✅
+- [x] Add pre-commit hooks (husky + lint-staged) ✅
 - [ ] Add CI/CD pipeline (GitHub Actions)
+
+**Instructions for AI Coding Agents**:
+
+At the end of each coding session, you MUST:
+
+1. Run `npm run format` to format all files
+2. Run `npm run lint:fix` to fix linting issues
+3. Run `npm run type-check` to verify TypeScript types
 
 ### Performance
 
 - [ ] Lazy load components (Vue Router)
 - [ ] Virtual scrolling for large barillet lists
 - [ ] Optimize Firestore queries (pagination)
-- [ ] Image optimization (if avatars/icons added)
 - [ ] Bundle size analysis and optimization
 
 ### Documentation
@@ -529,4 +536,4 @@ If you need to use a different Firebase project:
 
 This file should always be updated to reflect the latest changes in the project.
 
-**Last Updated**: 2025-10-15
+**Last Updated**: 2025-10-16
