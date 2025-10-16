@@ -146,10 +146,7 @@ export function usePdfExport() {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(0, 0, 0);
 
-    let durationText = theme.duration.value || '-';
-    if (theme.duration.type === 'special') {
-      durationText = `⚡ ${durationText}`;
-    }
+    const durationText = theme.duration.value || '-';
 
     // Center the duration text
     const durationWidth = doc.getTextWidth(durationText);
