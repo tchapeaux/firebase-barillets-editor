@@ -1,0 +1,242 @@
+# Architecture & Current State
+
+## Technology Stack
+
+- **Frontend**: Vue 3 + TypeScript + Vite
+- **Routing**: Vue Router 4.x
+- **Backend**: Firebase (Firestore + Authentication)
+- **Build Tool**: Vite 7.x
+- **Styling**: Tailwind CSS 3.4+ with PostCSS & Autoprefixer
+- **UI Components**: shadcn-vue (Radix Vue primitives + Tailwind)
+- **Icons**: Lucide Vue Next
+
+## What's Been Implemented
+
+### ✅ Core Infrastructure
+
+- [x] Vite + Vue 3 SPA setup
+- [x] Full TypeScript migration with strict mode
+- [x] Firebase SDK integration (Firestore + Auth)
+- [x] Development and build scripts
+- [x] Tailwind CSS 3.4+ configuration with custom theme
+- [x] shadcn-vue component library setup
+- [x] CSS variables for theming (light/dark mode ready)
+
+### ✅ Authentication
+
+- [x] Email/password authentication
+- [x] Login/Signup flow with French UI
+- [x] Session persistence
+- [x] Protected routes with authentication guards
+- [x] Sign out functionality
+
+### ✅ Routing & Layout
+
+- [x] Vue Router 4 integration
+- [x] Route definitions for Home, Login, and Editor (placeholder)
+- [x] Authentication guards (`beforeEach` navigation guard)
+- [x] Automatic redirects based on auth state
+- [x] Named routes for programmatic navigation
+- [x] Views vs Components architecture
+- [x] **App Layout System** - Consistent layout across authenticated pages:
+  - Header with app title, user info, and sign-out/sign-in buttons
+  - Footer with branding
+  - Route metadata (`requiresLayout`) controls layout application
+  - Login page maintains standalone centered design
+
+### ✅ Type System
+
+Strongly typed data structures in [src/types/barillet.ts](../../src/types/barillet.ts):
+
+- `Barillet` - Main document with 18 themes (uses JavaScript `Date` for all date fields)
+- `Theme` - Individual theme configuration
+- `ThemeDuration` - Duration with value and type (fixed/special)
+- `ThemeType` - "Mixte" | "Comparée"
+- `ThemeParticipation` - String (e.g., "illimitée", "équivalente", etc.)
+- `Folder` - Optional organization (not yet implemented)
+- `Category` - Theme categories (not yet implemented)
+- Helper functions for stats calculation and validation
+
+### ✅ Data Layer
+
+- [x] `useAuth` composable - Authentication state management
+- [x] `useBarillets` composable - Real-time Firestore sync
+- [x] CRUD operations (Create, Read, Update, Delete, Duplicate)
+- [x] Automatic data validation
+- [x] Real-time updates via `onSnapshot`
+- [x] **Bidirectional Date Conversion** - Converts between Firestore Timestamps and JavaScript Dates at data boundary:
+  - `convertTimestampToDate()` - Converts Firestore Timestamps to JavaScript Dates when reading
+  - `convertDateToTimestamp()` - Converts JavaScript Dates to Firestore Timestamps when writing
+  - Used in `onSnapshot` listener and `updateBarillet()` function
+- [x] Type-safe data handling with consistent date representation throughout the app
+
+### ✅ UI Views & Components
+
+**Views** (route-level components in `src/views/`):
+
+- [x] **LoginView.vue** - Authentication interface
+- [x] **HomeView.vue** - Dashboard with barillet list
+- [x] **BarilletEditorView.vue** - Full editor implementation with:
+  - Barillet metadata editing (title, location)
+  - All 18 themes editable
+  - Save functionality with validation
+  - Unsaved changes warnings
+  - Loading and error states
+  - Navigation guards
+
+**Components** (reusable UI in `src/components/`):
+
+- [x] **AppLayout.vue** - Main layout wrapper with:
+  - Sticky header with app title (clickable, links to home)
+  - User section (authenticated: email + sign-out; non-authenticated: sign-in link)
+  - Main content slot for page content
+  - Footer with "Vibe-coded with care"
+  - Controlled by route metadata `requiresLayout`
+- [x] **BarilletCard.vue** - Summary card with:
+  - Title, date, location
+  - Computed stats (duration, type counts, libre percentage)
+  - Actions menu (edit, duplicate, delete)
+  - Edit button navigates to editor route
+  - Simplified date formatting (harmonized data types)
+- [x] **ThemeCard.vue** - Individual theme editor with:
+  - Type selector (Mixte/Comparée)
+  - Title input with "No title" checkbox
+  - Participation dropdown
+  - Category input
+  - Duration input (value, special/fixed type)
+  - Internal notes field
+  - Real-time updates on blur
+- [x] **ThemeList.vue** - Container for 18 theme cards
+- [x] Empty state handling
+- [x] Loading states
+- [x] Error handling
+
+### ✅ Features Working
+
+- Create new barillets with default 18 empty themes
+- **Edit barillet themes (all 18 themes fully editable)**
+- **Edit barillet metadata (title, date, location)**
+- View all user's barillets in a grid
+- Duplicate existing barillets
+- Delete barillets with confirmation
+- Real-time synchronization across tabs/devices
+- Client-side statistics calculation and validation
+- **Data validation with user-facing error messages**
+- **Unsaved changes warnings**
+- Responsive design (desktop + mobile)
+
+## File Structure
+
+```
+firebase-barillets-editor/
+├── src/
+│   ├── types/
+│   │   └── barillet.ts          # TypeScript interfaces (harmonized Date types)
+│   ├── composables/
+│   │   ├── useAuth.ts            # Authentication logic
+│   │   └── useBarillets.ts       # Firestore CRUD + Timestamp conversion
+│   ├── router/
+│   │   └── index.ts              # Vue Router configuration + layout metadata
+│   ├── views/
+│   │   ├── LoginView.vue         # Login page (standalone, no layout)
+│   │   ├── HomeView.vue          # Dashboard page (wrapped in AppLayout)
+│   │   └── BarilletEditorView.vue # Full editor (wrapped in AppLayout)
+│   ├── components/
+│   │   ├── AppLayout.vue         # App-wide layout with header & footer
+│   │   ├── BarilletCard.vue      # Barillet summary card
+│   │   ├── ThemeCard.vue         # Individual theme editor
+│   │   └── ThemeList.vue         # Container for 18 themes
+│   ├── firebase-app.ts           # Firebase initialization
+│   ├── styles.css                # Global styles
+│   ├── App.vue                   # Root component (conditional layout wrapper)
+│   └── main.ts                   # Entry point
+├── docs/dev/                     # Developer documentation (AI agents)
+├── .claude/                      # Claude Code configuration
+├── .github/                      # GitHub configuration & Copilot instructions
+├── .gitignore                    # Git ignore rules
+├── PROJECT.md                    # Original requirements
+├── CLAUDE.md                     # Legacy context (deprecated)
+├── README.md                     # Quick start guide
+├── tsconfig.json                 # TypeScript config
+├── vite.config.ts                # Vite config
+└── package.json                  # Dependencies & scripts
+```
+
+## Routing Architecture
+
+### Available Routes
+
+| Route                | Name            | Component          | Auth Required | Layout | Description                     |
+| -------------------- | --------------- | ------------------ | ------------- | ------ | ------------------------------- |
+| `/`                  | `home`          | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list    |
+| `/login`             | `login`         | LoginView          | ❌ No         | ❌ No  | Authentication page             |
+| `/barillet/:id/edit` | `barillet-edit` | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes |
+
+### Authentication Guards
+
+The router implements an async `beforeEach` navigation guard that:
+
+1. Waits for Firebase Auth to initialize using `onAuthStateChanged`
+2. Checks if the target route requires authentication (`meta.requiresAuth`)
+3. Gets the current authenticated user state
+4. Redirects unauthenticated users from protected routes to `/login`
+5. Redirects authenticated users away from `/login` to `/`
+6. Allows navigation for all other cases
+
+**Important**: The guard uses `onAuthStateChanged` wrapped in a Promise to ensure Firebase Auth state is resolved before making routing decisions. This prevents race conditions during login/logout.
+
+### Layout System
+
+Routes control layout application via `meta.requiresLayout`:
+
+- `true`: Wrapped in AppLayout (header + footer)
+- `false`: Rendered standalone (e.g., login page)
+
+### Navigation Flow
+
+- **Login**: After successful authentication, [LoginView.vue:111](../../src/views/LoginView.vue#L111) navigates to home
+- **Logout**: After signing out, [AppLayout.vue:60](../../src/components/AppLayout.vue#L60) navigates to login
+- **Protected Routes**: Router guard automatically redirects unauthenticated users
+
+### Views vs Components
+
+- **Views**: Route-level components in `src/views/` that represent full pages
+- **Components**: Reusable UI pieces in `src/components/` used within views
+
+## Security & Data Model
+
+### Firestore Collections
+
+- **barillets**: User-specific documents (filtered by `userId` field)
+  - Each barillet contains 18 themes
+  - Metadata: title, date, location
+  - Timestamps: `createdAt`, `updatedAt` (Firestore Timestamps)
+  - Themes: array of 18 `Theme` objects
+
+### Authentication
+
+- **Method**: Email/password only (no social auth)
+- **Session**: Persists via Firebase Auth SDK
+- **Security**: Users can only read/write their own barillets
+- **Limitations**: No password reset flow implemented yet
+
+### Firestore Indexes
+
+- **None required** for current queries
+- May need indexes for future features (search, filtering, pagination)
+
+## Date Handling Strategy
+
+**Critical**: The app uses a bidirectional conversion pattern:
+
+- **In Firestore**: Dates stored as Firestore `Timestamp` objects
+- **In Application**: Dates represented as JavaScript `Date` objects
+- **Conversion Boundary**: `useBarillets` composable
+  - Reading: `convertTimestampToDate()` in `onSnapshot` listener
+  - Writing: `convertDateToTimestamp()` in `updateBarillet()`
+
+This ensures type consistency throughout the Vue components while maintaining Firestore compatibility.
+
+---
+
+**Last Updated**: 2025-10-17

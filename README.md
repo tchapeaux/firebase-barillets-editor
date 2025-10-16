@@ -70,9 +70,22 @@ If you want to use your own Firebase project:
 
 ## Documentation
 
+### For Users
+
 - [PROJECT.md](PROJECT.md) - Original project requirements
-- [CONTEXT.md](CONTEXT.md) - Detailed project context and architecture
-- [FIREBASE_SETUP.md](FIREBASE_SETUP.md) - Firebase configuration guide
+
+### For Developers & AI Agents
+
+- **[docs/dev/](docs/dev/)** - Comprehensive developer documentation
+  - [Architecture & Current State](docs/dev/architecture.md)
+  - [Code Conventions & Patterns](docs/dev/conventions.md)
+  - [Feature Roadmap](docs/dev/roadmap.md)
+  - [Known Issues & Limitations](docs/dev/known-issues.md)
+
+### For AI Coding Agents
+
+- [.claude/README.md](.claude/README.md) - Claude Code context
+- [.github/copilot-instructions.md](.github/copilot-instructions.md) - GitHub Copilot instructions
 
 ## Features
 

@@ -7,7 +7,7 @@ A barillet is composed of multiple themes, with each theme including
 - A title ("Titre"), which is a short text. Some themes do not have a title ("Pas de titre")
 - A participation rule ("Participation") describing the number of participants, which can be a fixed number, a per-team number, or special values such as "illimitée", "équivalente", or "tout le monde"
 - A game category ("Category"), which are special constraints taken from a list of categories. It is also possible for the user to create a new category on the spot. A special category is "Libre", meaning that no special constraints will be used.
-- A time limit ("Durée"), which is most often a number of minutes and seconds. Sometimes the time limit can be announced as an upper bound ("maximum"), or special values such as "jusqu'à la fin du spectacle" or "pour la durée du texte". For themes with type "Comparée", the time limit will be announced such as "2 fois 3 minutes"
+- A time limit ("Durée"), which is most often a number of minutes and seconds. Sometimes the time limit can be announced with special values such as "jusqu'à la fin du spectacle" or "pour la durée du texte". For themes with type "Comparée", the time limit will be announced such as "2 fois 3 minutes"
 
 Barillets also have some metadata, such as the date, location and title of the show. It will also be possible to view some stats, such as the total duration (sum of time limits), type proportions, "Libre" categories proportion.
 
