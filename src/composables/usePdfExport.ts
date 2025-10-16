@@ -25,7 +25,7 @@ export function usePdfExport() {
     // Draw each theme
     barillet.themes.forEach((theme, index) => {
       // Add new page after every 9 themes
-      if (index === 9) {
+      if (index % 9 === 0) {
         doc.addPage();
       }
 
