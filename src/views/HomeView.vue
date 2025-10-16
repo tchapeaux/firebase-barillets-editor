@@ -64,6 +64,7 @@
           @edit="handleEdit"
           @duplicate="handleDuplicate"
           @delete="handleDelete"
+          @export-pdf="handleExportPdf"
         />
       </div>
     </main>
@@ -74,6 +75,7 @@
 import { useRouter } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 import { useBarillets } from '../composables/useBarillets';
+import { usePdfExport } from '../composables/usePdfExport';
 import BarilletCard from '../components/BarilletCard.vue';
 import Button from '@/components/ui/button.vue';
 import Alert from '@/components/ui/alert.vue';
@@ -81,6 +83,7 @@ import { Plus, LogOut } from 'lucide-vue-next';
 
 const router = useRouter();
 const { user, signOut } = useAuth();
+const { exportBarilletToPdf } = usePdfExport();
 
 // Get user's barillets
 const {
@@ -133,5 +136,12 @@ const handleDelete = async (barilletId: string) => {
     alert(`Erreur lors de la suppression : ${result.error}`);
   }
   // Note: The barillet will disappear automatically
+};
+
+const handleExportPdf = (barilletId: string) => {
+  const barillet = barillets.value.find((b) => b.id === barilletId);
+  if (barillet) {
+    exportBarilletToPdf(barillet);
+  }
 };
 </script>

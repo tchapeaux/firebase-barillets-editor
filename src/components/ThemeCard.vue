@@ -163,6 +163,17 @@ const toggleDurationType = (isSpecial: boolean) => {
     <div class="px-3 py-3 bg-white space-y-3">
       <!-- Row 1: Category and Participation -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- Participation Field -->
+        <div>
+          <Label class="text-xs text-gray-500 mb-1 block">Participation</Label>
+          <Input
+            v-model="localTheme.participation"
+            placeholder="2 / équipe"
+            class="text-sm h-8"
+            @blur="updateTheme"
+          />
+        </div>
+
         <!-- Category Field -->
         <div>
           <Label class="text-xs text-gray-500 mb-1.5 block">Catégorie</Label>
@@ -197,17 +208,6 @@ const toggleDurationType = (isSpecial: boolean) => {
               @blur="updateTheme"
             />
           </div>
-        </div>
-
-        <!-- Participation Field -->
-        <div>
-          <Label class="text-xs text-gray-500 mb-1 block">Participation</Label>
-          <Input
-            v-model="localTheme.participation"
-            placeholder="2 / équipe"
-            class="text-sm h-8"
-            @blur="updateTheme"
-          />
         </div>
       </div>
 

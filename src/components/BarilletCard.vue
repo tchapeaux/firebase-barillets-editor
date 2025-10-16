@@ -30,6 +30,10 @@
           <Copy class="h-4 w-4" />
           Dupliquer
         </DropdownMenuItem>
+        <DropdownMenuItem @click="handleExportPdf">
+          <Download class="h-4 w-4" />
+          Exporter en PDF
+        </DropdownMenuItem>
         <DropdownMenuItem variant="destructive" @click="handleDelete">
           <Trash2 class="h-4 w-4" />
           Supprimer
@@ -98,6 +102,7 @@ import {
   Pencil,
   Copy,
   Trash2,
+  Download,
 } from 'lucide-vue-next';
 
 interface Props {
@@ -110,6 +115,7 @@ const emit = defineEmits<{
   edit: [id: string];
   duplicate: [id: string];
   delete: [id: string];
+  exportPdf: [id: string];
 }>();
 
 const stats = computed(() => calculateBarilletStats(props.barillet));
@@ -144,6 +150,12 @@ const handleDelete = () => {
     )
   ) {
     emit('delete', props.barillet.id);
+  }
+};
+
+const handleExportPdf = () => {
+  if (props.barillet.id) {
+    emit('exportPdf', props.barillet.id);
   }
 };
 </script>
