@@ -103,18 +103,46 @@ export const createEmptyTheme = (): Theme => ({
 });
 
 /**
+ * Create a theme with specific type and category
+ */
+const createTheme = (type: ThemeType, category: string): Theme => ({
+  type,
+  title: "",
+  participation: "illimitée",
+  category,
+  duration: {
+    value: "3:00",
+    type: "fixed",
+    maximum: false,
+  },
+});
+
+/**
  * Default barillet template with 18 themes
  */
-export const createEmptyBarillet = (userId: string): Barillet => ({
-  userId,
-  title: "Nouveau barillet",
-  date: null,
-  location: "",
-  createdAt: null,
-  updatedAt: null,
-  folderId: null,
-  themes: Array.from({ length: 18 }, () => createEmptyTheme()),
-});
+export const createEmptyBarillet = (userId: string): Barillet => {
+  const themes: Theme[] = [
+    // 8 Mixte / Libre
+    ...Array.from({ length: 8 }, () => createTheme("Mixte", "Libre")),
+    // 4 Mixte / À définir
+    ...Array.from({ length: 4 }, () => createTheme("Mixte", "À définir")),
+    // 4 Comparée / Libre
+    ...Array.from({ length: 4 }, () => createTheme("Comparée", "Libre")),
+    // 2 Comparée / À définir
+    ...Array.from({ length: 2 }, () => createTheme("Comparée", "À définir")),
+  ];
+
+  return {
+    userId,
+    title: "Nouveau barillet",
+    date: new Date(),
+    location: "",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    folderId: null,
+    themes,
+  };
+};
 
 /**
  * Parse duration value to minutes
