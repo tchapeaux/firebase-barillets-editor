@@ -57,7 +57,6 @@ Strongly typed data structures in [`src/types/barillet.ts`](src/types/barillet.t
 - `Folder` - Optional organization (not yet implemented)
 - `Category` - Theme categories (not yet implemented)
 - Helper functions for stats calculation and validation
-- **Date Harmonization**: All date fields use JavaScript `Date` type (converted from Firestore Timestamps at data boundary)
 
 #### ✅ Data Layer
 
@@ -66,7 +65,10 @@ Strongly typed data structures in [`src/types/barillet.ts`](src/types/barillet.t
 - [x] CRUD operations (Create, Read, Update, Delete, Duplicate)
 - [x] Automatic data validation
 - [x] Real-time updates via `onSnapshot`
-- [x] **Timestamp-to-Date conversion** - Normalizes Firestore Timestamps to JavaScript Dates at data boundary
+- [x] **Bidirectional Date Conversion** - Converts between Firestore Timestamps and JavaScript Dates at data boundary:
+  - `convertTimestampToDate()` - Converts Firestore Timestamps to JavaScript Dates when reading
+  - `convertDateToTimestamp()` - Converts JavaScript Dates to Firestore Timestamps when writing
+  - Used in `onSnapshot` listener and `updateBarillet()` function
 - [x] Type-safe data handling with consistent date representation throughout the app
 
 #### ✅ UI Views & Components

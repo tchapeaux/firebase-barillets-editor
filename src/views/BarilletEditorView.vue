@@ -34,6 +34,19 @@ const saveSuccess = ref(false);
 const validationErrors = ref<string[]>([]);
 const hasUnsavedChanges = ref(false);
 
+/**
+ * Deep clone a barillet while preserving Date objects
+ * JSON.parse(JSON.stringify()) converts Dates to strings, so we need to restore them
+ */
+const cloneBarillet = (barillet: Barillet): Barillet => {
+  const cloned = JSON.parse(JSON.stringify(barillet));
+  // Restore Date objects after JSON serialization
+  cloned.date = barillet.date ? new Date(barillet.date) : null;
+  cloned.createdAt = barillet.createdAt ? new Date(barillet.createdAt) : null;
+  cloned.updatedAt = barillet.updatedAt ? new Date(barillet.updatedAt) : null;
+  return cloned;
+};
+
 // Load barillet when data is available
 watch(
   barillets,
@@ -42,7 +55,7 @@ watch(
       const foundBarillet = newBarillets.find((b) => b.id === barilletId);
       if (foundBarillet) {
         barillet.value = foundBarillet;
-        localBarillet.value = JSON.parse(JSON.stringify(foundBarillet)); // Deep clone
+        localBarillet.value = cloneBarillet(foundBarillet);
       }
     }
   },
@@ -74,9 +87,7 @@ const updateMetadata = () => {
 const dateInputValue = computed({
   get: () => {
     if (!localBarillet.value?.date) return '';
-    const date = localBarillet.value.date;
-    const dateObj = date instanceof Date ? date : new Date(String(date));
-    return dateObj.toISOString().split('T')[0];
+    return localBarillet.value.date.toISOString().split('T')[0];
   },
   set: (value: string) => {
     if (localBarillet.value) {
@@ -106,7 +117,7 @@ const saveChanges = async () => {
     await updateBarillet(localBarillet.value.id, localBarillet.value);
     hasUnsavedChanges.value = false;
     saveSuccess.value = true;
-    barillet.value = JSON.parse(JSON.stringify(localBarillet.value));
+    barillet.value = cloneBarillet(localBarillet.value);
     router.push({ name: 'home' });
   } catch (err) {
     console.error('Error saving barillet:', err);

@@ -44,6 +44,18 @@ function convertTimestampToDate(
   return null;
 }
 
+/**
+ * Convert JavaScript Date to Firestore Timestamp
+ * Used when writing user-provided dates to Firestore
+ */
+function convertDateToTimestamp(
+  value: Date | null | undefined
+): Timestamp | null {
+  if (!value) return null;
+  if (value instanceof Date) return Timestamp.fromDate(value);
+  return null;
+}
+
 export function useBarillets(user: Ref<User | null>) {
   const barillets = ref<Barillet[]>([]);
   const loading = ref(true);
@@ -127,15 +139,22 @@ export function useBarillets(user: Ref<User | null>) {
       }
 
       // Create barillet with defaults
+      const barilletDefaults = createEmptyBarillet(user.value.uid);
+
+      // Prepare data for Firestore with timestamp conversions
       const newBarillet = {
-        ...createEmptyBarillet(user.value.uid),
+        ...barilletDefaults,
         ...barilletData,
+        // Convert Date fields to Timestamps for Firestore
+        date: convertDateToTimestamp(
+          barilletData.date ?? barilletDefaults.date
+        ),
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
 
       // Validate barillet (cast for validation as serverTimestamp will be resolved by Firestore)
-      const validation = validateBarillet(newBarillet as unknown as Barillet);
+      const validation = validateBarillet(barilletDefaults);
       if (!validation.valid) {
         return { success: false, error: validation.errors.join(', ') };
       }
@@ -166,11 +185,16 @@ export function useBarillets(user: Ref<User | null>) {
         return { success: false, error: 'Barillet ID is required' };
       }
 
-      // Add updatedAt timestamp
-      const updateData = {
+      // Convert Date fields to Firestore Timestamps for storage
+      const updateData: Record<string, unknown> = {
         ...updates,
         updatedAt: serverTimestamp(),
       };
+
+      // Convert the date field if present
+      if (updates.date !== undefined) {
+        updateData.date = convertDateToTimestamp(updates.date);
+      }
 
       // Update in Firestore
       const barilletRef = doc(db, 'barillets', barilletId);
