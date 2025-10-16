@@ -5,12 +5,12 @@ import { useAuth } from "../composables/useAuth";
 import { useBarillets } from "../composables/useBarillets";
 import { validateBarillet } from "../types/barillet";
 import ThemeList from "../components/ThemeList.vue";
-import Button from '@/components/ui/button.vue';
-import Input from '@/components/ui/input.vue';
-import Label from '@/components/ui/label.vue';
-import Alert from '@/components/ui/alert.vue';
-import Card from '@/components/ui/card.vue';
-import { Loader2, AlertCircle } from 'lucide-vue-next';
+import Button from "@/components/ui/button.vue";
+import Input from "@/components/ui/input.vue";
+import Label from "@/components/ui/label.vue";
+import Alert from "@/components/ui/alert.vue";
+import Card from "@/components/ui/card.vue";
+import { Loader2, AlertCircle } from "lucide-vue-next";
 import type { Barillet, Theme } from "../types/barillet";
 
 const route = useRoute();
@@ -153,18 +153,25 @@ onBeforeUnmount(() => {
     </Card>
 
     <!-- Error state -->
-    <Card v-else-if="barilletsError" class="max-w-2xl mx-auto p-8 text-center border-destructive">
+    <Card
+      v-else-if="barilletsError"
+      class="max-w-2xl mx-auto p-8 text-center border-destructive"
+    >
       <AlertCircle class="h-12 w-12 mx-auto mb-4 text-destructive" />
       <p class="text-destructive mb-4">Erreur: {{ barilletsError }}</p>
       <Button @click="cancel" variant="outline">Retour à la liste</Button>
     </Card>
 
     <!-- Not found state -->
-    <Card v-else-if="barilletNotFound" class="max-w-2xl mx-auto p-8 text-center border-destructive">
+    <Card
+      v-else-if="barilletNotFound"
+      class="max-w-2xl mx-auto p-8 text-center border-destructive"
+    >
       <AlertCircle class="h-12 w-12 mx-auto mb-4 text-destructive" />
       <h2 class="text-xl font-semibold mb-2">Barillet introuvable</h2>
       <p class="text-muted-foreground mb-6">
-        Le barillet demandé n'existe pas ou vous n'avez pas l'autorisation d'y accéder.
+        Le barillet demandé n'existe pas ou vous n'avez pas l'autorisation d'y
+        accéder.
       </p>
       <Button @click="cancel" variant="outline">Retour à la liste</Button>
     </Card>
@@ -195,10 +202,7 @@ onBeforeUnmount(() => {
           </div>
           <div class="space-y-2">
             <Label>Date</Label>
-            <Input
-              type="date"
-              v-model="dateInputValue"
-            />
+            <Input type="date" v-model="dateInputValue" />
           </div>
         </div>
 
@@ -209,13 +213,16 @@ onBeforeUnmount(() => {
           </Button>
           <Button @click="saveChanges" :disabled="saving">
             <Loader2 v-if="saving" class="mr-2 h-4 w-4 animate-spin" />
-            {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
+            {{ saving ? "Enregistrement..." : "Enregistrer" }}
           </Button>
         </div>
       </Card>
 
       <!-- Status messages -->
-      <Alert v-if="saveSuccess" class="mb-6 bg-green-50 border-green-200 text-green-800">
+      <Alert
+        v-if="saveSuccess"
+        class="mb-6 bg-green-50 border-green-200 text-green-800"
+      >
         ✓ Modifications enregistrées avec succès !
       </Alert>
 
@@ -223,7 +230,10 @@ onBeforeUnmount(() => {
         {{ saveError }}
       </Alert>
 
-      <Alert v-if="validationErrors.length > 0" class="mb-6 bg-yellow-50 border-yellow-200 text-yellow-800">
+      <Alert
+        v-if="validationErrors.length > 0"
+        class="mb-6 bg-yellow-50 border-yellow-200 text-yellow-800"
+      >
         <strong>Erreurs de validation :</strong>
         <ul class="mt-2 ml-5 list-disc">
           <li v-for="(error, index) in validationErrors" :key="index">
@@ -232,7 +242,10 @@ onBeforeUnmount(() => {
         </ul>
       </Alert>
 
-      <Alert v-if="hasUnsavedChanges && !saveSuccess" class="mb-6 bg-blue-50 border-blue-200 text-blue-800">
+      <Alert
+        v-if="hasUnsavedChanges && !saveSuccess"
+        class="mb-6 bg-blue-50 border-blue-200 text-blue-800"
+      >
         ⚠️ Vous avez des modifications non enregistrées
       </Alert>
 

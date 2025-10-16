@@ -156,12 +156,30 @@ const toggleDurationType = (isSpecial: boolean) => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Category Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1 block">Catégorie</Label>
+          <Label class="text-xs text-gray-500 mb-1.5 block">Catégorie</Label>
+
+          <!-- Preset button for Libre -->
+          <div class="flex items-center gap-2 mb-1.5">
+            <button
+              type="button"
+              @click="localTheme.category = 'Libre'; updateTheme()"
+              :class="localTheme.category === 'Libre'
+                ? 'bg-green-100 text-green-700 border-green-300'
+                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'"
+              class="text-xs px-2.5 py-1 rounded border font-medium transition-colors"
+            >
+              Libre
+            </button>
+            <span class="text-xs text-gray-400">ou personnalisée ↓</span>
+          </div>
+
+          <!-- Custom category input -->
           <Input
             v-model="localTheme.category"
             @blur="updateTheme"
-            placeholder="Libre"
+            placeholder="Catégorie personnalisée..."
             class="text-sm h-8"
+            :class="localTheme.category === 'Libre' ? 'border-green-300 bg-green-50/30' : ''"
           />
         </div>
 
