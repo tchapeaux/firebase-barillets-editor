@@ -121,10 +121,10 @@ const handleDelete = async (barilletId: string) => {
   // Note: The barillet will disappear automatically
 };
 
-const handleExportPdf = (barilletId: string) => {
+const handleExportPdf = async (barilletId: string) => {
   const barillet = barillets.value.find((b) => b.id === barilletId);
   if (barillet) {
-    exportBarilletToPdf(barillet);
+    await exportBarilletToPdf(barillet);
   }
 };
 </script>

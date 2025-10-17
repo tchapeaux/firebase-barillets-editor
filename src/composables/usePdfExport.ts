@@ -1,5 +1,5 @@
-import jsPDF from 'jspdf';
 import type { Barillet, Theme } from '../types/barillet';
+import type jsPDF from 'jspdf';
 
 /**
  * Composable for exporting barillets to PDF
@@ -8,7 +8,9 @@ export function usePdfExport() {
   /**
    * Export a barillet to PDF with A4 landscape format, 9 themes per page
    */
-  const exportBarilletToPdf = (barillet: Barillet): void => {
+  const exportBarilletToPdf = async (barillet: Barillet): Promise<void> => {
+    // Dynamic import of jsPDF to reduce initial bundle size
+    const { default: jsPDF } = await import('jspdf');
     // A4 landscape dimensions in mm
     const pageWidth = 297;
     const pageHeight = 210;
