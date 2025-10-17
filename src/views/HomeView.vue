@@ -48,6 +48,7 @@
           :key="barillet.id"
           :barillet="barillet"
           @edit="handleEdit"
+          @view="handleView"
           @duplicate="handleDuplicate"
           @delete="handleDelete"
           @export-pdf="handleExportPdf"
@@ -96,6 +97,10 @@ const handleCreateBarillet = async () => {
 
 const handleEdit = (barilletId: string) => {
   router.push({ name: 'barillet-edit', params: { id: barilletId } });
+};
+
+const handleView = (barilletId: string) => {
+  router.push({ name: 'barillet-view', params: { id: barilletId } });
 };
 
 const handleDuplicate = async (barilletId: string) => {

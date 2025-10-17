@@ -10,7 +10,7 @@ import Input from '@/components/ui/input.vue';
 import Label from '@/components/ui/label.vue';
 import Alert from '@/components/ui/alert.vue';
 import Card from '@/components/ui/card.vue';
-import { Loader2, AlertCircle } from 'lucide-vue-next';
+import { Loader2, AlertCircle, Share2, Check } from 'lucide-vue-next';
 import type { Barillet, Theme } from '../types/barillet';
 
 const route = useRoute();
@@ -33,6 +33,7 @@ const saveError = ref<string | null>(null);
 const saveSuccess = ref(false);
 const validationErrors = ref<string[]>([]);
 const hasUnsavedChanges = ref(false);
+const linkCopied = ref(false);
 
 /**
  * Deep clone a barillet while preserving Date objects
@@ -138,6 +139,25 @@ const cancel = () => {
   router.push({ name: 'home' });
 };
 
+// Copy share link to clipboard
+const copyShareLink = async () => {
+  if (!barilletId) return;
+
+  const baseUrl = window.location.origin;
+  const shareUrl = `${baseUrl}/barillet/${barilletId}/view`;
+
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    linkCopied.value = true;
+    setTimeout(() => {
+      linkCopied.value = false;
+    }, 2000);
+  } catch (err) {
+    console.error('Failed to copy link:', err);
+    alert('Impossible de copier le lien');
+  }
+};
+
 // Warn before leaving with unsaved changes
 const handleBeforeUnload = (e: BeforeUnloadEvent) => {
   if (hasUnsavedChanges.value) {
@@ -219,6 +239,11 @@ onBeforeUnmount(() => {
 
         <!-- Action buttons -->
         <div class="flex justify-end gap-3">
+          <Button variant="outline" :disabled="saving" @click="copyShareLink">
+            <Check v-if="linkCopied" class="mr-2 h-4 w-4" />
+            <Share2 v-else class="mr-2 h-4 w-4" />
+            {{ linkCopied ? 'Lien copié !' : 'Partager' }}
+          </Button>
           <Button variant="outline" :disabled="saving" @click="cancel">
             Annuler
           </Button>
