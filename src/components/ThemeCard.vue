@@ -5,7 +5,7 @@ import Card from '@/components/ui/card.vue';
 import Input from '@/components/ui/input.vue';
 import Label from '@/components/ui/label.vue';
 import DurationTypeBadge from './DurationTypeBadge.vue';
-import { ArrowLeftRight } from 'lucide-vue-next';
+import { ArrowLeftRight, RotateCcw } from 'lucide-vue-next';
 import { useThemeDuration } from '../composables/useThemeDuration';
 
 interface Props {
@@ -140,35 +140,32 @@ updateDurationInputs(props.theme.duration.value);
         <div>
           <Label class="text-xs text-gray-500 mb-1.5 block">Catégorie</Label>
           <div class="flex items-center gap-2">
-            <!-- Preset button for Libre -->
-            <button
-              type="button"
-              :class="
-                localTheme.category === 'Libre'
-                  ? 'bg-green-100 text-green-700 border-green-300'
-                  : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
-              "
-              class="text-xs px-2.5 py-1 rounded border font-medium transition-colors shrink-0"
-              @click="
-                localTheme.category = 'Libre';
-                updateTheme();
-              "
-            >
-              Libre
-            </button>
-
             <!-- Custom category input -->
             <Input
               v-model="localTheme.category"
               placeholder="Catégorie personnalisée..."
               class="text-sm h-8 flex-1"
               :class="
-                localTheme.category === 'Libre'
+                localTheme.category !== 'Libre'
                   ? 'border-green-300 bg-green-50/30'
                   : ''
               "
               @blur="updateTheme"
             />
+
+            <!-- Preset button for Libre -->
+            <button
+              type="button"
+              class="text-xs px-2.5 py-1 rounded border font-medium transition-colors shrink-0 bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100 flex items-center gap-1"
+              title="Réinitialiser à 'Libre'"
+              @click="
+                localTheme.category = 'Libre';
+                updateTheme();
+              "
+            >
+              <RotateCcw class="w-3 h-3" />
+              Libre
+            </button>
           </div>
         </div>
       </div>

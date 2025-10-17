@@ -105,7 +105,7 @@ updateDurationInputs(props.theme.duration.value);
         placeholder="Libre"
         class="text-sm h-8"
         :class="
-          localTheme.category === 'Libre'
+          localTheme.category !== 'Libre'
             ? 'border-green-300 bg-green-50/30'
             : ''
         "

@@ -59,7 +59,7 @@ defineProps<Props>();
           <Label class="text-xs text-gray-500 mb-1 block">Catégorie</Label>
           <div
             :class="
-              theme.category === 'Libre'
+              theme.category !== 'Libre'
                 ? 'bg-green-50 border-green-200 text-green-700'
                 : 'bg-gray-50 border-gray-200'
             "

@@ -126,7 +126,7 @@ export function usePdfExport() {
     // Category (right side)
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    if (theme.category === 'Libre') {
+    if (theme.category !== 'Libre') {
       doc.setTextColor(21, 128, 61); // green-700
     } else {
       doc.setTextColor(0, 0, 0);
