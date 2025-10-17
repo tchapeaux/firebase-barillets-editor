@@ -11,6 +11,7 @@ import Input from '@/components/ui/input.vue';
 import Label from '@/components/ui/label.vue';
 import Alert from '@/components/ui/alert.vue';
 import Card from '@/components/ui/card.vue';
+import Tooltip from '@/components/ui/tooltip.vue';
 import { Loader2, AlertCircle, Share2, Check } from 'lucide-vue-next';
 import type { Barillet, Theme } from '../types/barillet';
 
@@ -236,7 +237,23 @@ onBeforeUnmount(() => {
     <div v-else-if="localBarillet" class="max-w-7xl mx-auto">
       <!-- Header -->
       <Card class="p-6 mb-6">
-        <h1 class="text-2xl font-bold mb-6">Éditer le barillet</h1>
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-2xl font-bold">Éditer le barillet</h1>
+          <Tooltip>
+            <template #trigger>
+              <Button
+                variant="outline"
+                :disabled="saving"
+                @click="copyShareLink"
+              >
+                <Check v-if="linkCopied" class="mr-2 h-4 w-4" />
+                <Share2 v-else class="mr-2 h-4 w-4" />
+                {{ linkCopied ? 'Lien copié !' : 'Partager' }}
+              </Button>
+            </template>
+            Générer un lien public pour partager ce barillet en lecture seule
+          </Tooltip>
+        </div>
 
         <!-- Metadata form -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -264,11 +281,6 @@ onBeforeUnmount(() => {
 
         <!-- Action buttons -->
         <div class="flex justify-end gap-3">
-          <Button variant="outline" :disabled="saving" @click="copyShareLink">
-            <Check v-if="linkCopied" class="mr-2 h-4 w-4" />
-            <Share2 v-else class="mr-2 h-4 w-4" />
-            {{ linkCopied ? 'Lien copié !' : 'Partager' }}
-          </Button>
           <Button variant="outline" :disabled="saving" @click="cancel">
             Annuler
           </Button>
