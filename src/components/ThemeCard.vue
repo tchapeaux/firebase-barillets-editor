@@ -4,7 +4,9 @@ import type { Theme } from '../types/barillet';
 import Card from '@/components/ui/card.vue';
 import Input from '@/components/ui/input.vue';
 import Label from '@/components/ui/label.vue';
+import DurationTypeBadge from './DurationTypeBadge.vue';
 import { ArrowLeftRight } from 'lucide-vue-next';
+import { useThemeDuration } from '../composables/useThemeDuration';
 
 interface Props {
   theme: Theme;
@@ -50,58 +52,18 @@ const toggleTitle = () => {
 
 watch(noTitle, toggleTitle);
 
-// Smart duration input - numeric by default, free text when "special"
-const durationMinutes = ref('3');
-const durationSeconds = ref('00');
-
-// Parse initial duration value
-const updateDurationInputs = (value: string) => {
-  // Handle "MM:SS" format
-  const timeMatch = value.match(/^(\d+):(\d+)$/);
-  if (timeMatch) {
-    durationMinutes.value = timeMatch[1];
-    durationSeconds.value = timeMatch[2];
-  }
-};
+// Use shared duration composable
+const {
+  durationMinutes,
+  durationSeconds,
+  updateDurationInputs,
+  updateDurationFromInputs,
+  formatSeconds,
+  toggleDurationType,
+} = useThemeDuration(localTheme, updateTheme);
 
 // Initialize duration inputs
 updateDurationInputs(props.theme.duration.value);
-
-// Update duration value when numeric inputs change
-const updateDurationFromInputs = () => {
-  const mins = parseInt(durationMinutes.value || '0', 10);
-  const secs = parseInt(durationSeconds.value || '0', 10);
-  localTheme.value.duration.value = `${mins}:${secs.toString().padStart(2, '0')}`;
-  updateTheme();
-};
-
-// Format seconds input to always be 2 digits
-const formatSeconds = () => {
-  const secs = parseInt(durationSeconds.value || '0', 10);
-  if (secs > 59) {
-    durationSeconds.value = '59';
-  } else {
-    durationSeconds.value = secs.toString().padStart(2, '0');
-  }
-  updateDurationFromInputs();
-};
-
-// When switching duration type, convert format if needed
-const toggleDurationType = (isSpecial: boolean) => {
-  localTheme.value.duration.type = isSpecial ? 'special' : 'fixed';
-
-  if (!isSpecial && localTheme.value.duration.value) {
-    // If switching to fixed and value is not in MM:SS format, reset to default
-    const timeMatch = localTheme.value.duration.value.match(/^(\d+):(\d+)$/);
-    if (!timeMatch) {
-      durationMinutes.value = '3';
-      durationSeconds.value = '00';
-      localTheme.value.duration.value = '3:00';
-    }
-  }
-
-  updateTheme();
-};
 </script>
 
 <template>
@@ -216,61 +178,41 @@ const toggleDurationType = (isSpecial: boolean) => {
         <!-- Duration Field -->
         <div>
           <Label class="text-xs text-gray-500 mb-1.5 block">Durée</Label>
-
-          <!-- Duration Type Selector (Radio buttons) -->
-          <div class="flex items-center gap-4 mb-2">
-            <label class="flex items-center gap-1.5 cursor-pointer">
-              <input
-                type="radio"
-                :checked="localTheme.duration.type === 'fixed'"
-                class="w-3.5 h-3.5 text-blue-600"
-                @change="toggleDurationType(false)"
-              />
-              <span class="text-xs text-gray-600">Fixe</span>
-            </label>
-            <label class="flex items-center gap-1.5 cursor-pointer">
-              <input
-                type="radio"
-                :checked="localTheme.duration.type === 'special'"
-                class="w-3.5 h-3.5 text-blue-600"
-                @change="toggleDurationType(true)"
-              />
-              <span class="text-xs text-gray-600">Spéciale</span>
-            </label>
-          </div>
-
-          <!-- Numeric Duration Input (fixed) -->
-          <div
-            v-if="localTheme.duration.type === 'fixed'"
-            class="flex items-center gap-2"
-          >
-            <Input
-              v-model="durationMinutes"
-              type="number"
-              min="0"
-              max="60"
-              placeholder="3"
-              class="text-sm w-16 h-8 text-center"
-              @blur="updateDurationFromInputs"
+          <div class="flex items-center gap-2">
+            <DurationTypeBadge
+              :duration-type="localTheme.duration.type"
+              @toggle="toggleDurationType"
             />
-            <span class="text-gray-400 text-sm">:</span>
-            <Input
-              v-model="durationSeconds"
-              type="number"
-              min="0"
-              max="59"
-              placeholder="00"
-              class="text-sm w-16 h-8 text-center"
-              @blur="formatSeconds"
-            />
-          </div>
 
-          <!-- Free Text Duration Input (special) -->
-          <div v-else>
+            <!-- Numeric Duration Input (fixed) -->
+            <template v-if="localTheme.duration.type === 'fixed'">
+              <Input
+                v-model="durationMinutes"
+                type="number"
+                min="0"
+                max="60"
+                placeholder="3"
+                class="text-sm w-16 h-8 text-center"
+                @blur="updateDurationFromInputs"
+              />
+              <span class="text-gray-400 text-sm">:</span>
+              <Input
+                v-model="durationSeconds"
+                type="number"
+                min="0"
+                max="59"
+                placeholder="00"
+                class="text-sm w-16 h-8 text-center"
+                @blur="formatSeconds"
+              />
+            </template>
+
+            <!-- Free Text Duration Input (special) -->
             <Input
+              v-else
               v-model="localTheme.duration.value"
               placeholder="jusqu'à la fin du spectacle"
-              class="text-sm h-8"
+              class="text-sm h-8 flex-1"
               @blur="updateTheme"
             />
           </div>
