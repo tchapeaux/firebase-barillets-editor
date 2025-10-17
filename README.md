@@ -76,7 +76,7 @@ If you want to use your own Firebase project:
 
 ### For Developers & AI Agents
 
-- **[docs/dev/](docs/dev/)** - Comprehensive developer documentation
+- **[docs/dev/](docs/dev/)** - Comprehensive developer documentation for onboarding new developers and AI coding assistants
   - [Architecture & Current State](docs/dev/architecture.md)
   - [Code Conventions & Patterns](docs/dev/conventions.md)
   - [Feature Roadmap](docs/dev/roadmap.md)

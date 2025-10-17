@@ -105,7 +105,7 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
   - Computed stats (duration, type counts, libre percentage)
   - Actions menu (edit, view, duplicate, delete)
   - Edit and view buttons navigate to respective routes
-  - Simplified date formatting (harmonized data types)
+  - Simplified date formatting
 - [x] **ThemeCard.vue** - Individual theme editor with:
   - Type selector (Mixte/Comparée)
   - Title input with "No title" checkbox
@@ -145,7 +145,7 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 firebase-barillets-editor/
 ├── src/
 │   ├── types/
-│   │   └── barillet.ts          # TypeScript interfaces (harmonized Date types)
+│   │   └── barillet.ts          # TypeScript interfaces with Date types
 │   ├── composables/
 │   │   ├── useAuth.ts            # Authentication logic
 │   │   ├── useBarillets.ts       # Firestore CRUD + Timestamp conversion
