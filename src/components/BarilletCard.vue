@@ -26,6 +26,10 @@
           <Pencil class="h-4 w-4" />
           Modifier
         </DropdownMenuItem>
+        <DropdownMenuItem @click="handleView">
+          <Eye class="h-4 w-4" />
+          Voir
+        </DropdownMenuItem>
         <DropdownMenuItem @click="handleDuplicate">
           <Copy class="h-4 w-4" />
           Dupliquer
@@ -100,6 +104,7 @@ import {
   MapPin,
   MoreVertical,
   Pencil,
+  Eye,
   Copy,
   Trash2,
   Download,
@@ -113,6 +118,7 @@ const props = defineProps<Props>();
 
 const emit = defineEmits<{
   edit: [id: string];
+  view: [id: string];
   duplicate: [id: string];
   delete: [id: string];
   exportPdf: [id: string];
@@ -133,6 +139,12 @@ const formatDate = (date: Date | null): string => {
 const handleEdit = () => {
   if (props.barillet.id) {
     emit('edit', props.barillet.id);
+  }
+};
+
+const handleView = () => {
+  if (props.barillet.id) {
+    emit('view', props.barillet.id);
   }
 };
 

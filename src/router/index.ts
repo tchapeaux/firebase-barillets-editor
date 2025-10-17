@@ -32,6 +32,12 @@ const router = createRouter({
       component: () => import('../views/BarilletEditorView.vue'), // Lazy-loaded, will be created later
       meta: { requiresAuth: true, requiresLayout: true },
     },
+    {
+      path: '/barillet/:id/view',
+      name: 'barillet-view',
+      component: () => import('../views/BarilletViewerView.vue'),
+      meta: { requiresAuth: false, requiresLayout: true },
+    },
   ],
 });
 

@@ -4,28 +4,15 @@ import {
   query,
   where,
   orderBy,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  serverTimestamp,
   onSnapshot,
   type Unsubscribe,
   Timestamp,
 } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { db } from '../firebase-app';
-import {
-  createEmptyBarillet,
-  validateBarillet,
-  type Barillet,
-} from '../types/barillet';
-
-interface OperationResult {
-  success: boolean;
-  error?: string;
-  id?: string;
-}
+import type { Barillet } from '../types/barillet';
+import * as barilletService from '../services/barillet';
+import type { OperationResult } from '../services/barillet';
 
 /**
  * Convert Firestore Timestamp to JavaScript Date
@@ -41,18 +28,6 @@ function convertTimestampToDate(
   if (typeof value === 'object' && 'seconds' in value) {
     return new Date(value.seconds * 1000);
   }
-  return null;
-}
-
-/**
- * Convert JavaScript Date to Firestore Timestamp
- * Used when writing user-provided dates to Firestore
- */
-function convertDateToTimestamp(
-  value: Date | null | undefined
-): Timestamp | null {
-  if (!value) return null;
-  if (value instanceof Date) return Timestamp.fromDate(value);
   return null;
 }
 
@@ -133,41 +108,10 @@ export function useBarillets(user: Ref<User | null>) {
   const createBarillet = async (
     barilletData: Partial<Barillet> = {}
   ): Promise<OperationResult> => {
-    try {
-      if (!user.value || !user.value.uid) {
-        return { success: false, error: 'User not authenticated' };
-      }
-
-      // Create barillet with defaults
-      const barilletDefaults = createEmptyBarillet(user.value.uid);
-
-      // Prepare data for Firestore with timestamp conversions
-      const newBarillet = {
-        ...barilletDefaults,
-        ...barilletData,
-        // Convert Date fields to Timestamps for Firestore
-        date: convertDateToTimestamp(
-          barilletData.date ?? barilletDefaults.date
-        ),
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      };
-
-      // Validate barillet (cast for validation as serverTimestamp will be resolved by Firestore)
-      const validation = validateBarillet(barilletDefaults);
-      if (!validation.valid) {
-        return { success: false, error: validation.errors.join(', ') };
-      }
-
-      // Add to Firestore
-      const docRef = await addDoc(collection(db, 'barillets'), newBarillet);
-
-      return { success: true, id: docRef.id };
-    } catch (err: unknown) {
-      console.error('Error creating barillet:', err);
-      const message = err instanceof Error ? err.message : 'An error occurred';
-      return { success: false, error: message };
+    if (!user.value || !user.value.uid) {
+      return { success: false, error: 'User not authenticated' };
     }
+    return barilletService.createBarillet(user.value.uid, barilletData);
   };
 
   /**
@@ -180,32 +124,7 @@ export function useBarillets(user: Ref<User | null>) {
     barilletId: string,
     updates: Partial<Barillet>
   ): Promise<OperationResult> => {
-    try {
-      if (!barilletId) {
-        return { success: false, error: 'Barillet ID is required' };
-      }
-
-      // Convert Date fields to Firestore Timestamps for storage
-      const updateData: Record<string, unknown> = {
-        ...updates,
-        updatedAt: serverTimestamp(),
-      };
-
-      // Convert the date field if present
-      if (updates.date !== undefined) {
-        updateData.date = convertDateToTimestamp(updates.date);
-      }
-
-      // Update in Firestore
-      const barilletRef = doc(db, 'barillets', barilletId);
-      await updateDoc(barilletRef, updateData);
-
-      return { success: true };
-    } catch (err: unknown) {
-      console.error('Error updating barillet:', err);
-      const message = err instanceof Error ? err.message : 'An error occurred';
-      return { success: false, error: message };
-    }
+    return barilletService.updateBarillet(barilletId, updates);
   };
 
   /**
@@ -216,21 +135,7 @@ export function useBarillets(user: Ref<User | null>) {
   const deleteBarillet = async (
     barilletId: string
   ): Promise<OperationResult> => {
-    try {
-      if (!barilletId) {
-        return { success: false, error: 'Barillet ID is required' };
-      }
-
-      // Delete from Firestore
-      const barilletRef = doc(db, 'barillets', barilletId);
-      await deleteDoc(barilletRef);
-
-      return { success: true };
-    } catch (err: unknown) {
-      console.error('Error deleting barillet:', err);
-      const message = err instanceof Error ? err.message : 'An error occurred';
-      return { success: false, error: message };
-    }
+    return barilletService.deleteBarillet(barilletId);
   };
 
   /**
