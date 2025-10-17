@@ -91,8 +91,10 @@ const handleCreateBarillet = async () => {
 
   if (!result.success) {
     alert(`Erreur lors de la création : ${result.error}`);
+  } else if (result.id) {
+    // Redirect to the editor for the newly created barillet
+    router.push({ name: 'barillet-edit', params: { id: result.id } });
   }
-  // Note: The barillet will appear automatically thanks to the real-time listener
 };
 
 const handleEdit = (barilletId: string) => {
