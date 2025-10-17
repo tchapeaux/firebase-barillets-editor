@@ -160,7 +160,7 @@ const toggleDurationType = () => {
         <!-- Duration type badge -->
         <Badge
           :variant="
-            localTheme.duration.type === 'fixed' ? 'default' : 'secondary'
+            localTheme.duration.type === 'fixed' ? 'secondary' : 'default'
           "
           class="cursor-pointer shrink-0 p-1.5"
           :title="
