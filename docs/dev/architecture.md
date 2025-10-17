@@ -80,12 +80,17 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 - [x] **ForgotPasswordView.vue** - Password reset request interface
 - [x] **HomeView.vue** - Dashboard with barillet list
 - [x] **BarilletEditorView.vue** - Full editor implementation with:
-  - Barillet metadata editing (title, location)
+  - Barillet metadata editing (title, location, date)
   - All 18 themes editable
   - Save functionality with validation
   - Unsaved changes warnings
   - Loading and error states
   - Navigation guards
+- [x] **BarilletViewerView.vue** - Read-only view for sharing barillets with:
+  - Public viewing without authentication
+  - Edit button for owners
+  - Share link functionality
+  - Theme display in read-only format
 
 **Components** (reusable UI in `src/components/`):
 
@@ -93,13 +98,13 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
   - Sticky header with app title (clickable, links to home)
   - User section (authenticated: email + sign-out; non-authenticated: sign-in link)
   - Main content slot for page content
-  - Footer with "Vibe-coded with care"
+  - Footer with "Vibe-coded with care" and GitHub link
   - Controlled by route metadata `requiresLayout`
 - [x] **BarilletCard.vue** - Summary card with:
   - Title, date, location
   - Computed stats (duration, type counts, libre percentage)
-  - Actions menu (edit, duplicate, delete)
-  - Edit button navigates to editor route
+  - Actions menu (edit, view, duplicate, delete)
+  - Edit and view buttons navigate to respective routes
   - Simplified date formatting (harmonized data types)
 - [x] **ThemeCard.vue** - Individual theme editor with:
   - Type selector (Mixte/Comparée)
@@ -109,6 +114,10 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
   - Duration input (value, special/fixed type)
   - Internal notes field
   - Real-time updates on blur
+- [x] **ThemeCardReadOnly.vue** - Read-only theme display for viewer mode
+- [x] **ThemeTableRow.vue** - Table row representation of theme for compact view
+- [x] **DurationTypeBadge.vue** - Badge component for duration type display
+- [x] **GoogleIcon.vue** - Custom Google sign-in icon
 - [x] **ThemeList.vue** - Container for 18 theme cards
 - [x] Empty state handling
 - [x] Loading states
@@ -119,6 +128,7 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 - Create new barillets with default 18 empty themes
 - **Edit barillet themes (all 18 themes fully editable)**
 - **Edit barillet metadata (title, date, location)**
+- **View barillets in read-only mode** (shareable public links)
 - View all user's barillets in a grid
 - Duplicate existing barillets
 - Delete barillets with confirmation
@@ -126,6 +136,7 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 - Client-side statistics calculation and validation
 - **Data validation with user-facing error messages**
 - **Unsaved changes warnings**
+- **Share functionality** (copy link to clipboard)
 - Responsive design (desktop + mobile)
 
 ## File Structure
@@ -137,24 +148,33 @@ firebase-barillets-editor/
 │   │   └── barillet.ts          # TypeScript interfaces (harmonized Date types)
 │   ├── composables/
 │   │   ├── useAuth.ts            # Authentication logic
-│   │   └── useBarillets.ts       # Firestore CRUD + Timestamp conversion
+│   │   ├── useBarillets.ts       # Firestore CRUD + Timestamp conversion
+│   │   └── useBarilletById.ts    # Single barillet fetching logic
 │   ├── router/
 │   │   └── index.ts              # Vue Router configuration + layout metadata
 │   ├── views/
 │   │   ├── LoginView.vue         # Login page (standalone, no layout)
+│   │   ├── ForgotPasswordView.vue # Password reset page
 │   │   ├── HomeView.vue          # Dashboard page (wrapped in AppLayout)
-│   │   └── BarilletEditorView.vue # Full editor (wrapped in AppLayout)
+│   │   ├── BarilletEditorView.vue # Full editor (wrapped in AppLayout)
+│   │   └── BarilletViewerView.vue # Read-only viewer (wrapped in AppLayout)
 │   ├── components/
 │   │   ├── AppLayout.vue         # App-wide layout with header & footer
 │   │   ├── BarilletCard.vue      # Barillet summary card
 │   │   ├── ThemeCard.vue         # Individual theme editor
-│   │   └── ThemeList.vue         # Container for 18 themes
+│   │   ├── ThemeCardReadOnly.vue # Read-only theme display
+│   │   ├── ThemeTableRow.vue     # Theme table row
+│   │   ├── ThemeList.vue         # Container for 18 themes
+│   │   ├── DurationTypeBadge.vue # Duration type badge
+│   │   ├── GoogleIcon.vue        # Google sign-in icon
+│   │   └── ui/                   # shadcn-vue UI components
+│   ├── services/                 # Business logic services
+│   ├── lib/                      # Utility functions
 │   ├── firebase-app.ts           # Firebase initialization
-│   ├── styles.css                # Global styles
+│   ├── styles.css                # Global Tailwind styles
 │   ├── App.vue                   # Root component (conditional layout wrapper)
 │   └── main.ts                   # Entry point
 ├── docs/dev/                     # Developer documentation (AI agents)
-├── .claude/                      # Claude Code configuration
 ├── .github/                      # GitHub configuration & Copilot instructions
 ├── .gitignore                    # Git ignore rules
 ├── PROJECT.md                    # Original requirements
@@ -162,6 +182,7 @@ firebase-barillets-editor/
 ├── README.md                     # Quick start guide
 ├── tsconfig.json                 # TypeScript config
 ├── vite.config.ts                # Vite config
+├── tailwind.config.js            # Tailwind CSS config
 └── package.json                  # Dependencies & scripts
 ```
 
@@ -169,12 +190,13 @@ firebase-barillets-editor/
 
 ### Available Routes
 
-| Route                | Name              | Component          | Auth Required | Layout | Description                     |
-| -------------------- | ----------------- | ------------------ | ------------- | ------ | ------------------------------- |
-| `/`                  | `home`            | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list    |
-| `/login`             | `login`           | LoginView          | ❌ No         | ❌ No  | Authentication page             |
-| `/forgot-password`   | `forgot-password` | ForgotPasswordView | ❌ No         | ❌ No  | Password reset request page     |
-| `/barillet/:id/edit` | `barillet-edit`   | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes |
+| Route                | Name              | Component          | Auth Required | Layout | Description                         |
+| -------------------- | ----------------- | ------------------ | ------------- | ------ | ----------------------------------- |
+| `/`                  | `home`            | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list        |
+| `/login`             | `login`           | LoginView          | ❌ No         | ❌ No  | Authentication page                 |
+| `/forgot-password`   | `forgot-password` | ForgotPasswordView | ❌ No         | ❌ No  | Password reset request page         |
+| `/barillet/:id/edit` | `barillet-edit`   | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes     |
+| `/barillet/:id/view` | `barillet-view`   | BarilletViewerView | ❌ No         | ✅ Yes | Read-only public view of a barillet |
 
 ### Authentication Guards
 

@@ -4,30 +4,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ## Current Limitations
 
-### 1. No Date Picker UI
-
-**Issue**: Creating/editing barillets uses `new Date()` by default. Users cannot easily select a custom date for their barillet.
-
-**Current Behavior**:
-
-- New barillets get today's date automatically
-- Users can manually edit the date field (not user-friendly)
-
-**Workaround**:
-
-- Users can edit the date after creation
-- Date field accepts manual text input
-
-**Future Solution**:
-
-- Implement a date picker component in barillet editor
-- Consider using a library (e.g., VCalendar) or native `<input type="date">`
-
-**Priority**: Medium (affects UX but not functionality)
-
----
-
-### 2. No Undo/Redo
+### 1. No Undo/Redo
 
 **Issue**: Destructive actions (delete) are permanent after confirmation. No version history or undo functionality.
 
@@ -52,7 +29,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 3. Basic Duration Input
+### 2. Basic Duration Input
 
 **Issue**: Duration field accepts free text without specialized validation. Complex formats ("2 fois 3:00", special values) are hard to input correctly.
 
@@ -73,11 +50,11 @@ This document tracks current limitations, workarounds, and open questions about 
 - Support autocomplete for common values
 - Real-time validation feedback
 
-**Priority**: High (see roadmap item #1)
+**Priority**: High (see roadmap item #2)
 
 ---
 
-### 4. No Auto-save
+### 3. No Auto-save
 
 **Issue**: Editor requires manual save. Changes are lost if user navigates away without saving.
 
@@ -101,7 +78,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 5. Firestore Indexes
+### 4. Firestore Indexes
 
 **Issue**: Complex queries may require manual index creation in Firebase Console.
 
@@ -127,7 +104,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 6. Limited Barillet Validation
+### 5. Limited Barillet Validation
 
 **Issue**: Some edge cases in barillet data are not validated client-side.
 
@@ -157,7 +134,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 7. Single User Session Only
+### 6. Single User Session Only
 
 **Issue**: User can only be logged in on one device at a time (effectively).
 

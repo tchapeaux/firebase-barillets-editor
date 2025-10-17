@@ -89,7 +89,8 @@ src/
 ├── composables/     # Shared logic (Vue composables)
 ├── types/           # TypeScript type definitions
 ├── router/          # Vue Router configuration
-└── utils/           # Pure utility functions (if needed)
+├── services/        # Business logic services
+└── lib/             # Pure utility functions
 ```
 
 ## Common Patterns
