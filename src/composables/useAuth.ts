@@ -4,6 +4,9 @@ import {
   createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithPopup,
+  GoogleAuthProvider,
   type User,
   type Unsubscribe,
 } from 'firebase/auth';
@@ -73,11 +76,36 @@ export function useAuth() {
     }
   };
 
+  const resetPassword = async (email: string): Promise<AuthResult> => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      return { success: true };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'An error occurred';
+      return { success: false, error: message };
+    }
+  };
+
+  const signInWithGoogle = async (): Promise<AuthResult> => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      return { success: true };
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'An error occurred';
+      return { success: false, error: message };
+    }
+  };
+
   return {
     user: user as Ref<User | null>,
     loading: loading as Ref<boolean>,
     signIn,
     signUp,
     signOut,
+    resetPassword,
+    signInWithGoogle,
   };
 }

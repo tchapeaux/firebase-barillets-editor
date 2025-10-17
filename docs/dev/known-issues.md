@@ -127,30 +127,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 6. No Password Reset
-
-**Issue**: Users who forget their password cannot reset it.
-
-**Current Behavior**:
-
-- Login page only supports email/password login
-- No "Forgot password?" link
-
-**Workaround**:
-
-- Contact administrator (manual password reset via Firebase Console)
-
-**Future Solution**:
-
-- Add "Forgot password?" link to login page
-- Implement Firebase password reset email flow
-- Add email verification on signup
-
-**Priority**: Medium (important for production users)
-
----
-
-### 7. Limited Barillet Validation
+### 6. Limited Barillet Validation
 
 **Issue**: Some edge cases in barillet data are not validated client-side.
 
@@ -180,7 +157,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 8. Single User Session Only
+### 7. Single User Session Only
 
 **Issue**: User can only be logged in on one device at a time (effectively).
 
