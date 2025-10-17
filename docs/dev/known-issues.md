@@ -127,22 +127,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 6. ~~No Password Reset~~ ✅ RESOLVED
-
-**Issue**: Users who forget their password cannot reset it.
-
-**Resolution**: Password reset functionality has been implemented with:
-
-- "Mot de passe oublié ?" link on login page
-- Dedicated ForgotPasswordView page
-- Firebase password reset email flow
-- French error messages and success confirmations
-
-**Implemented**: 2025-10-17
-
----
-
-### 7. Limited Barillet Validation
+### 6. Limited Barillet Validation
 
 **Issue**: Some edge cases in barillet data are not validated client-side.
 
@@ -172,7 +157,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 8. Single User Session Only
+### 7. Single User Session Only
 
 **Issue**: User can only be logged in on one device at a time (effectively).
 
