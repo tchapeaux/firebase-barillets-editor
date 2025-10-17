@@ -86,11 +86,6 @@ defineProps<Props>();
             >
               {{ theme.duration.value }}
             </span>
-            <span
-              v-if="theme.duration.type === 'special'"
-              class="text-xs text-amber-600 italic"
-              >(spéciale)</span
-            >
           </div>
         </div>
 

@@ -153,7 +153,7 @@ const copyShareLink = async () => {
         <h2 class="text-xl font-semibold mb-4">
           Thèmes ({{ barillet.themes.length }})
         </h2>
-        <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
           <ThemeCardReadOnly
             v-for="(theme, index) in barillet.themes"
             :key="index"
