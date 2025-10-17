@@ -2,16 +2,6 @@
 
 This document outlines planned features, improvements, and technical debt to address.
 
-## Recently Completed
-
-These features have been implemented and are now part of the application:
-
-- ✅ **Barillet Sharing** - Read-only public view with shareable links (route: `/barillet/:id/view`)
-- ✅ **Date Picker** - Native HTML5 date input in barillet editor
-- ✅ **Google Sign-in** - OAuth authentication alongside email/password
-
----
-
 ## High Priority - Enhanced Features
 
 ### 1. Export/Import Functionality
