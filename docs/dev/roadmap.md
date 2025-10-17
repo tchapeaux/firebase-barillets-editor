@@ -4,7 +4,31 @@ This document outlines planned features, improvements, and technical debt to add
 
 ## High Priority - Enhanced Features
 
-### 1. Theme Duration Input Component
+### 1. Export/Import Functionality
+
+**What**: Export barillets to various formats for printing or sharing.
+
+**Why**: Users need to print barillets for live shows and share with team members.
+
+**Tasks**:
+
+- [ ] Export to PDF (printable barillet sheet with 18 theme cards)
+- [ ] Export to JSON (data backup/transfer)
+- [ ] Export to CSV/Excel (spreadsheet format for analysis)
+- [ ] Import from JSON (restore backups)
+- [ ] Print-friendly view with CSS print styles
+- [ ] Batch export (multiple barillets to ZIP)
+
+**Acceptance Criteria**:
+
+- PDF export generates printable cards (ready for physical barillet)
+- JSON export/import preserves all data without loss
+- CSV export is readable in Excel/Google Sheets
+- Print view works in all major browsers
+
+---
+
+### 2. Theme Duration Input Component
 
 **What**: Create a specialized input for duration values with proper validation.
 
@@ -32,7 +56,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ## Medium Priority - Enhanced Features
 
-### 2. Category Management
+### 3. Category Management
 
 **What**: Allow users to create and manage custom theme categories beyond "Libre".
 
@@ -58,7 +82,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 3. Folder Organization
+### 4. Folder Organization
 
 **What**: Organize barillets into folders for better management.
 
@@ -85,7 +109,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 4. Barillet Templates
+### 5. Barillet Templates
 
 **What**: Save barillets as templates for reuse.
 
@@ -106,30 +130,6 @@ This document outlines planned features, improvements, and technical debt to add
 - Templates preserve all theme configurations
 - Creating from template duplicates all themes
 - Template metadata is editable
-
----
-
-### 5. Export/Import Functionality
-
-**What**: Export barillets to various formats for printing or sharing.
-
-**Why**: Users need to print barillets for live shows and share with team members.
-
-**Tasks**:
-
-- [ ] Export to PDF (printable barillet sheet with 18 theme cards)
-- [ ] Export to JSON (data backup/transfer)
-- [ ] Export to CSV/Excel (spreadsheet format for analysis)
-- [ ] Import from JSON (restore backups)
-- [ ] Print-friendly view with CSS print styles
-- [ ] Batch export (multiple barillets to ZIP)
-
-**Acceptance Criteria**:
-
-- PDF export generates printable cards (ready for physical barillet)
-- JSON export/import preserves all data without loss
-- CSV export is readable in Excel/Google Sheets
-- Print view works in all major browsers
 
 ---
 

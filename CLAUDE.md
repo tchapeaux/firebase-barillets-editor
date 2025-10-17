@@ -14,7 +14,6 @@ Please use the new documentation structure in **[`docs/dev/`](docs/dev/)**:
 
 ### For AI Coding Agents
 
-- **Claude Code**: See [`.claude/README.md`](.claude/README.md)
 - **GitHub Copilot**: See [`.github/copilot-instructions.md`](.github/copilot-instructions.md)
 
 ---

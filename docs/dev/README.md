@@ -2,7 +2,7 @@
 
 ## Quick Start for AI Coding Agents
 
-This directory contains comprehensive project context for AI coding assistants (Claude Code, GitHub Copilot, etc.).
+This directory contains comprehensive project context for AI coding assistants and new developers (Claude Code, GitHub Copilot, etc.).
 
 ### Where to Start?
 

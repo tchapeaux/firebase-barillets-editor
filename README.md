@@ -66,7 +66,7 @@ If you want to use your own Firebase project:
 - **Routing**: Vue Router 4
 - **Backend**: Firebase (Firestore + Authentication)
 - **Build Tool**: Vite 7
-- **Styling**: Vanilla CSS with CSS variables
+- **Styling**: Tailwind CSS 3.4+ with shadcn-vue components
 
 ## Documentation
 
@@ -76,7 +76,7 @@ If you want to use your own Firebase project:
 
 ### For Developers & AI Agents
 
-- **[docs/dev/](docs/dev/)** - Comprehensive developer documentation
+- **[docs/dev/](docs/dev/)** - Comprehensive developer documentation for onboarding new developers and AI coding assistants
   - [Architecture & Current State](docs/dev/architecture.md)
   - [Code Conventions & Patterns](docs/dev/conventions.md)
   - [Feature Roadmap](docs/dev/roadmap.md)
@@ -84,7 +84,6 @@ If you want to use your own Firebase project:
 
 ### For AI Coding Agents
 
-- [.claude/README.md](.claude/README.md) - Claude Code context
 - [.github/copilot-instructions.md](.github/copilot-instructions.md) - GitHub Copilot instructions
 
 ## Features
