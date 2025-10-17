@@ -127,26 +127,18 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 6. No Password Reset
+### 6. ~~No Password Reset~~ ✅ RESOLVED
 
 **Issue**: Users who forget their password cannot reset it.
 
-**Current Behavior**:
+**Resolution**: Password reset functionality has been implemented with:
 
-- Login page only supports email/password login
-- No "Forgot password?" link
+- "Mot de passe oublié ?" link on login page
+- Dedicated ForgotPasswordView page
+- Firebase password reset email flow
+- French error messages and success confirmations
 
-**Workaround**:
-
-- Contact administrator (manual password reset via Firebase Console)
-
-**Future Solution**:
-
-- Add "Forgot password?" link to login page
-- Implement Firebase password reset email flow
-- Add email verification on signup
-
-**Priority**: Medium (important for production users)
+**Implemented**: 2025-10-17
 
 ---
 

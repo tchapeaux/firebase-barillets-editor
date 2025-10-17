@@ -25,6 +25,8 @@
 ### ✅ Authentication
 
 - [x] Email/password authentication
+- [x] Google Sign-in (OAuth popup flow)
+- [x] Password reset/recovery via email
 - [x] Login/Signup flow with French UI
 - [x] Session persistence
 - [x] Protected routes with authentication guards
@@ -74,7 +76,8 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 
 **Views** (route-level components in `src/views/`):
 
-- [x] **LoginView.vue** - Authentication interface
+- [x] **LoginView.vue** - Authentication interface with email/password and Google Sign-in
+- [x] **ForgotPasswordView.vue** - Password reset request interface
 - [x] **HomeView.vue** - Dashboard with barillet list
 - [x] **BarilletEditorView.vue** - Full editor implementation with:
   - Barillet metadata editing (title, location)
@@ -166,11 +169,12 @@ firebase-barillets-editor/
 
 ### Available Routes
 
-| Route                | Name            | Component          | Auth Required | Layout | Description                     |
-| -------------------- | --------------- | ------------------ | ------------- | ------ | ------------------------------- |
-| `/`                  | `home`          | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list    |
-| `/login`             | `login`         | LoginView          | ❌ No         | ❌ No  | Authentication page             |
-| `/barillet/:id/edit` | `barillet-edit` | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes |
+| Route                | Name              | Component          | Auth Required | Layout | Description                     |
+| -------------------- | ----------------- | ------------------ | ------------- | ------ | ------------------------------- |
+| `/`                  | `home`            | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list    |
+| `/login`             | `login`           | LoginView          | ❌ No         | ❌ No  | Authentication page             |
+| `/forgot-password`   | `forgot-password` | ForgotPasswordView | ❌ No         | ❌ No  | Password reset request page     |
+| `/barillet/:id/edit` | `barillet-edit`   | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes |
 
 ### Authentication Guards
 
@@ -215,10 +219,10 @@ Routes control layout application via `meta.requiresLayout`:
 
 ### Authentication
 
-- **Method**: Email/password only (no social auth)
+- **Method**: Email/password and Google OAuth
 - **Session**: Persists via Firebase Auth SDK
+- **Password Reset**: Email-based password recovery flow
 - **Security**: Users can only read/write their own barillets
-- **Limitations**: No password reset flow implemented yet
 
 ### Firestore Indexes
 
