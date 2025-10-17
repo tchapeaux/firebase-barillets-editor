@@ -1,0 +1,224 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import type { Theme } from '../types/barillet';
+import Input from '@/components/ui/input.vue';
+import Badge from '@/components/ui/badge.vue';
+import { Clock, Pencil } from 'lucide-vue-next';
+
+interface Props {
+  theme: Theme;
+  themeNumber: number;
+}
+
+const props = defineProps<Props>();
+const emit = defineEmits<{
+  update: [theme: Theme];
+}>();
+
+// Local state for the theme
+const localTheme = ref<Theme>({ ...props.theme });
+
+// Watch for external changes (if parent updates the theme)
+watch(
+  () => props.theme,
+  (newTheme) => {
+    localTheme.value = { ...newTheme };
+    updateDurationInputs(newTheme.duration.value);
+  },
+  { deep: true }
+);
+
+// Emit changes to parent
+const updateTheme = () => {
+  emit('update', { ...localTheme.value });
+};
+
+// Toggle theme type (Mixte/Comparée)
+const toggleType = () => {
+  localTheme.value.type =
+    localTheme.value.type === 'Mixte' ? 'Comparée' : 'Mixte';
+  updateTheme();
+};
+
+// Smart duration input - numeric by default, free text when "special"
+const durationMinutes = ref('3');
+const durationSeconds = ref('00');
+
+// Parse initial duration value
+const updateDurationInputs = (value: string) => {
+  // Handle "MM:SS" format
+  const timeMatch = value.match(/^(\d+):(\d+)$/);
+  if (timeMatch) {
+    durationMinutes.value = timeMatch[1];
+    durationSeconds.value = timeMatch[2];
+  }
+};
+
+// Initialize duration inputs
+updateDurationInputs(props.theme.duration.value);
+
+// Update duration value when numeric inputs change
+const updateDurationFromInputs = () => {
+  const mins = parseInt(durationMinutes.value || '0', 10);
+  const secs = parseInt(durationSeconds.value || '0', 10);
+  localTheme.value.duration.value = `${mins}:${secs.toString().padStart(2, '0')}`;
+  updateTheme();
+};
+
+// Format seconds input to always be 2 digits
+const formatSeconds = () => {
+  const secs = parseInt(durationSeconds.value || '0', 10);
+  if (secs > 59) {
+    durationSeconds.value = '59';
+  } else {
+    durationSeconds.value = secs.toString().padStart(2, '0');
+  }
+  updateDurationFromInputs();
+};
+
+// When switching duration type, convert format if needed
+const toggleDurationType = () => {
+  const isCurrentlyFixed = localTheme.value.duration.type === 'fixed';
+  localTheme.value.duration.type = isCurrentlyFixed ? 'special' : 'fixed';
+
+  if (!isCurrentlyFixed && localTheme.value.duration.value) {
+    // Switching to fixed - check if value is in MM:SS format
+    const timeMatch = localTheme.value.duration.value.match(/^(\d+):(\d+)$/);
+    if (!timeMatch) {
+      durationMinutes.value = '3';
+      durationSeconds.value = '00';
+      localTheme.value.duration.value = '3:00';
+    }
+  }
+
+  updateTheme();
+};
+</script>
+
+<template>
+  <tr class="border-b border-border hover:bg-muted/30 transition-colors">
+    <!-- Number -->
+    <td class="px-3 py-2 text-center text-sm font-medium text-muted-foreground">
+      {{ themeNumber }}
+    </td>
+
+    <!-- Nature (Type) -->
+    <td class="px-2 py-2">
+      <button
+        type="button"
+        :class="
+          localTheme.type === 'Mixte'
+            ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+            : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+        "
+        class="text-xs px-2 py-1 rounded font-semibold transition-colors w-full"
+        :title="`Changer en ${localTheme.type === 'Mixte' ? 'Comparée' : 'Mixte'}`"
+        @click="toggleType"
+      >
+        {{ localTheme.type === 'Mixte' ? 'M' : 'C' }}
+      </button>
+    </td>
+
+    <!-- Title -->
+    <td class="px-2 py-2">
+      <Input
+        v-model="localTheme.title!"
+        :placeholder="`Thème ${themeNumber}`"
+        class="text-sm h-8"
+        @blur="updateTheme"
+      />
+    </td>
+
+    <!-- Participation -->
+    <td class="px-2 py-2">
+      <Input
+        v-model="localTheme.participation"
+        placeholder="illimitée"
+        class="text-sm h-8"
+        @blur="updateTheme"
+      />
+    </td>
+
+    <!-- Category -->
+    <td class="px-2 py-2">
+      <Input
+        v-model="localTheme.category"
+        placeholder="Libre"
+        class="text-sm h-8"
+        :class="
+          localTheme.category === 'Libre'
+            ? 'border-green-300 bg-green-50/30'
+            : ''
+        "
+        @blur="updateTheme"
+      />
+    </td>
+
+    <!-- Duration -->
+    <td class="px-2 py-2">
+      <div class="flex items-center gap-1">
+        <!-- Duration type badge -->
+        <Badge
+          :variant="
+            localTheme.duration.type === 'fixed' ? 'default' : 'secondary'
+          "
+          class="cursor-pointer shrink-0 p-1.5"
+          :title="
+            localTheme.duration.type === 'fixed'
+              ? 'Durée fixe - Cliquer pour changer en durée spéciale'
+              : 'Durée spéciale - Cliquer pour changer en durée fixe'
+          "
+          @click="toggleDurationType"
+        >
+          <Clock v-if="localTheme.duration.type === 'fixed'" class="h-3 w-3" />
+          <Pencil v-else class="h-3 w-3" />
+        </Badge>
+
+        <!-- Numeric Duration Input (fixed) -->
+        <div
+          v-if="localTheme.duration.type === 'fixed'"
+          class="flex items-center gap-1"
+        >
+          <Input
+            v-model="durationMinutes"
+            type="number"
+            min="0"
+            max="60"
+            placeholder="3"
+            class="text-sm w-12 h-8 text-center p-1"
+            @blur="updateDurationFromInputs"
+          />
+          <span class="text-gray-400 text-xs">:</span>
+          <Input
+            v-model="durationSeconds"
+            type="number"
+            min="0"
+            max="59"
+            placeholder="00"
+            class="text-sm w-12 h-8 text-center p-1"
+            @blur="formatSeconds"
+          />
+        </div>
+
+        <!-- Free Text Duration Input (special) -->
+        <Input
+          v-else
+          v-model="localTheme.duration.value"
+          placeholder="jusqu'à la fin"
+          class="text-sm h-8 flex-1"
+          @blur="updateTheme"
+        />
+      </div>
+    </td>
+
+    <!-- Notes -->
+    <td class="px-2 py-2">
+      <Input
+        v-model="localTheme.notes"
+        maxlength="250"
+        class="text-sm h-8"
+        @blur="updateTheme"
+      />
+    </td>
+  </tr>
+</template>
