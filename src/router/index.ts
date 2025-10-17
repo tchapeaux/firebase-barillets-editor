@@ -3,6 +3,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase-app';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
+import ForgotPasswordView from '../views/ForgotPasswordView.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,6 +18,12 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+      meta: { requiresAuth: false, requiresLayout: false },
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: ForgotPasswordView,
       meta: { requiresAuth: false, requiresLayout: false },
     },
     {
