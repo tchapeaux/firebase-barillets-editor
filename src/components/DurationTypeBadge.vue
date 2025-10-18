@@ -19,8 +19,8 @@ const emit = defineEmits<{
     class="cursor-pointer shrink-0 p-1.5"
     :title="
       durationType === 'fixed'
-        ? 'Durée fixe - Cliquer pour changer en durée spéciale'
-        : 'Durée spéciale - Cliquer pour changer en durée fixe'
+        ? 'Basculer vers durée spéciale'
+        : 'Basculer vers durée fixe'
     "
     @click="emit('toggle')"
   >
