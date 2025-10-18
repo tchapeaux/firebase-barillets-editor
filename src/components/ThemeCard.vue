@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { watchDeep } from '@vueuse/core';
 import type { Theme } from '../types/barillet';
 import Card from '@/components/ui/card.vue';
 import Input from '@/components/ui/input.vue';
@@ -20,14 +21,21 @@ const emit = defineEmits<{
 
 // Local state for the theme
 const localTheme = ref<Theme>({ ...props.theme });
+const skipAutoEmit = ref(true);
 
 // Watch for external changes (if parent updates the theme)
 watch(
   () => props.theme,
   (newTheme) => {
+    // Pause auto-emit during external update to prevent loops
+    skipAutoEmit.value = true;
     localTheme.value = { ...newTheme };
     noTitle.value = newTheme.title === null;
     updateDurationInputs(newTheme.duration.value);
+    // Resume auto-emit after update completes
+    setTimeout(() => {
+      skipAutoEmit.value = false;
+    }, 0);
   },
   { deep: true }
 );
@@ -36,6 +44,18 @@ watch(
 const updateTheme = () => {
   emit('update', { ...localTheme.value });
 };
+
+// Auto-emit changes when localTheme is modified
+watchDeep(localTheme, () => {
+  if (!skipAutoEmit.value) {
+    updateTheme();
+  }
+});
+
+// Enable auto-emit after initial render
+setTimeout(() => {
+  skipAutoEmit.value = false;
+}, 0);
 
 // Handle "No title" checkbox
 const noTitle = ref(props.theme.title === null);
@@ -99,7 +119,6 @@ updateDurationInputs(props.theme.duration.value);
             v-model="localTheme.title!"
             :placeholder="`Thème ${themeNumber}`"
             class="text-sm font-medium flex-1 bg-white"
-            @blur="updateTheme"
           />
           <button
             type="button"
@@ -132,7 +151,6 @@ updateDurationInputs(props.theme.duration.value);
             v-model="localTheme.participation"
             placeholder="2 / équipe"
             class="text-sm h-8"
-            @blur="updateTheme"
           />
         </div>
 
@@ -150,7 +168,6 @@ updateDurationInputs(props.theme.duration.value);
                   ? 'border-green-300 bg-green-50/30'
                   : ''
               "
-              @blur="updateTheme"
             />
 
             <!-- Preset button for Libre -->
@@ -210,7 +227,6 @@ updateDurationInputs(props.theme.duration.value);
               v-model="localTheme.duration.value"
               placeholder="jusqu'à la fin du spectacle"
               class="text-sm h-8 flex-1"
-              @blur="updateTheme"
             />
           </div>
         </div>
@@ -224,7 +240,6 @@ updateDurationInputs(props.theme.duration.value);
             maxlength="250"
             class="w-full text-sm rounded-md border border-input bg-background px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
             rows="3"
-            @blur="updateTheme"
           ></textarea>
         </div>
       </div>

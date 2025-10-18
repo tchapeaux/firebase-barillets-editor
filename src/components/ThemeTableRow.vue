@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { watchDeep } from '@vueuse/core';
 import type { Theme } from '../types/barillet';
 import Input from '@/components/ui/input.vue';
 import DurationTypeBadge from './DurationTypeBadge.vue';
@@ -17,13 +18,20 @@ const emit = defineEmits<{
 
 // Local state for the theme
 const localTheme = ref<Theme>({ ...props.theme });
+const skipAutoEmit = ref(true);
 
 // Watch for external changes (if parent updates the theme)
 watch(
   () => props.theme,
   (newTheme) => {
+    // Pause auto-emit during external update to prevent loops
+    skipAutoEmit.value = true;
     localTheme.value = { ...newTheme };
     updateDurationInputs(newTheme.duration.value);
+    // Resume auto-emit after update completes
+    setTimeout(() => {
+      skipAutoEmit.value = false;
+    }, 0);
   },
   { deep: true }
 );
@@ -32,6 +40,18 @@ watch(
 const updateTheme = () => {
   emit('update', { ...localTheme.value });
 };
+
+// Auto-emit changes when localTheme is modified
+watchDeep(localTheme, () => {
+  if (!skipAutoEmit.value) {
+    updateTheme();
+  }
+});
+
+// Enable auto-emit after initial render
+setTimeout(() => {
+  skipAutoEmit.value = false;
+}, 0);
 
 // Toggle theme type (Mixte/Comparée)
 const toggleType = () => {
@@ -84,7 +104,6 @@ updateDurationInputs(props.theme.duration.value);
         v-model="localTheme.title!"
         :placeholder="`Thème ${themeNumber}`"
         class="text-sm h-8"
-        @blur="updateTheme"
       />
     </td>
 
@@ -94,7 +113,6 @@ updateDurationInputs(props.theme.duration.value);
         v-model="localTheme.participation"
         placeholder="illimitée"
         class="text-sm h-8"
-        @blur="updateTheme"
       />
     </td>
 
@@ -109,7 +127,6 @@ updateDurationInputs(props.theme.duration.value);
             ? 'border-green-300 bg-green-50/30'
             : ''
         "
-        @blur="updateTheme"
       />
     </td>
 
@@ -153,19 +170,13 @@ updateDurationInputs(props.theme.duration.value);
           v-model="localTheme.duration.value"
           placeholder="jusqu'à la fin"
           class="text-sm h-8 flex-1"
-          @blur="updateTheme"
         />
       </div>
     </td>
 
     <!-- Notes -->
     <td class="px-2 py-2">
-      <Input
-        v-model="localTheme.notes"
-        maxlength="250"
-        class="text-sm h-8"
-        @blur="updateTheme"
-      />
+      <Input v-model="localTheme.notes" maxlength="250" class="text-sm h-8" />
     </td>
   </tr>
 </template>

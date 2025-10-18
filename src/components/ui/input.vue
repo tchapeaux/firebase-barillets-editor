@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { HTMLAttributes } from 'vue';
-import { useVModel } from '@vueuse/core';
 import { cn } from '@/lib/utils';
 
 const props = defineProps<{
@@ -18,15 +18,20 @@ const emits = defineEmits<{
   (e: 'update:modelValue', payload: string | number): void;
 }>();
 
-const modelValue = useVModel(props, 'modelValue', emits, {
-  passive: true,
-  defaultValue: props.defaultValue,
+// Computed writable model for proper v-model support
+const model = computed({
+  get() {
+    return props.modelValue ?? props.defaultValue ?? '';
+  },
+  set(value: string | number) {
+    emits('update:modelValue', value);
+  },
 });
 </script>
 
 <template>
   <input
-    v-model="modelValue"
+    v-model="model"
     :type="type"
     :placeholder="placeholder"
     :min="min"

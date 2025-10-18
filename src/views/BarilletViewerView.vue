@@ -8,7 +8,14 @@ import Button from '@/components/ui/button.vue';
 import Card from '@/components/ui/card.vue';
 import Label from '@/components/ui/label.vue';
 import Alert from '@/components/ui/alert.vue';
-import { Loader2, AlertCircle, Edit, Share2, Check } from 'lucide-vue-next';
+import {
+  AlertCircle,
+  ArrowLeft,
+  Check,
+  Edit,
+  Loader2,
+  Share2,
+} from 'lucide-vue-next';
 
 const route = useRoute();
 const router = useRouter();
@@ -35,6 +42,11 @@ const formatDate = (date: Date | null): string => {
     month: 'long',
     year: 'numeric',
   }).format(date);
+};
+
+// Go back to home
+const goBack = () => {
+  router.push({ name: 'home' });
 };
 
 // Navigate to edit mode (only available for owner)
@@ -91,6 +103,11 @@ const copyShareLink = async () => {
 
     <!-- Viewer content -->
     <div v-else-if="barillet" class="max-w-7xl mx-auto">
+      <Button class="mb-2" variant="outline" @click="goBack">
+        <ArrowLeft class="mr-2 h-4 w-4" />
+        Retour
+      </Button>
+
       <!-- Header -->
       <Card class="p-6 mb-6">
         <div

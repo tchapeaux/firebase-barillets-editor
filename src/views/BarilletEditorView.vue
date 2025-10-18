@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useDebounceFn, watchDeep } from '@vueuse/core';
 import { useAuth } from '../composables/useAuth';
 import { useBarilletById } from '../composables/useBarilletById';
 import { updateBarillet } from '../services/barillet';
@@ -12,7 +13,13 @@ import Label from '@/components/ui/label.vue';
 import Alert from '@/components/ui/alert.vue';
 import Card from '@/components/ui/card.vue';
 import Tooltip from '@/components/ui/tooltip.vue';
-import { Loader2, AlertCircle, Share2, Check } from 'lucide-vue-next';
+import {
+  Loader2,
+  AlertCircle,
+  Share2,
+  Check,
+  ArrowLeft,
+} from 'lucide-vue-next';
 import type { Barillet, Theme } from '../types/barillet';
 
 const route = useRoute();
@@ -26,12 +33,11 @@ const { barillet, loading, error, isOwner } = useBarilletById(barilletId, user);
 
 // State
 const localBarillet = ref<Barillet | null>(null);
-const saving = ref(false);
+const syncStatus = ref<'synced' | 'saving' | 'error'>('synced');
 const saveError = ref<string | null>(null);
-const saveSuccess = ref(false);
 const validationErrors = ref<string[]>([]);
-const hasUnsavedChanges = ref(false);
 const linkCopied = ref(false);
+const isInitialLoad = ref(true);
 
 /**
  * Deep clone a barillet while preserving Date objects
@@ -52,6 +58,12 @@ watch(
   (newBarillet) => {
     if (newBarillet && !localBarillet.value) {
       localBarillet.value = cloneBarillet(newBarillet);
+      // Store initial state as last saved
+      lastSavedState.value = JSON.stringify(localBarillet.value);
+      // Mark initial load as complete after next tick
+      setTimeout(() => {
+        isInitialLoad.value = false;
+      }, 0);
     }
   },
   { immediate: true }
@@ -69,16 +81,7 @@ const canEdit = computed(() => isOwner.value);
 const handleThemesUpdate = (updatedThemes: Theme[]) => {
   if (localBarillet.value) {
     localBarillet.value.themes = updatedThemes;
-    hasUnsavedChanges.value = true;
-    saveSuccess.value = false;
-    validationErrors.value = [];
   }
-};
-
-// Handle metadata updates
-const updateMetadata = () => {
-  hasUnsavedChanges.value = true;
-  saveSuccess.value = false;
 };
 
 // Computed property for date input (converts Date to/from string)
@@ -90,17 +93,17 @@ const dateInputValue = computed({
   set: (value: string) => {
     if (localBarillet.value) {
       localBarillet.value.date = value ? new Date(value) : null;
-      updateMetadata();
     }
   },
 });
 
-// Save changes
-const saveChanges = async () => {
+// Auto-save function
+const performAutoSave = async () => {
   if (!localBarillet.value || !localBarillet.value.id) return;
 
   // Check ownership before saving
   if (!canEdit.value) {
+    syncStatus.value = 'error';
     saveError.value = "Vous n'avez pas la permission de modifier ce barillet.";
     return;
   }
@@ -109,12 +112,13 @@ const saveChanges = async () => {
   const validationResult = validateBarillet(localBarillet.value);
   if (!validationResult.valid) {
     validationErrors.value = validationResult.errors;
+    syncStatus.value = 'error';
+    saveError.value = 'Validation échouée';
     return;
   }
 
-  saving.value = true;
+  syncStatus.value = 'saving';
   saveError.value = null;
-  saveSuccess.value = false;
   validationErrors.value = [];
 
   try {
@@ -126,29 +130,31 @@ const saveChanges = async () => {
     });
 
     if (!result.success) {
+      syncStatus.value = 'error';
       saveError.value = result.error || "Erreur lors de l'enregistrement.";
       return;
     }
 
-    hasUnsavedChanges.value = false;
-    saveSuccess.value = true;
-    router.push({ name: 'home' });
+    syncStatus.value = 'synced';
+    // Update last saved state after successful save
+    lastSavedState.value = JSON.stringify(localBarillet.value);
   } catch (err) {
     console.error('Error saving barillet:', err);
+    syncStatus.value = 'error';
     saveError.value = "Erreur lors de l'enregistrement. Veuillez réessayer.";
-  } finally {
-    saving.value = false;
   }
 };
 
-// Cancel and go back
-const cancel = () => {
-  if (hasUnsavedChanges.value) {
-    const confirmed = confirm(
-      'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?'
-    );
-    if (!confirmed) return;
-  }
+// Debounced auto-save (1.5 seconds)
+const debouncedAutoSave = useDebounceFn(performAutoSave, 1500);
+
+// Retry save after error
+const retrySave = () => {
+  performAutoSave();
+};
+
+// Go back to home
+const goBack = () => {
   router.push({ name: 'home' });
 };
 
@@ -171,20 +177,24 @@ const copyShareLink = async () => {
   }
 };
 
-// Warn before leaving with unsaved changes
-const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-  if (hasUnsavedChanges.value) {
-    e.preventDefault();
-    e.returnValue = '';
+// Track last saved state to detect actual changes
+const lastSavedState = ref<string>('');
+
+// Set up auto-save watcher
+watchDeep(localBarillet, (newValue) => {
+  if (newValue && newValue.id && !isInitialLoad.value) {
+    // Compare with last saved state to avoid unnecessary saves
+    const currentState = JSON.stringify(newValue);
+    if (currentState === lastSavedState.value) {
+      // No actual changes, don't trigger save
+      return;
+    }
+
+    // Set status to saving immediately to show user feedback
+    syncStatus.value = 'saving';
+    // Trigger debounced auto-save
+    debouncedAutoSave();
   }
-};
-
-onMounted(() => {
-  window.addEventListener('beforeunload', handleBeforeUnload);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('beforeunload', handleBeforeUnload);
 });
 </script>
 
@@ -203,7 +213,7 @@ onBeforeUnmount(() => {
     >
       <AlertCircle class="h-12 w-12 mx-auto mb-4 text-destructive" />
       <p class="text-destructive mb-4">Erreur: {{ error }}</p>
-      <Button variant="outline" @click="cancel">Retour à la liste</Button>
+      <Button variant="outline" @click="goBack">Retour à la liste</Button>
     </Card>
 
     <!-- Not found state -->
@@ -216,7 +226,7 @@ onBeforeUnmount(() => {
       <p class="text-muted-foreground mb-6">
         Le barillet demandé n'existe pas ou a été supprimé.
       </p>
-      <Button variant="outline" @click="cancel">Retour à la liste</Button>
+      <Button variant="outline" @click="goBack">Retour à la liste</Button>
     </Card>
 
     <!-- Non-owner trying to edit -->
@@ -230,75 +240,97 @@ onBeforeUnmount(() => {
         Vous n'avez pas la permission de modifier ce barillet. Seul le
         propriétaire peut le modifier.
       </p>
-      <Button variant="outline" @click="cancel">Retour à la liste</Button>
+      <Button variant="outline" @click="goBack">Retour à la liste</Button>
     </Card>
 
     <!-- Editor content -->
     <div v-else-if="localBarillet" class="max-w-7xl mx-auto">
+      <Button class="mb-2" variant="outline" @click="goBack">
+        <ArrowLeft class="mr-2 h-4 w-4" />
+        Retour
+      </Button>
+
       <!-- Header -->
       <Card class="p-6 mb-6">
         <div class="flex items-center justify-between mb-6">
-          <h1 class="text-2xl font-bold">Éditer le barillet</h1>
-          <Tooltip>
-            <template #trigger>
-              <Button
-                variant="outline"
-                :disabled="saving"
-                @click="copyShareLink"
+          <div class="flex items-center gap-4">
+            <h1 class="text-2xl font-bold">Éditer le barillet</h1>
+          </div>
+          <div class="flex items-center gap-4">
+            <!-- Sync Status Indicator -->
+            <div class="flex items-center gap-2">
+              <Check
+                v-if="syncStatus === 'synced'"
+                class="h-4 w-4 text-green-600"
+              />
+              <Loader2
+                v-else-if="syncStatus === 'saving'"
+                class="h-4 w-4 animate-spin text-blue-600"
+              />
+              <AlertCircle
+                v-else-if="syncStatus === 'error'"
+                class="h-4 w-4 text-red-600"
+              />
+              <span
+                :class="{
+                  'text-green-600': syncStatus === 'synced',
+                  'text-blue-600': syncStatus === 'saving',
+                  'text-red-600': syncStatus === 'error',
+                }"
+                class="text-sm font-medium"
               >
-                <Check v-if="linkCopied" class="mr-2 h-4 w-4" />
-                <Share2 v-else class="mr-2 h-4 w-4" />
-                {{ linkCopied ? 'Lien copié !' : 'Partager' }}
+                {{
+                  syncStatus === 'synced'
+                    ? 'Enregistré'
+                    : syncStatus === 'saving'
+                      ? 'Enregistrement...'
+                      : 'Erreur'
+                }}
+              </span>
+              <Button
+                v-if="syncStatus === 'error'"
+                variant="ghost"
+                size="sm"
+                @click="retrySave"
+              >
+                Réessayer
               </Button>
-            </template>
-            Générer un lien public pour partager ce barillet en lecture seule
-          </Tooltip>
+            </div>
+            <!-- Share Button -->
+            <Tooltip>
+              <template #trigger>
+                <Button variant="outline" @click="copyShareLink">
+                  <Check v-if="linkCopied" class="mr-2 h-4 w-4" />
+                  <Share2 v-else class="mr-2 h-4 w-4" />
+                  {{ linkCopied ? 'Lien copié !' : 'Partager' }}
+                </Button>
+              </template>
+              Générer un lien public pour partager ce barillet en lecture seule
+            </Tooltip>
+          </div>
         </div>
 
         <!-- Metadata form -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="space-y-2">
             <Label>Titre</Label>
             <Input
               v-model="localBarillet.title"
               placeholder="Titre du barillet"
-              @input="updateMetadata"
             />
           </div>
           <div class="space-y-2">
             <Label>Lieu</Label>
-            <Input
-              v-model="localBarillet.location"
-              placeholder="Lieu"
-              @input="updateMetadata"
-            />
+            <Input v-model="localBarillet.location" placeholder="Lieu" />
           </div>
           <div class="space-y-2">
             <Label>Date</Label>
             <Input v-model="dateInputValue" type="date" />
           </div>
         </div>
-
-        <!-- Action buttons -->
-        <div class="flex justify-end gap-3">
-          <Button variant="outline" :disabled="saving" @click="cancel">
-            Annuler
-          </Button>
-          <Button :disabled="saving" @click="saveChanges">
-            <Loader2 v-if="saving" class="mr-2 h-4 w-4 animate-spin" />
-            {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
-          </Button>
-        </div>
       </Card>
 
       <!-- Status messages -->
-      <Alert
-        v-if="saveSuccess"
-        class="mb-6 bg-green-50 border-green-200 text-green-800"
-      >
-        ✓ Modifications enregistrées avec succès !
-      </Alert>
-
       <Alert v-if="saveError" variant="destructive" class="mb-6">
         {{ saveError }}
       </Alert>
@@ -313,13 +345,6 @@ onBeforeUnmount(() => {
             {{ validationError }}
           </li>
         </ul>
-      </Alert>
-
-      <Alert
-        v-if="hasUnsavedChanges && !saveSuccess"
-        class="mb-6 bg-blue-50 border-blue-200 text-blue-800"
-      >
-        ⚠️ Vous avez des modifications non enregistrées
       </Alert>
 
       <!-- Theme list -->
