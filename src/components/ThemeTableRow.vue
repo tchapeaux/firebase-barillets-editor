@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import { watchDeep } from '@vueuse/core';
 import type { Theme } from '../types/barillet';
 import Input from '@/components/ui/input.vue';
+import CategoryCombobox from '@/components/ui/CategoryCombobox.vue';
 import DurationTypeBadge from './DurationTypeBadge.vue';
 import { useThemeDuration } from '../composables/useThemeDuration';
 
@@ -118,7 +119,7 @@ updateDurationInputs(props.theme.duration.value);
 
     <!-- Category -->
     <td class="px-2 py-2">
-      <Input
+      <CategoryCombobox
         v-model="localTheme.category"
         placeholder="Libre"
         class="text-sm h-8"
