@@ -56,13 +56,14 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 - `ThemeType` - "Mixte" | "Comparée"
 - `ThemeParticipation` - String (e.g., "illimitée", "équivalente", etc.)
 - `Folder` - Optional organization (not yet implemented)
-- `Category` - Theme categories (not yet implemented)
+- `Category` - Theme categories with autocomplete from preset list (see Category Management below)
 - Helper functions for stats calculation and validation
 
 ### ✅ Data Layer
 
 - [x] `useAuth` composable - Authentication state management
 - [x] `useBarillets` composable - Real-time Firestore sync
+- [x] `useCategories` composable - Category management with preset list
 - [x] CRUD operations (Create, Read, Update, Delete, Duplicate)
 - [x] Automatic data validation
 - [x] Real-time updates via `onSnapshot`
@@ -71,6 +72,21 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
   - `convertDateToTimestamp()` - Converts JavaScript Dates to Firestore Timestamps when writing
   - Used in `onSnapshot` listener and `updateBarillet()` function
 - [x] Type-safe data handling with consistent date representation throughout the app
+
+### ✅ Category Management
+
+The application provides **autocomplete functionality** for theme categories based on a preset list:
+
+- **Implementation**: Categories are hardcoded in a static JSON file
+- **Data Source**: [src/data/categories.json](../../src/data/categories.json) - Contains 87 preset improvisation categories
+- **Composable**: [src/composables/useCategories.ts](../../src/composables/useCategories.ts) - Provides category lookup and validation functions
+- **UI Component**: [src/components/ui/CategoryCombobox.vue](../../src/components/ui/CategoryCombobox.vue) - Autocomplete input with filtering
+
+**Category Data Structure**:
+Each category in `categories.json` contains:
+
+- `name`: Category name (e.g., "À la manière de ...", "Abécédaire")
+- `description`: Detailed rules and constraints for the category
 
 ### ✅ UI Views & Components
 
@@ -109,12 +125,19 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
   - Type selector (Mixte/Comparée)
   - Title input with "No title" checkbox
   - Participation input
-  - Category input
+  - Category input with autocomplete (CategoryCombobox)
   - Duration input (value, special/fixed type)
   - Internal notes field
   - **Auto-emit changes on input** (triggers parent auto-save)
 - [x] **ThemeCardReadOnly.vue** - Read-only theme display for viewer mode
-- [x] **ThemeTableRow.vue** - Table row theme editor (compact layout) with auto-save
+- [x] **ThemeTableRow.vue** - Table row theme editor (compact layout) with:
+  - Auto-save functionality
+  - Category input with autocomplete (CategoryCombobox)
+- [x] **CategoryCombobox.vue** - Autocomplete combobox for category selection with:
+  - Real-time filtering based on user input
+  - Dropdown with preset categories from FBIA 2025 list
+  - Support for custom category values
+  - Uses Radix Vue primitives (ComboboxRoot, ComboboxInput, etc.)
 - [x] **DurationTypeBadge.vue** - Badge component for duration type display
 - [x] **GoogleIcon.vue** - Custom Google sign-in icon
 - [x] **ThemeList.vue** - Container for 18 theme cards
@@ -150,7 +173,11 @@ firebase-barillets-editor/
 │   ├── composables/
 │   │   ├── useAuth.ts            # Authentication logic
 │   │   ├── useBarillets.ts       # Firestore CRUD + Timestamp conversion
-│   │   └── useBarilletById.ts    # Single barillet fetching logic
+│   │   ├── useBarilletById.ts    # Single barillet fetching logic
+│   │   ├── useCategories.ts      # Category management and lookup
+│   │   └── useThemeDuration.ts   # Theme duration logic
+│   ├── data/
+│   │   └── categories.json       # FBIA 2025 preset categories (87 items)
 │   ├── router/
 │   │   └── index.ts              # Vue Router configuration + layout metadata
 │   ├── views/
@@ -169,6 +196,8 @@ firebase-barillets-editor/
 │   │   ├── DurationTypeBadge.vue # Duration type badge
 │   │   ├── GoogleIcon.vue        # Google sign-in icon
 │   │   └── ui/                   # shadcn-vue UI components
+│   │       ├── CategoryCombobox.vue # Category autocomplete combobox
+│   │       └── ...               # Other UI primitives
 │   ├── services/                 # Business logic services
 │   ├── lib/                      # Utility functions
 │   ├── firebase-app.ts           # Firebase initialization
@@ -234,11 +263,13 @@ Routes control layout application via `meta.requiresLayout`:
 
 ### Firestore Collections
 
+**Currently Active Collections**:
+
 - **barillets**: User-specific documents (filtered by `userId` field)
   - Each barillet contains 18 themes
   - Metadata: title, date, location
   - Timestamps: `createdAt`, `updatedAt` (Firestore Timestamps)
-  - Themes: array of 18 `Theme` objects
+  - Themes: array of 18 `Theme` objects (each theme has a `category` field stored as a string)
 
 ### Authentication
 
