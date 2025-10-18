@@ -74,7 +74,7 @@
               <span class="w-full border-t" />
             </div>
             <div class="relative flex justify-center text-xs uppercase">
-              <span class="bg-background px-2 text-muted-foreground"> ou </span>
+              <span class="bg-card px-2 text-muted-foreground"> ou </span>
             </div>
           </div>
 
