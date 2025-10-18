@@ -44,6 +44,13 @@
           >
             Source Code
           </a>
+          -
+          <a
+            class="underline"
+            href="mailto:editeur-barillets-support@googlegroups.com"
+          >
+            Contact
+          </a>
         </p>
       </div>
     </footer>
