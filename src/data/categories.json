@@ -1,0 +1,394 @@
+[
+  {
+    "name": "À la manière de ...",
+    "description": "Il s'agit de s'inspirer d'un style plus que de se servir d'histoires ou de personnages existants ou de faire une parodie de ce style. Tous les styles sont possibles, à la condition que l'arbitre soit capable de présenter rapidement en début de match (lors du briefing d'avant-spectacle) les codes du style en question, ce qu'il en attend et ce qu'il ne veut surtout pas voir. Il n'y a donc pas d'autorisation de l'arbitre à demander pour appliquer un \"à la manière de\" si tant est que les explications relatives à celle-ci aient été suffisantes Citons en exemple : Molière, Shakespeare, Pagnol, Zola, La Fontaine, Quentin Tarantino, Claude Lelouch, Jacques Tatie, Eugène Ionesco, Vaudeville, théâtre Nô, poétique, film d'horreur, conte pour enfants, Michel Audiard, film de sciencefiction, Corneille, Racine, Jane Austin, Woody Allen, les frères Cohen, un cabaret, un documentaire, Michael Bay, Quentin Tarantino, ..."
+  },
+  {
+    "name": "Abécédaire",
+    "description": "Mixte, durée maximale, maximum un joueur par équipe. La première réplique de cette improvisation débutera par un mot commençant par un A, la réplique suivante, tenue par l'autre improvisateur par un B et ainsi de suite, ils alterneront, alphabétiquement jusqu'à la fin de l'alphabet, ce qui marquera la fin de l'improvisation."
+  },
+  {
+    "name": "Air Band",
+    "description": "Mixte, 2 jouteurs·euses par équipe. Les jouteurs·euses se placent en losange sur la scène, tourné·es vers le public. Au début de l'improvisation, une chanson est lancée par le·la MM. Les jouteurs·euses doivent faire de l'air music, comme s'ils étaient le groupe de musique interprétant cette chanson ; le·la jouteur·euse le·la plus proche du public incarnant le·la chanteur·euse. Après une trentaine de secondes, au sifflet de l'arbitre, les jouteurs·euses tournent dans le sens des aiguilles d'une montre, et une nouvelle chanson est lancée. Et ainsi de suite."
+  },
+  {
+    "name": "Ambiance lumineuse",
+    "description": "L'arbitre, assisté ou non du maître de lumière, imposera une ambiance lumineuse pour le déroulement de l'improvisation. Cette ambiance peut être donnée grâce aux projecteurs, à des bougies, des lampes de poche..."
+  },
+  {
+    "name": "Animalière",
+    "description": "L'arbitre impose des animaux aux improvisateur·rice·s qui montent sur la patinoire. Il ne s'agit pas de mimer les animaux, mais bien d'utiliser leurs caractéristiques principales."
+  },
+  {
+    "name": "Annoncée",
+    "description": "Comparée. Lors de cette improvisation, chaque équipe annonce avant le caucus la catégorie qu'elle va s'imposer. L'arbitre a le loisir de ne pas accepter cette catégorie s'il estime que cette dernière n'est pas jouable. La catégorie choisie ne peut impliquer des interventions de l'arbitre."
+  },
+  {
+    "name": "Anthologie",
+    "description": "L'arbitre choisit deux phrases venant d'une œuvre diférente : ce seront les deux premières phrases de l'impro."
+  },
+  {
+    "name": "Assis, Debout, Couché",
+    "description": "3 improvisateur·rice·s, en comparée uniquement. Il faut toujours un·e improvisateur·rice debout, un·e improvisateur·rice assis, un·e improvisateur·rice couché. Si l'un change de position, les autres doivent réagir pour maintenir l'équilibre. C'est une caté « peau de banane », il faut encourager les équipes à se tendre des pièges."
+  },
+  {
+    "name": "Auditive",
+    "description": "Comparée. À l'inverse de la silencieuse, le son est le seul moyen de communication des improvisateur·rice·s. Cette improvisation se déroule dans le noir. Les improvisateur·rice·s se tiennent debout, les mains le long du corps, et ne peuvent pas bouger, ni faire de mimiques. Cette catégorie ne peut se faire qu'en comparée afin de permettre au public de pouvoir voter en connaissance de cause. Dans la mesure des possibilités, il est souhaitable que cette improvisation se déroule dans le noir le plus complet."
+  },
+  {
+    "name": "Avant-Arrière",
+    "description": "Pendant l'impro, l'arbitre peut à tout moment demander d'aller « en arrière » (les improvisateur·rice·s rejouent alors les dernières actions dans l'ordre opposé) ou de retourner « en avant » (on reprend alors une temporalité normale). Il est bien sûr conseillé de jouer clairement des actions et des phrases bien définies pour rester propre en allant en arrière. On ne parle pas « à l'envers », les répliques sont simplement inversées. Par exemple : « Comment vas-tu ? – Bien et toi ? » deviens « Bien et toi ? – Comment vas-tu ? » et non pas « oitéhenib ? – utav enmoc ? »"
+  },
+  {
+    "name": "Avec un accessoire",
+    "description": "L'accessoire doit être le moteur de l'improvisation. Il peut être utilisé soit pour ce qu'il est réellement, soit pour ce qu'il n'est pas (la transition d'une acceptation à l'autre devant être clairement marquée). Cette catégorie peut être mixte ou comparée mais dans le cas d'une mixte, l'accessoire sera disponible en double exemplaire identique (un par équipe)."
+  },
+  {
+    "name": "Bande annoncée d'impro",
+    "description": "Improvisation jouée en deux phases. D'abord une impro d'une minute à la manière d'une bande-annonce, ensuite deux impros plus tard, on joue l'impro qui a été annoncée sur une période plus longue."
+  },
+  {
+    "name": "Ça mérite bien un·e petit·e…",
+    "description": "À tout moment, l'arbitre peut interrompre l'impro sur une réplique d'un·e improvisateur·rice, et lui demander de réciter un poème basé sur cette réplique (qui en reprend l'idée générale). Après le poème, l'impro reprend. Dans ce cas, la catégorie s'appelle Ça mérite bien un petit poème. On peut faire la même chose, avec une chanson/blague/discours/etc. à la place du poème. Dans ce cas, la catégorie change de nom, et s'appelle Ça mérite bien un·e petit·e [chanson/blague/discours/etc]."
+  },
+  {
+    "name": "Carnage",
+    "description": "Mixte, un ou deux improvisateur·rice·s par équipe, ou comparée avec nombre de improvisateur·rice·s illimité. L'improvisation s'arrête quand tous les improvisateur·rice·s d'une équipe sont morts, l'arbitre annoncera une durée maximale. La fin de l'histoire est la mort des protagonistes, l'intérêt réside dans le fait qu'il faille construire l'histoire qui mène à ce carnage. On peut mourir de plusieurs façons : meurtre, suicide, accident de voiture, ..."
+  },
+  {
+    "name": "Caucus interchangé",
+    "description": "La catégorie ne sera pas citée pendant l'énoncé du thème, mais après le caucus. Chaque coach devra exposer à voix haute le caucus qu'il a donné à son équipe. L'équipe adverse devra alors prendre en compte le caucus donné par le coach de l'autre équipe. Une faute de sortie de thème sera sifée si le caucus adverse n'est pas respecté."
+  },
+  {
+    "name": "Chanson",
+    "description": "Cette catégorie difère de la catégorie chantée par le fait que le ou les improvisateur·rice·s doivent interpréter une chanson, face public, comme s'ils étaient réellement un chanteur."
+  },
+  {
+    "name": "Chantée",
+    "description": "Tout ce que l'on dit doit l'être sur un air de musique, connu ou improvisé, ou sur un rythme mais en aucun cas, on ne pourra reprendre les paroles de chansons existantes."
+  },
+  {
+    "name": "Chimère",
+    "description": "Chaque personnage est interprété par deux improvisateur·rice·s : un qui joue avec les bras dans le dos, et l'autre qui se place derrière lui et fait uniquement les bras du personnage."
+  },
+  {
+    "name": "Cinéma",
+    "description": "Comparée sans titre. L'arbitre a choisi trois films (minimum), censés être tous connus du grand public. Les équipes devront rejouer le film qu'elles ont choisi en respectant au maximum le scénario et dans le temps maximum imposé par l'arbitre. Après l'énoncé du thème, l'arbitre lance le palet. Il laisse donc le choix à l'équipe désignée de choisir un des films. C'est cette équipe-là qui commencera l'improvisation. La deuxième équipe devra choisir parmi les films restants."
+  },
+  {
+    "name": "Colin-maillard",
+    "description": "Mixte ou comparée. Les improvisateur·rice·s interprètent leur improvisation les yeux bandés."
+  },
+  {
+    "name": "Conférence de presse",
+    "description": "Comparée. Un jouteur de l'équipe A commence une conférence de presse sur un sujet de son choix pendant une trentaine de secondes. Une fois qu'il a fini l'introduction, 4 jouteurs de l'équipe B, installés dans le public lui posent des questions auquel il répond jusqu'à la fin de la durée de l'improvisation. Ensuite, le 5e jouteur de l'équipe B installe la fin d'une autre conférence de presse, à laquelle assistent les 4 autres jouteurs de l'équipe A."
+  },
+  {
+    "name": "Construction de lieu",
+    "description": "Comparée. Avant l'improvisation, l'équipe adverse vient sur scène pour placer le Lieu où se déroulera l'improvisation."
+  },
+  {
+    "name": "Construction de personnage",
+    "description": "1 improvisateur·trice par équipe. L'arbitre proposera aux deux improvisateur·rice·s des accessoires et des costumes. Les improvisateur·rice·s auront le temps d'une impro pour construire ensemble un personnage en coulisse à l'aide des éléments donnés par l'arbitre. Pendant ce temps, une autre impro sera jouée."
+  },
+  {
+    "name": "Copieur sourd",
+    "description": "Comparée. Un premier improvisateur·rice joue une improvisation, un autre le regarde sans l'entendre (par ex. avec un casque sur les oreilles qui joue de la musique à fond). l'improvisateur·rice qui n'a pas entendu doit ensuite rejouer ce qu'il a vu. Les services sont autorisés – il faudra alors qu'un·e improvisateur·rice de la deuxième équipe fasse le même service au même moment de la seconde improvisation. Peut être joué en mixte si on a deux casques – il faudra alors que les improvisateur·rice·s faisant des services éventuels les refassent à l'identique lors de la deuxième improvisation."
+  },
+  {
+    "name": "Courrier du Coeur – Horoscope",
+    "description": "L'arbitre lira le courrier du coeur d'un magazine quelconque qui servira de base à la construction de l'histoire et/ou des personnages des deux équipes. Des variantes sont possibles : horoscope, avis de recherche publiés par Metro, etc."
+  },
+  {
+    "name": "Déclencheur",
+    "description": "Lorsqu'un·e jouteur·euse entre sur scène pour la première fois, l'arbitre siffle, et le·la jouteur·euse annonce un mot. L'arbitre resiffle, et l'improvisation se poursuit. À chaque fois qu'un des mots choisis sera prononcé au sein de l'improvisation, le·la jouteur·euse auquel·à laquelle est associé·e ce mot devra sortir de jeu s'il·elle est sur scène, ou entrer en jeu s'il·elle est en réserve. Une variante existe, dans laquelle c'est l'arbitre qui choisit les mots en question."
+  },
+  {
+    "name": "Deux mondes",
+    "description": "Comparée. L'aire de jeu est divisée fictivement en deux. C'est en fait une improvisation par plateau (construction en trappeur) que les improvisateur·rice·s gèrent eux-mêmes et dans laquelle on doit voir deux mondes distincts qui peuvent s'influencer l'un l'autre."
+  },
+  {
+    "name": "Dictionnaire",
+    "description": "Comparée. L'arbitre aura choisi deux mots du dictionnaire considérés comme inconnus du « monsieur-tout-le-monde ». L'équipe désignée par le palet choisit de prendre le premier mot ou d'attendre le deuxième. Si elle prend le premier, elle aura droit à un caucus de 20 secondes. Si elle préfère attendre le deuxième mot, la deuxième équipe est donc obligée de prendre ce premier mot. Cette équipe a bien sûr également droit à un caucus. Attention, ce n'est qu'après la première improvisation que l'arbitre révèle le deuxième mot. L'équipe devra alors essayer d'expliquer le mot par l'improvisation. Il ne s'agit pas de l'expliquer narrativement genre jeu du dictionnaire mais bien de faire une improvisation dans laquelle on utilise le mot de manière à en faire comprendre le sens supposé à travers une histoire. A la fin de l'improvisation, l'arbitre donne le deuxième mot à la deuxième équipe, caucus, et impro. Après le vote du public, l'arbitre lit les vraies significations des deux mots. L'équipe qui n'aura pas trouvé la vraie définition du mot est punie d'une faute de sortie de thème."
+  },
+  {
+    "name": "Doublage américain",
+    "description": "Pour chaque improvisateur·rice qui monte, un autre improvisateur·rice monte en réserve et parle pour l'improvisateur·rice se trouvant sur l'aire de jeu, qui lui, fera seulement le mouvement des lèvres. On peut, bien entendu, doubler un·e improvisateur·rice de l'équipe adverse. Avant d'inclure la catégorie dans son barillet, l'arbitre tiendra compte de l'acoustique de la salle dans laquelle a lieu le match."
+  },
+  {
+    "name": "Double",
+    "description": "L'arbitre mixe deux catégories existantes. L'improvisation devra respecter les contraintes de ces deux catégories. Par exemple : Triptyque + À la manière d'un western ; Exercice de style + Sur fonds musical ; Carré hollandais + Cinéma. L'arbitre veillera à sélectionner judicieusement les catégories qu'il·elle choisit de mixer. La catégorie Double n'est pas annoncée comme telle ; les deux catégories mixées sont annoncées l'une à la suite de l'autre à l'énoncé du thème."
+  },
+  {
+    "name": "Double poursuite (ou quadriptyque)",
+    "description": "Comparée. C'est la même chose qu'une poursuite, sauf que la poursuite est ici réalisée deux fois. Chaque équipe joue 2 fois en alternance. L'équipe A commence, suivie par l'équipe B, suivie par l'équipe A, suivie par l'équipe B. L'arbitre énoncera clairement la durée de cette improvisation. Il peut également décider de faire jouer des temps diférents : 2'+3'+2'+1' ou 1'+2'+2'+1' en veillant, bien entendu de garantir le même temps de jeu aux deux équipes. L'arbitre fera aussi attention à ne pas proposer une improvisation trop longue, ni des segments d'improvisation trop courts."
+  },
+  {
+    "name": "Doublée accélérée",
+    "description": "Refaire l'improvisation qui vient de se dérouler mais en accéléré. La durée de cette improvisation est annoncée \"indéfinie\". L'arbitre sifflera la fin lorsque l'improvisation précédente aura été entèrement reproduite. Cette catégorie ne peut se faire qu'après une mixte. Elle n'est pas votée et ne peut pas se trouver dans le petit barillet."
+  },
+  {
+    "name": "DVD",
+    "description": "À la manière d'un DVD, l'arbitre peut télécommander l'improvisation et demander ainsi aux improvisateur·rice·s de jouer au ralenti, en avance rapide, d'avoir la version doublée polonaise, les commentaires du réalisateur, la bande annonce, les bonus... Bref, tout ce que l'on peut trouver sur un DVD."
+  },
+  {
+    "name": "Émotion musicale",
+    "description": "A tout moment le·a MM peut lancer une musique. Le temps de la musique, avec des métaphores visuelles et images de groupe, un personnage exprime ses émotions (moment hors du temps). A la fin de l'intervention musicale, l'histoire reprend."
+  },
+  {
+    "name": "En vers ou rimée",
+    "description": "Tout ce qui est dit doit l'être en rime. Le langage est bien sûr prépondérant dans cette catégorie mais ne doit pas occulter les autres aspects de l'improvisation (personnage, lieu, construction...)."
+  },
+  {
+    "name": "Épisode inédit",
+    "description": "Comparée. L'arbitre donne une liste de trois séries existantes (et connues). Chaque équipe en choisit une et joue une impro qui reprend les personnages et les codes de la série (comme un épisode original). On ne siffle donc pas de clichés sur cette impro."
+  },
+  {
+    "name": "Épistolaire",
+    "description": "Les improvisateur·rice·s communiquent uniquement par messages interposés. Les messages peuvent être des lettres, SMS, télégrammes, etc. Chacun lit le message qu'il est en train d'écrire. Les services sont autorisés tant qu'ils gardent le même format (il faut donc « voler » le tour de quelqu'un de son équipe)."
+  },
+  {
+    "name": "Érotique",
+    "description": "Érotique n'est pas pornographique et donc, vous pourrez suggérer tout ce que vous voulez, mais ne jamais prononcer ou jouer quoi que ce soit de vulgaire ou d'obscène. Durée maximum de 4 minutes."
+  },
+  {
+    "name": "Espace illimité",
+    "description": "L'improvisation peut se faire dans tout l'espace disponible, y compris dans le public. Attention, le public n'est pas un partenaire de jeu ! On peut l'interpeller mais pas entrer en conversation avec lui, ni utiliser des objets qui se trouvent hors de l'aire de jeu."
+  },
+  {
+    "name": "Exagérative",
+    "description": "On joue d'abord une impro une fois. Ensuite, on la rejoue de manière plus exagérée (dans les personnages, les manipulations, les émotions ou le texte). Puis encore plus exagérée (maximum trois répétitions de l'improvisation originale). Il peut être utile de rappeler au briefing d'avant-spectacle de faire attention à l'hystérie, exagérer ce n'est pas crier."
+  },
+  {
+    "name": "Exercice de style",
+    "description": "Mixte. Chaque minute, l'arbitre demande aux improvisateur·rice·s de rejouer l'improvisation en y changeant une contrainte. Cette minute n'est pas purement chronométrée, l'arbitre donnant sa nouvelle contrainte une fois qu'il estime que les improvisateur·rice·s sont arrivé à la fin de l'histoire précédemment jouée. Bref, le squelette de l'histoire reste le même, mais c'est le vocabulaire qui change, l'habillement des personnages, en fonction de l'époque ou du style demandé par l'arbitre."
+  },
+  {
+    "name": "Fantôme",
+    "description": "Comparée. Au cours de l'improvisation, un·e improvisateur·rice de l'équipe A pourra intervenir dans l'improvisation de l'équipe B, et inversément. Les improvisateur·rice·s de l'autre équipe ne sont pas censés le voir ou l'entendre."
+  },
+  {
+    "name": "Feuilleton",
+    "description": "Improvisation en plusieurs parties. Elles sont la suite l'une de l'autre et annoncées avec le même titre. Les improvisateur·rice·s reprendront l'histoire et leurs rôles respectifs lors des diférents épisodes. Avant le caucus des épisodes suivants, le maître de cérémonie fera un résumé du premier épisode. Si l'improvisation comporte plus de deux épisodes, l'arbitre veillera à ce qu'ils ne soient pas trop longs pour qu'ils n'étouffent pas le match."
+  },
+  {
+    "name": "Focale interne",
+    "description": "Mixte. Il n'y aura pas de trappeur dans cette improvisation. Les ellipses temporelles et spatiales sont autorisées."
+  },
+  {
+    "name": "Fusillade",
+    "description": "Comparée. Chaque improvisateur·rice devra jouer en solo sur un thème, sans période de réflexion et pendant une durée de trente secondes. Il y a donc 12 thèmes et 12 improvisations en tout pour une durée de 12x 30 secondes. Le caucus sert donc uniquement à désigner l'ordre dans lequel les improvisateur·rice·s feront leur improvisation. Dans la pratique, les deux équipes jouent alternativement : un·e improvisateur·rice de l'équipe A joue, puis un de l'équipe B, puis un de l'équipe A, ... Des variantes sont possibles : 1 improvisateur·rice par équipe faisant toutes les improvisations, 1 improvisateur·rice faisant les 5 premières et un autre la dernière (si le thème est annoncé nombre de improvisateur·rice illimités) mais toujours un seul improvisateur·rice sur la patinoire. Pour cette catégorie, les improvisateur·rice·s qui n'ont pas encore jouté ou qui ont déjà jouté doivent être sur le banc et non pas en réserve."
+  },
+  {
+    "name": "Fusillade mixte",
+    "description": "Deux improvisateur·rice·s (un de chaque équipe) jouent en même temps sur un thème sans période de réflexion et pendant une durée d'une minute. Mêmes remarques que pour la fusillade."
+  },
+  {
+    "name": "Hésitation",
+    "description": "Comparée. Chaque personnage est interprété par deux improvisateur·rice·s, l'un sur scène et l'autre dos au public à l'avant-scène. Celui sur scène interprète le personnage normalement, sauf qu'il peut s'interrompre au milieu d'une phrase, c'est alors à l'autre de compléter la phrase."
+  },
+  {
+    "name": "Historique",
+    "description": "Comparée. L'arbitre a choisi trois événements historiques (minimum), censés être tous connus du grand public. Les équipes devront interpréter l'événement qu'elles ont choisi en respectant ou pas les faits historiques. Après l'énoncé du thème, l'arbitre lance le palet. Il laisse donc le choix à l'équipe désignée de choisir un des événements. C'est cette équipe là qui commencera l'improvisation. La deuxième équipe devra choisir parmi les événements restants."
+  },
+  {
+    "name": "Huis clos",
+    "description": "Lors de cette improvisation, les personnages présents ne peuvent quitter la pièce ou l'endroit dans lequel ils se trouvent. Les entrées de nouveaux personages sont également proscrites."
+  },
+  {
+    "name": "Immobile",
+    "description": "Comparée. Aucun mouvement n'est accepté durant l'improvisation. Seul les muscles du visage (mais pas la tête) peuvent bouger. Les changements de position sont autorisés via un passage clair par la réserve. Les improvisateurs·trices sont immobiles, mais leurs personnages ne le sont pas."
+  },
+  {
+    "name": "Improvisation dont vous êtes le héros",
+    "description": "A chacun de ses coups de sifflet, l'arbitre proposera 2 situations diférentes pour la suite de l'impro au public. Celui-ci votera à l'aide de son carton pour une des 2 situations. L'impro continuera selon le désir du public."
+  },
+  {
+    "name": "Intervention de l'arbitre",
+    "description": "Comme pour toute autre improvisation, c'est aux improvisateur·rice·s à construire l'histoire. Il ne faut pas se \"reposer\" sur les interventions de l'arbitre. Celui-ci interviendra au moment jugé opportun d'un coup de sifflet pour arrêter le jeu et donc figer les improvisateur·rice·s avant de donner son intervention. Cette intervention se conclura par un coup de sifflet qui relance le jeu. Les interventions peuvent être de tous types : imposition d'une catégorie, ellipse de temps ou d'espace, demande de présentation des personnages, changement de improvisateur·rice, ..."
+  },
+  {
+    "name": "Journal intime",
+    "description": "Mixte. Au début de l'improvisation, l'improvisateur·rice de l'équipe A lit, pendant 30 secondes, le journal intime du personnage qu'incarnera l'improvisateur·rice de l'équipe B et inversément. Les deux improvisateur·rice·s commencent ensuite l'improvisation, sans que leur personnage sache que son intimité a été dévoilée."
+  },
+  {
+    "name": "Locuteur unique",
+    "description": "Improvisation comparée. Durant cette improvisation, seul un·e improvisateur·rice de l'équipe peut prendre la parole. Les autres peuvent faire des bruitages, des décors, mais ne peuvent pas parler."
+  },
+  {
+    "name": "Marabout",
+    "description": "Mixte, un·e improvisateur·rice par équipe. Chaque réplique doit commencer par la dernière syllabe de la réplique précédente. Exemple : A - J'ai vu ton frère ce matin - B - T'inquiète pas, je sais où il va - A - Valérie le cherchait - B - Chais pas ce qu'elle lui trouve, moi par contre, ..."
+  },
+  {
+    "name": "Marionnettiste",
+    "description": "Durant l'impro, les improvisateur·rice·s sur le banc peuvent aller donner des « impulses » de mouvement aux autres improvisateur·rice·s de leur propre équipe en allant les manipuler. Les improvisateur·rice·s en jeu doivent intégrer ces mouvements dans leur impro."
+  },
+  {
+    "name": "Moment à Oscars",
+    "description": "Mixte. Lors de l'improvisation l'arbitre siffle en visant un.e joueur.euse en lui disant que sa prochaine intervention lui aura fallu un prix (prix de l'interprétation, prix de la meilleure cascade, prix de la meilleure chanson originale...). L'arbitre veillera à répartir les oscar équitablement entre les équipes. Ces instants pourront être mis en évidence par un support musical."
+  },
+  {
+    "name": "Mots limités",
+    "description": "Chaque improvisateur·rice tire un nombre de mots avant le début de l'improvisation. Le nombre de répliques est illimité mais chacune d'entre elles doit faire exactement ce nombre de mots selon l'improvisateur. Les improvisateur·rice·s peuvent compter sur leurs doigts pour les grands nombres de mots."
+  },
+  {
+    "name": "Multipersonnages",
+    "description": "Mixte ou comparée. Sur base de la solo duo. Ici, plusieurs improvisateur·rice·s peuvent monter mais doivent tou·te·s interpréter au moins deux personnages. Cela requiert une grande écoute, à laquelle l'arbitre sera particulièrement attentif."
+  },
+  {
+    "name": "Multititre",
+    "description": "Chaque minute, l'arbitre donne un nouveau thème. Les improvisateur·rice·s doivent continuer leur improvisation, garder leur personnage et introduire ce thème dans leur histoire de façon subtile."
+  },
+  {
+    "name": "Muppet",
+    "description": "Comparée. L'arbitre fournit une « muppet » (ça peut être un simple morceau de tissu / une chaussette). un·e improvisateur·rice par équipe joue à la fois son rôle et celui de la Muppet, les autres peuvent intervenir et agissent comme s'il y avait deux personnages distincts en face d'eux."
+  },
+  {
+    "name": "Ni oui, ni non, ni ...",
+    "description": "Aucun de ces mots ne peut-être prononcé. Les assistants arbitres noteront le nombre d'interdits énoncés par les improvisateur·rice·s. Une faute de sortie de thème sera sifée à l'équipe qui a prononcé le plus de mots interdits. Si le nombre d'erreurs est égal, chaque équipe aura une faute. Durée maximum de trois minutes."
+  },
+  {
+    "name": "Phrase unique",
+    "description": "Une phrase est attribuée à chaque improvisateur·rice (très spécifique et dont le sens n'a pas d'importance, ex : « Je cherche un cocotier »). Ils ne pourront s'exprimer durant l'impro qu'en disant cette phrase, un peu comme du grommelo imposé."
+  },
+  {
+    "name": "Phrases limitées",
+    "description": "Comparée. Chaque improvisateur·rice tire au hasard un nombre de 0, 1, 2 ou 4 répliques. Il annonce à haute voix au public le nombre choisi. Il devra respecter ce nombre de répliques pour la durée de l'impro – quelqu'un tirant une réplique ne pourra donc dire qu'une réplique sur l'entèreté de l'impro à venir."
+  },
+  {
+    "name": "Pigeon",
+    "description": "Comparée. un·e improvisateur·rice sort de la pièce, l'autre équipe donne alors un défi à l'équipe de l'improvisateur·rice sorti : le faire monter sur une chaise, lui faire dire un certain mot, etc. Tout en faisant une improvisation normale. Le temps donné par l'arbitre sera un temps maximum. L'improvisation se termine lorsque le pigeon fait ce que son équipe lui demande. S'il n'y arrive pas, c'est une sortie de thème. Précisons que le défi, choisi en toute bienveillance, devra être validé par l'arbitre en coulisses avant le match."
+  },
+  {
+    "name": "Point de vue",
+    "description": "Comparée. Chaque improvisateur·rice, selon le nombre donné par l'arbitre, devra interpréter un personnage nous racontant un événement qu'il a vu ou auquel il a participé. L'événement sera donc commun à chaque personnage qui nous donnera son point de vue"
+  },
+  {
+    "name": "Portemanteau",
+    "description": "Comparée. L'arbitre aura amené trois éléments de costumes (un short, une veste, un chapeau, ...). Les improvisateur·rice·s doivent improviser en utilisant ces éléments de costume en tant que tel et non en les détournant de leurs véritables fonctions. Le nombre de improvisateur·rice·s est limité par le nombre d'accessoires. Par exemple un·e improvisateur·rice peut jouer avec les trois éléments, ou alors trois improvisateur·rice·s avec chacun un élément, ou encore 2 improvisateur·rice·s, l'un avec deux éléments et l'autre avec un seul élément. un·e improvisateur·rice ne peut monter sans utiliser un élément et les trois éléments doivent être utilisés au cours de l'improvisation."
+  },
+  {
+    "name": "Poursuite",
+    "description": "Comparée. Les deux équipes se succèdent sur l'aire de jeu, la seconde reprenant le jeu de la première à l'endroit précis de l'interruption. À respecter impérativement par la première équipe : installer un jeu ouvert sans situation impossible à faire évoluer par la suite ; mettre en jeu des personnages clairs. À respecter impérativement pour la seconde équipe : le nombre d'improvisateur·rice·s sur l'aire de jeu ; les personnages (accent, tic, caractère, humeur...) ; le lieu ; l'histoire."
+  },
+  {
+    "name": "Prochaine sortie",
+    "description": "Mixte. L'arbitre aura sélectionné un spectacle qui se joue en ce moment ou prochainement dans le théâtre où se déroule le match. La description du spectacle est lue, et servira d'impulsion à l'improvisation."
+  },
+  {
+    "name": "Progressive",
+    "description": "Inverse de régressive. On joue d'abord une impro courte, ensuite on doit la rejouer de manière plus longue. Il faut donc ajouter des informations mais garder les mêmes moments-clés."
+  },
+  {
+    "name": "Prophétie",
+    "description": "Comparée. On commence par une impro courte (30s), qui montrera la fin de l'histoire qu'on va jouer. Ensuite on joue l'histoire qui amène logiquement à cette fin. En comparée, on peut croiser les fins et les débuts : on joue les deux fins, puis les deux impros complètes."
+  },
+  {
+    "name": "Punch-out",
+    "description": "Comparée, durée maximale. Chaque équipe donne la « punch-line » qui terminera l'improvisation de l'autre équipe. Une fois que cette phrase est prononcée, l'improvisation est terminée."
+  },
+  {
+    "name": "Questions",
+    "description": "Mixte, durée maximale. Les improvisateur·rice·s ne peuvent s'exprimer que via des questions. Il n'y a qu'un·e improvisateur·rice de chaque équipe à la fois sur scène. Lorsqu'un·e improvisateur·rice prononce une phrase qui n'est pas une question, il ou elle est éliminé·e et remplacé·e par un·e autre improvisateur·rice de son équipe. Si une équipe n'a plus de improvisateur·rice, c'est un nombre de improvisateur·rice·s illégal, et la fin de l'impro."
+  },
+  {
+    "name": "Relais",
+    "description": "Lors de cette impro, un·e improvisateur·rice en jeu pourra taper dans la main de l'un de ses coéquipiers qui prendra alors sa place dans l'impro, en respectant le personnage dessiné par le premier improvisateur·rice. Cela peut se répéter plusieurs fois."
+  },
+  {
+    "name": "Répétitive",
+    "description": "Mixte. Pendant l'improvisation, l'arbitre peut siffler à tout moment (un coup très bref) pour signaler au improvisateur·rice que sa dernière réplique ne lui convient pas. l'improvisateur·rice en question doit alors immédiatement faire une nouvelle proposition. Si celle-ci ne plaît toujours pas à l'arbitre, il siffle encore et l'improvisateur·rice doit faire une nouvelle proposition. Et ainsi de suite, jusqu'à ce que l'arbitre ne donne plus de coup de sifflet. Durée minimum : 4 minutes"
+  },
+  {
+    "name": "Réplique imposée",
+    "description": "Comparée et un·e improvisateur·rice par équipe. L'arbitre aura préalablement choisi dans une pièce de théâtre ou un roman, un dialogue diférent pour chaque équipe. L'équipe qui commence choisit le premier ou le deuxième dialogue. L'arbitre commence alors la lecture de la première réplique du dialogue, au improvisateur·rice à improviser les répliques du deuxième personnage tandis que l'arbitre continue de lire les répliques de son personnage."
+  },
+  {
+    "name": "Sans parole",
+    "description": "Il s'agit de s'exprimer sans l'usage de la parole ni d'un quelconque langage connu ou imaginaire (le grommelot est interdit). Les bruitages sont par contre autorisés. Le but de cette catégorie est de s'orienter vers une improvisation davantage basée sur les actions, la gestuelle et l'expression du visage."
+  },
+  {
+    "name": "Sans période de réflexion",
+    "description": "Après le coup de sifflet de fin de lecture de thème, le coach désigne du doigt l'improvisateur·rice qui monte et ça commence. Toute autre forme de communication est interdite avant l'improvisation."
+  },
+  {
+    "name": "Seconds rôles",
+    "description": "Cette catégorie se joue obligatoirement en dernier lieu. Après l'énoncé du thème, le maître ou la maîtresse de cérémonie rappelle aux improvisateur·rice·s et au public plusieurs personnages qui n'ont fait qu'une petite apparition lors du match. Les improvisateur·rice·s doivent puiser dans cette liste les personnages qu'ils vont interpréter durant cette improvisation."
+  },
+  {
+    "name": "Silencieuse",
+    "description": "Improvisation se déroulant sans aucun bruit, volontaire ou non."
+  },
+  {
+    "name": "Solo duo",
+    "description": "Improvisation comparée. Un seul improvisateur·rice peut monter sur l'aire de jeu. Il doit interpréter au moins deux personnages."
+  },
+  {
+    "name": "Speed",
+    "description": "Tous les personnages sont toujours en mouvement. Attention, les jouteurs·euses ne doivent forcément être en mouvement. Par exemple, si un personnage roule en voiture, le·la jouteur·euse qui l'incarne peut parfaitement être assis immobile sur un bloc."
+  },
+  {
+    "name": "Sur base d'un texte",
+    "description": "Le thème de l'improvisation étant un court extrait d'un livre. L'improvisation devra obligatoirement respecter l'ambiance du texte et les personnages s'il y en a."
+  },
+  {
+    "name": "Sur base d'une image",
+    "description": "Le thème de l'improvisation est un dessin ou une photo montré aux improvisateur·rice·s et au public. Les improvisateur·rice·s doivent respecter l'ambiance et éventuellement les personnages du dessin ou de la photo."
+  },
+  {
+    "name": "Sur base d'une scène de théâtre",
+    "description": "Mixte, au début un·e improvisateur·rice par équipe, ensuite nombre de improvisateur·rice·s illimité. L'arbitre choisit un dialogue d'une scène de théâtre. L'équipe désignée par le palet choisit son personnage parmi l'un des deux (puisque c'est un dialogue). Les improvisateur·rice·s commencent à lire le dialogue, chacun jouant son rôle. Après quelques secondes, une fois que l'univers est installé, l'arbitre retire le livre des yeux des improvisateur·rice·s, ils doivent à partir de ce moment là improviser la suite de la scène. Libre également aux autres improvisateur·rice·s de monter quand ils le veulent mais pas avant que le dialogue n'ait été retiré du jeu par l'arbitre."
+  },
+  {
+    "name": "Sur fond sonore ou fond musical",
+    "description": "L'arbitre aura préparé une bande son qu'elle soit musicale ou sonore (bruitages, ambiances de lieu...). Il s'agit de se laisser influencer par l'environnement sonore proposé par cette bande et ce, tout au long de l'improvisation. La bande son est extradiégétique. Il est possible que cette catégorie soit sans paroles pour davantage se concentrer sur l'écoute de la bande son."
+  },
+  {
+    "name": "Titre musical / Sur base d'une chanson",
+    "description": "Le titre est un extrait de morceau de musique, choisi par l'arbitre. Avant le caucus, l'arbitre passe un court extrait de la chanson pour la remettre en tête des improvisateur·rice·s. En outre, il peut, s'il le souhaite, la passer également durant l'improvisation."
+  },
+  {
+    "name": "Toaster",
+    "description": "Les improvisateur·rice·s s'accroupissent en scène, répartis à leur gré dans l'espace. Au coup de sifflet de l'arbitre, chaque improvisateur·rice décide de se lever, ou non, au gré de son envie. Les improvisateur·rice·s qui se sont levés commencent une impro, qui s'arrête quand l'arbitre sifflera brièvement. On recommence jusqu'à la fin de la durée. Si personne ne se lève, l'ensemble des improvisateurs jouera."
+  },
+  {
+    "name": "Torpille",
+    "description": "Mixte. Durant la première minute, aucun service n'est autorisé. Dès la deuxième minute, les jouteurs·euses en réserve doivent monter sur l'improvisation, et effectuer des services qui tenter d'amener un élément surprenant, qui fait partir l'histoire dans une tout autre direction. Il s'agit d'apporter des informations ou de jouer des faits en totale opposition avec ce qui a été installé. Les deux leaders doivent pourtant s'efforcer intégrer ces services au récit."
+  },
+  {
+    "name": "Tourne-disque",
+    "description": "Comme la catégorique Sur fonds musical, sauf qu'ici, les personnages entendent la bande sonore. Il s'agit donc d'un fonds sonore intradiégétique."
+  },
+  {
+    "name": "Tranche de mort",
+    "description": "Comparée. L'arbitre a choisi trois personnages (minimum). Ceux-ci peuvent être fictifs ou réels. Les équipes devront mettre en scène la mort du personnage qu'elles ont choisi en respectant ou pas les faits dans le temps maximum imposé par l'arbitre. Après l'énoncé du thème, l'arbitre lance le palet. Il laisse donc le choix à l'équipe désignée de choisir un des personnages. C'est cette équipe là qui commencera l'improvisation. La deuxième équipe devra choisir parmi les personnages restants."
+  },
+  {
+    "name": "Tranche de vie",
+    "description": "Comparée ; 1 personne par équipe. Le titre de cette improvisation fait référence à un fait de la vie commun à tout individu ex : le premier amour, la pire bêtise, le plus beau souvenir... En effet, cette catégorie impose de raconter (ou de jouer) un épisode réel de votre vie. Il ne s'agit donc pas de jouer mais bien de faire partager au public un moment amusant, tendre, triste... de votre existence. l'improvisateur·rice qui monte est désigné au hasard à l'aide d'un dé à la fin du caucus. La durée de cette improvisation est une durée maximum. l'improvisateur·rice peut donc interrompre lui-même l'improvisation quand il estime avoir fini de raconter son histoire. Mais si l'improvisation atteint la durée maximum annoncée, elle sera interrompue. Grande particularité de cette improvisation, il n'y a PAS de vote. (Il est serait plutôt absurde de voter sur l'intérêt de la vie des improvisateur·rice·s.)"
+  },
+  {
+    "name": "Triptyque",
+    "description": "Comparée. Le principe est celui de la Poursuite, à part que l'équipe qui commence l'improvisation la termine aussi. Son temps de jeu, égal à celui de la deuxième équipe, est donc coupé en deux parties (début et fin d'improvisation). La deuxième équipe jouera en un seul passage en milieu d'improvisation. Un lancé de palet désignera l'équipe qui débute. Les durées et leurs répartitions sont variables et seront annoncées par l'arbitre dans le thème."
+  },
+  {
+    "name": "TV Hebdo",
+    "description": "L'arbitre lit un résumé de film extrait d'un magazine télé, de même que sa critique et sa cote. Les improvisateurs doivent par la suite recréer le film (avec toutes ses contraintes : scénario, critique et cote). Cette catégorie peut être mixte ou comparée. Dans le cas d'une comparée, il y aura deux résumés de films mais un seul est lu pendant l'énoncé du thème. Après le caucus, l'équipe désignée par le palet a le choix de commencer ou non et donc d'accepter ou non de jouer le résumé du 1er film qu'on vient de lui lire. Dans le cas où elle refuse, l'équipe adverse devra commencer avec ce résumé. A la fin de la première improvisation, le deuxième résumé sera lu et un deuxième caucus sera donné à l'équipe avant de commencer."
+  },
+  {
+    "name": "Video-Way",
+    "description": "Improvisation mixte, trois par équipe. L'arbitre impose trois programmes télés (un jeu, une émission sportive, un sitcom, ...). Ces programmes télés vont être joués alternativement par trois duos mixtes (un·e improvisateur·rice de chaque équipe) répartis chacun sur un tiers de l'aire de jeu et responsable chacun d'un des programmes. L'arbitre zappe entre les programmes en énonçant les numéros de chaînes ou leur nom (TF1, RTBF, Télé Hainaut, ...). Il n'y a pas d'ordre de zapping précis, L'arbitre décide seul quelle chaîne il veut voir ou revoir. Toutefois, chaque chaîne sera choisie plusieurs fois. Lorsqu'un duo n'est pas \"sur antenne\", il se met en réserve. Après chaque passage en réserve, il peut y avoir une ellipse, cela ne doit pas être la suite du programme au point où on l'avait arrêté. Particularité : le caucus est commun à chaque duo d'improvisateurs. Chaque duo se place à l'endroit de l'aire de jeu correspondant à la chaîne qu'ils vont jouer et font leur caucus à cet endroit, en réserve. L'arbitre prendra bien soin de proposer des émissions qui vont plus loin que les simples et déjà trop classiques ''journal télévisé'', ''émission sportive'', ''le débat''. Il doit être plus précis tout en restant ouvert (par exemple, une émission sur la faune et la flore du Luxembourg, un film d'espionnage russe, etc.)."
+  },
+  {
+    "name": "Volte-face",
+    "description": "On donne deux styles « À la manière de » opposés. A tout moment pendant l'improvisation, l'arbitre peut siffler pour faire basculer l'impro d'un style à l'autre. L'arbitre aura veillé à annoncer les styles pendant le briefing, et à en expliciter les codes de jeu. Exemple : film d'auteur et film d'action, film de gangster et Disney, western et science-fiction."
+  },
+  {
+    "name": "Zapping",
+    "description": "Mixte. Cette catégorie est annoncée sans titre. A chaque coup de sifflet de l'arbitre, les improvisateur·rice·s se figent. Une fois qu'ils sont figés, l'arbitre donne un deuxième coup de sifflet bref et les improvisateur·rice·s commencent une autre improvisation ayant pour point de départ la position dans laquelle ils sont."
+  },
+  {
+    "name": "Zones d'humeurs",
+    "description": "À certaines zones de l'aire de jeu sont associées des humeurs qu'il faut adopter lorsqu'on se trouve en cette zone. Ces humeurs sont imposées par l'arbitre (à l'arrière, la joie ; côté gauche, l'inquiétude, ... ). Ces zones peuvent également être définies par rapport à un décor imaginaire donné par l'arbitre (à droite, il y a un frigo et quand on l'ouvre, c'est la colère, ...)."
+  }
+]

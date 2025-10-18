@@ -1,14 +1,27 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { Theme } from '../types/barillet';
 import Card from '@/components/ui/card.vue';
 import Label from '@/components/ui/label.vue';
+import Tooltip from '@/components/ui/tooltip.vue';
+import { Info } from 'lucide-vue-next';
+import { useCategories } from '@/composables/useCategories';
 
 interface Props {
   theme: Theme;
   themeNumber: number;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const { getCategoryByName } = useCategories();
+
+// Get the category description if it exists
+const categoryDescription = computed(() => {
+  if (!props.theme.category) return null;
+  const category = getCategoryByName(props.theme.category);
+  return category?.description;
+});
 </script>
 
 <template>
@@ -63,9 +76,29 @@ defineProps<Props>();
                 ? 'bg-green-50 border-green-200 text-green-700'
                 : 'bg-gray-50 border-gray-200'
             "
-            class="text-sm px-3 py-2 rounded border font-medium"
+            class="text-sm px-3 py-2 rounded border font-medium flex items-center gap-2"
           >
-            {{ theme.category }}
+            <span class="flex-1">{{ theme.category }}</span>
+
+            <!-- Info icon with tooltip for category description -->
+            <Tooltip
+              v-if="categoryDescription"
+              :delay-duration="300"
+              side="top"
+            >
+              <template #trigger>
+                <button
+                  type="button"
+                  class="shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-green-500 rounded"
+                  aria-label="Afficher la description de la catégorie"
+                >
+                  <Info class="w-4 h-4 opacity-70 hover:opacity-100" />
+                </button>
+              </template>
+              <div class="max-w-sm text-xs leading-relaxed">
+                {{ categoryDescription }}
+              </div>
+            </Tooltip>
           </div>
         </div>
       </div>

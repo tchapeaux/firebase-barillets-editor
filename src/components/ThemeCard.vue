@@ -5,6 +5,7 @@ import type { Theme } from '../types/barillet';
 import Card from '@/components/ui/card.vue';
 import Input from '@/components/ui/input.vue';
 import Label from '@/components/ui/label.vue';
+import CategoryCombobox from '@/components/ui/CategoryCombobox.vue';
 import DurationTypeBadge from './DurationTypeBadge.vue';
 import { ArrowLeftRight, RotateCcw } from 'lucide-vue-next';
 import { useThemeDuration } from '../composables/useThemeDuration';
@@ -158,11 +159,10 @@ updateDurationInputs(props.theme.duration.value);
         <div>
           <Label class="text-xs text-gray-500 mb-1.5 block">Catégorie</Label>
           <div class="flex items-center gap-2">
-            <!-- Custom category input -->
-            <Input
+            <!-- Category combobox with autocomplete -->
+            <CategoryCombobox
               v-model="localTheme.category"
-              placeholder="Catégorie personnalisée..."
-              class="text-sm h-8 flex-1"
+              class="flex-1"
               :class="
                 localTheme.category !== 'Libre'
                   ? 'border-green-300 bg-green-50/30'
