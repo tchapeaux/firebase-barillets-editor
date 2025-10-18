@@ -212,7 +212,7 @@ This document outlines planned features, improvements, and technical debt to add
 **Tasks**:
 
 - [ ] Global shortcuts (Ctrl+N for new barillet, Ctrl+K for search, etc.)
-- [ ] Editor shortcuts (Ctrl+S for save, Tab/Shift+Tab for next/prev theme)
+- [ ] Editor shortcuts (~~Ctrl+S for save~~Tab/Shift+Tab for next/prev theme)
 - [ ] Shortcut help overlay (? key)
 - [ ] Customizable shortcuts (advanced feature)
 

@@ -190,26 +190,44 @@ const onSave = async () => {
 </template>
 ```
 
-### Unsaved Changes Warning
+### Auto-Save Pattern
 
-For editor views, implement navigation guards to warn users of unsaved changes:
+For editor components with auto-save (like BarilletEditorView):
 
 ```typescript
-import { onBeforeRouteLeave } from 'vue-router';
+import { useDebounceFn, watchDeep } from '@vueuse/core';
 
-const hasUnsavedChanges = ref(false);
+const syncStatus = ref<'synced' | 'saving' | 'error'>('synced');
+const lastSavedState = ref<string>('');
 
-onBeforeRouteLeave((to, from, next) => {
-  if (hasUnsavedChanges.value) {
-    const confirmed = confirm(
-      'Vous avez des modifications non sauvegardées. Voulez-vous vraiment quitter ?'
-    );
-    next(confirmed);
-  } else {
-    next();
-  }
+// Auto-save function
+const performAutoSave = async () => {
+  // Validate, then save to Firestore
+  syncStatus.value = 'saving';
+  // ... save logic ...
+  syncStatus.value = 'synced';
+  lastSavedState.value = JSON.stringify(localData.value);
+};
+
+// Debounced auto-save (1.5s)
+const debouncedAutoSave = useDebounceFn(performAutoSave, 1500);
+
+// Watch for changes
+watchDeep(localData, (newValue) => {
+  const currentState = JSON.stringify(newValue);
+  if (currentState === lastSavedState.value) return; // No changes
+
+  syncStatus.value = 'saving';
+  debouncedAutoSave();
 });
 ```
+
+**Key Points:**
+
+- Use `watchDeep` for nested object changes
+- Compare JSON strings to detect actual changes
+- Debounce saves to batch rapid edits (1.5s recommended)
+- Show sync status to user (Enregistré/Enregistrement.../Erreur)
 
 ### Loading States
 

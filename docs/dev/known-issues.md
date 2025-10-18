@@ -54,31 +54,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 3. No Auto-save
-
-**Issue**: Editor requires manual save. Changes are lost if user navigates away without saving.
-
-**Current Behavior**:
-
-- "Unsaved changes" warning prevents accidental navigation
-- Users must click "Sauvegarder" button to persist changes
-
-**Workaround**:
-
-- Remember to save frequently
-- Navigation guard warns before losing changes
-
-**Future Solution**:
-
-- Implement auto-save on blur (debounced)
-- Show "All changes saved" indicator
-- Consider draft/published state
-
-**Priority**: Medium (navigation guards mitigate risk)
-
----
-
-### 4. Firestore Indexes
+### 3. Firestore Indexes
 
 **Issue**: Complex queries may require manual index creation in Firebase Console.
 
@@ -104,7 +80,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 5. Limited Barillet Validation
+### 4. Limited Barillet Validation
 
 **Issue**: Some edge cases in barillet data are not validated client-side.
 
@@ -134,7 +110,7 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ---
 
-### 6. Single User Session Only
+### 5. Single User Session Only
 
 **Issue**: User can only be logged in on one device at a time (effectively).
 

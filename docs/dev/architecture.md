@@ -82,10 +82,9 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 - [x] **BarilletEditorView.vue** - Full editor implementation with:
   - Barillet metadata editing (title, location, date)
   - All 18 themes editable
-  - Save functionality with validation
-  - Unsaved changes warnings
+  - **Auto-save with 1.5s debounce** (saves on every change)
+  - **Real-time sync status indicator** (Enregistré/Enregistrement.../Erreur)
   - Loading and error states
-  - Navigation guards
 - [x] **BarilletViewerView.vue** - Read-only view for sharing barillets with:
   - Public viewing without authentication
   - Edit button for owners
@@ -106,16 +105,16 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
   - Actions menu (edit, view, duplicate, delete)
   - Edit and view buttons navigate to respective routes
   - Simplified date formatting
-- [x] **ThemeCard.vue** - Individual theme editor with:
+- [x] **ThemeCard.vue** - Individual theme editor (grid layout only) with:
   - Type selector (Mixte/Comparée)
   - Title input with "No title" checkbox
-  - Participation dropdown
+  - Participation input
   - Category input
   - Duration input (value, special/fixed type)
   - Internal notes field
-  - Real-time updates on blur
+  - **Auto-emit changes on input** (triggers parent auto-save)
 - [x] **ThemeCardReadOnly.vue** - Read-only theme display for viewer mode
-- [x] **ThemeTableRow.vue** - Table row representation of theme for compact view
+- [x] **ThemeTableRow.vue** - Table row theme editor (compact layout) with auto-save
 - [x] **DurationTypeBadge.vue** - Badge component for duration type display
 - [x] **GoogleIcon.vue** - Custom Google sign-in icon
 - [x] **ThemeList.vue** - Container for 18 theme cards
@@ -128,6 +127,8 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 - Create new barillets with default 18 empty themes
 - **Edit barillet themes (all 18 themes fully editable)**
 - **Edit barillet metadata (title, date, location)**
+- **Auto-save with real-time sync** (1.5s debounce, onChange behavior)
+- **Sync status indicator** (shows Enregistré/Enregistrement.../Erreur)
 - **View barillets in read-only mode** (shareable public links)
 - View all user's barillets in a grid
 - Duplicate existing barillets
@@ -135,9 +136,9 @@ Strongly typed data structures in [src/types/barillet.ts](../../src/types/barill
 - Real-time synchronization across tabs/devices
 - Client-side statistics calculation and validation
 - **Data validation with user-facing error messages**
-- **Unsaved changes warnings**
 - **Share functionality** (copy link to clipboard)
 - Responsive design (desktop + mobile)
+- Grid and table layout views for theme editing
 
 ## File Structure
 
