@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 import { useBarilletById } from '../composables/useBarilletById';
+import { usePdfExport } from '../composables/usePdfExport';
 import ThemeCardReadOnly from '../components/ThemeCardReadOnly.vue';
 import Button from '@/components/ui/button.vue';
 import Card from '@/components/ui/card.vue';
@@ -13,6 +14,7 @@ import {
   ArrowLeft,
   Check,
   Edit,
+  FileDown,
   Loader2,
   Share2,
 } from 'lucide-vue-next';
@@ -20,6 +22,7 @@ import {
 const route = useRoute();
 const router = useRouter();
 const { user } = useAuth();
+const { exportBarilletToPdf } = usePdfExport();
 
 const barilletId = computed(() => route.params.id as string);
 
@@ -68,6 +71,17 @@ const copyShareLink = async () => {
   } catch (err) {
     console.error('Failed to copy link:', err);
     alert('Impossible de copier le lien');
+  }
+};
+
+// Export barillet to PDF
+const exportToPdf = async () => {
+  if (!barillet.value) return;
+  try {
+    await exportBarilletToPdf(barillet.value);
+  } catch (err) {
+    console.error('Failed to export PDF:', err);
+    alert("Impossible d'exporter en PDF");
   }
 };
 </script>
@@ -152,6 +166,14 @@ const copyShareLink = async () => {
               <Check v-if="linkCopied" class="mr-2 h-4 w-4" />
               <Share2 v-else class="mr-2 h-4 w-4" />
               {{ linkCopied ? 'Lien copié !' : 'Partager' }}
+            </Button>
+            <Button
+              variant="outline"
+              class="w-full sm:w-auto"
+              @click="exportToPdf"
+            >
+              <FileDown class="mr-2 h-4 w-4" />
+              Exporter en PDF
             </Button>
           </div>
         </div>
