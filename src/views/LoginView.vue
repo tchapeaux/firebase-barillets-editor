@@ -2,7 +2,10 @@
   <div class="flex justify-center items-center min-h-screen p-4 bg-muted/30">
     <div class="w-full max-w-md space-y-6">
       <!-- Title Card -->
-      <div class="text-center space-y-2">
+      <div class="text-center space-y-4">
+        <div class="flex justify-center">
+          <img aria-hidden="true" src="/logo-zebra.png" class="h-20 w-20" />
+        </div>
         <h1 class="text-3xl font-bold tracking-tight">Editeur de barillets</h1>
         <h2 class="text-xl font-medium text-muted-foreground">
           {{ isSignUp ? 'Créer un compte' : 'Connexion' }}
