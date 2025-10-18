@@ -3,7 +3,7 @@
     <!-- Offline Status Banner -->
     <div
       v-if="!isOnline"
-      class="bg-yellow-100 dark:bg-yellow-900 text-yellow-900 dark:text-yellow-100 px-4 py-2 text-center text-sm border-b border-yellow-200 dark:border-yellow-800"
+      class="bg-accent text-accent-foreground px-4 py-2 text-center text-sm border-b border-accent"
     >
       <span class="font-medium">Mode hors ligne</span>
       <span class="mx-2">•</span>

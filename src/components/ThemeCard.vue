@@ -90,15 +90,15 @@ updateDurationInputs(props.theme.duration.value);
 <template>
   <Card class="overflow-hidden hover:shadow-md transition-shadow">
     <!-- Header with Title Input and Type Selector -->
-    <div class="bg-gray-50 px-3 py-2 border-b border-gray-200">
+    <div class="bg-muted px-3 py-2 border-b border-muted">
       <div class="flex items-center gap-2">
         <!-- Type Selector as Button -->
         <button
           type="button"
           :class="
             localTheme.type === 'Mixte'
-              ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-              : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+              ? 'bg-type-mixte text-type-mixte-foreground hover:bg-type-mixte-hover'
+              : 'bg-type-comparee text-type-comparee-foreground hover:bg-type-comparee-hover'
           "
           class="text-xs px-2 py-1 rounded font-medium transition-colors shrink-0 flex items-center gap-1 group"
           :title="`Changer en ${localTheme.type === 'Mixte' ? 'Comparée' : 'Mixte'}`"
@@ -123,7 +123,7 @@ updateDurationInputs(props.theme.duration.value);
           />
           <button
             type="button"
-            class="text-xs text-gray-400 hover:text-gray-600 shrink-0 px-1"
+            class="text-xs text-muted-foreground hover:text-foreground shrink-0 px-1"
             title="Supprimer le titre"
             @click="noTitle = true"
           >
@@ -133,7 +133,7 @@ updateDurationInputs(props.theme.duration.value);
         <button
           v-else
           type="button"
-          class="text-xs text-gray-500 hover:text-gray-700 italic shrink-0 flex-1 text-left"
+          class="text-xs text-muted-foreground hover:text-foreground italic shrink-0 flex-1 text-left"
           @click="noTitle = false"
         >
           Thème {{ themeNumber }} - Cliquer pour ajouter un titre
@@ -147,7 +147,9 @@ updateDurationInputs(props.theme.duration.value);
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Participation Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1 block">Participation</Label>
+          <Label class="text-xs text-muted-foreground mb-1 block"
+            >Participation</Label
+          >
           <Input
             v-model="localTheme.participation"
             placeholder="2 / équipe"
@@ -157,7 +159,9 @@ updateDurationInputs(props.theme.duration.value);
 
         <!-- Category Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1.5 block">Catégorie</Label>
+          <Label class="text-xs text-muted-foreground mb-1.5 block"
+            >Catégorie</Label
+          >
           <div class="flex items-center gap-2">
             <!-- Category combobox with autocomplete -->
             <CategoryCombobox
@@ -165,7 +169,7 @@ updateDurationInputs(props.theme.duration.value);
               class="flex-1"
               :class="
                 localTheme.category !== 'Libre'
-                  ? 'border-green-300 bg-green-50/30'
+                  ? 'border-highlight bg-highlight-bg'
                   : ''
               "
             />
@@ -173,7 +177,7 @@ updateDurationInputs(props.theme.duration.value);
             <!-- Preset button for Libre -->
             <button
               type="button"
-              class="text-xs px-2.5 py-1 rounded border font-medium transition-colors shrink-0 bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100 flex items-center gap-1"
+              class="text-xs px-2.5 py-1 rounded border font-medium transition-colors shrink-0 bg-muted text-muted-foreground border-muted hover:bg-secondary flex items-center gap-1"
               title="Réinitialiser à 'Libre'"
               @click="
                 localTheme.category = 'Libre';
@@ -191,7 +195,9 @@ updateDurationInputs(props.theme.duration.value);
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Duration Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1.5 block">Durée</Label>
+          <Label class="text-xs text-muted-foreground mb-1.5 block"
+            >Durée</Label
+          >
           <div class="flex items-center gap-2">
             <DurationTypeBadge
               :duration-type="localTheme.duration.type"
@@ -209,7 +215,7 @@ updateDurationInputs(props.theme.duration.value);
                 class="text-sm w-16 h-8 text-center"
                 @blur="updateDurationFromInputs"
               />
-              <span class="text-gray-400 text-sm">:</span>
+              <span class="text-muted-foreground text-sm">:</span>
               <Input
                 v-model="durationSeconds"
                 type="number"
@@ -233,7 +239,9 @@ updateDurationInputs(props.theme.duration.value);
 
         <!-- Notes Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1.5 block">Notes</Label>
+          <Label class="text-xs text-muted-foreground mb-1.5 block"
+            >Notes</Label
+          >
           <textarea
             v-model="localTheme.notes"
             placeholder="Notes internes"

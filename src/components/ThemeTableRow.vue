@@ -88,8 +88,8 @@ updateDurationInputs(props.theme.duration.value);
         type="button"
         :class="
           localTheme.type === 'Mixte'
-            ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-            : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+            ? 'bg-type-mixte text-type-mixte-foreground hover:bg-type-mixte-hover'
+            : 'bg-type-comparee text-type-comparee-foreground hover:bg-type-comparee-hover'
         "
         class="text-xs px-2 py-1 rounded font-semibold transition-colors w-full"
         :title="`Changer en ${localTheme.type === 'Mixte' ? 'Comparée' : 'Mixte'}`"
@@ -125,7 +125,7 @@ updateDurationInputs(props.theme.duration.value);
         class="text-sm h-8"
         :class="
           localTheme.category !== 'Libre'
-            ? 'border-green-300 bg-green-50/30'
+            ? 'border-highlight bg-highlight-bg'
             : ''
         "
       />
@@ -153,7 +153,7 @@ updateDurationInputs(props.theme.duration.value);
             class="text-sm w-12 h-8 text-center p-1"
             @blur="updateDurationFromInputs"
           />
-          <span class="text-gray-400 text-xs">:</span>
+          <span class="text-muted-foreground text-xs">:</span>
           <Input
             v-model="durationSeconds"
             type="number"

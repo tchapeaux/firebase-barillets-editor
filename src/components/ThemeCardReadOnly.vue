@@ -27,14 +27,14 @@ const categoryDescription = computed(() => {
 <template>
   <Card class="overflow-hidden">
     <!-- Header with Title and Type -->
-    <div class="bg-gray-50 px-3 py-2 border-b border-gray-200">
+    <div class="bg-muted px-3 py-2 border-b border-muted">
       <div class="flex items-center gap-2">
         <!-- Type Badge -->
         <span
           :class="
             theme.type === 'Mixte'
-              ? 'bg-blue-100 text-blue-700'
-              : 'bg-purple-100 text-purple-700'
+              ? 'bg-type-mixte text-type-mixte-foreground'
+              : 'bg-type-comparee text-type-comparee-foreground'
           "
           class="text-xs px-2 py-1 rounded font-medium shrink-0"
         >
@@ -46,7 +46,7 @@ const categoryDescription = computed(() => {
           <span v-if="theme.title" class="text-sm font-medium">
             {{ theme.title }}
           </span>
-          <span v-else class="text-sm text-gray-500 italic">
+          <span v-else class="text-sm text-muted-foreground italic">
             Thème {{ themeNumber }}
           </span>
         </div>
@@ -59,22 +59,24 @@ const categoryDescription = computed(() => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Participation Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1 block">Participation</Label>
-          <div
-            class="text-sm px-3 py-2 bg-gray-50 rounded border border-gray-200"
+          <Label class="text-xs text-muted-foreground mb-1 block"
+            >Participation</Label
           >
+          <div class="text-sm px-3 py-2 bg-muted rounded border border-muted">
             {{ theme.participation }}
           </div>
         </div>
 
         <!-- Category Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1 block">Catégorie</Label>
+          <Label class="text-xs text-muted-foreground mb-1 block"
+            >Catégorie</Label
+          >
           <div
             :class="
               theme.category !== 'Libre'
-                ? 'bg-green-50 border-green-200 text-green-700'
-                : 'bg-gray-50 border-gray-200'
+                ? 'bg-highlight-bg border-highlight text-success'
+                : 'bg-muted border-muted'
             "
             class="text-sm px-3 py-2 rounded border font-medium flex items-center gap-2"
           >
@@ -107,13 +109,13 @@ const categoryDescription = computed(() => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Duration Field -->
         <div>
-          <Label class="text-xs text-gray-500 mb-1 block">Durée</Label>
+          <Label class="text-xs text-muted-foreground mb-1 block">Durée</Label>
           <div class="flex items-center gap-2">
             <span
               :class="
                 theme.duration.type === 'special'
-                  ? 'bg-amber-50 border-amber-200 text-amber-700'
-                  : 'bg-gray-50 border-gray-200'
+                  ? 'bg-accent border-accent text-accent-foreground'
+                  : 'bg-muted border-muted'
               "
               class="text-sm px-3 py-2 rounded border flex-1"
             >
@@ -124,9 +126,9 @@ const categoryDescription = computed(() => {
 
         <!-- Notes Field -->
         <div v-if="theme.notes">
-          <Label class="text-xs text-gray-500 mb-1 block">Notes</Label>
+          <Label class="text-xs text-muted-foreground mb-1 block">Notes</Label>
           <div
-            class="text-sm px-3 py-2 bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap"
+            class="text-sm px-3 py-2 bg-muted rounded border border-muted whitespace-pre-wrap"
           >
             {{ theme.notes }}
           </div>

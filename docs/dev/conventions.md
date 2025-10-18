@@ -438,6 +438,138 @@ export const useBarillets = () => {
 - Prefer utilities over custom CSS
 - Use `@apply` directive sparingly (only for repeated patterns)
 - Follow mobile-first responsive design
+- Prefer design system tokens instead of hardcoded color names
+
+### Design System & Color Tokens
+
+The application uses a design system based on **CSS custom properties (CSS variables)** that are exposed as Tailwind utility classes.
+
+#### Core Color Tokens
+
+**Base Colors** (available as `bg-*`, `text-*`, `border-*`):
+
+| Token         | Purpose                      | Light Value          | Dark Value       |
+| ------------- | ---------------------------- | -------------------- | ---------------- |
+| `background`  | Page background              | Warm cream (#fffac9) | Dark blue-gray   |
+| `foreground`  | Primary text                 | Dark gray            | Light gray       |
+| `card`        | Card/surface backgrounds     | Warm off-white       | Dark gray        |
+| `primary`     | Primary actions (buttons)    | Blue (#3B82F6)       | Light blue       |
+| `secondary`   | Secondary UI elements        | Warm gray            | Cool gray        |
+| `muted`       | Disabled/neutral backgrounds | Light warm gray      | Medium gray      |
+| `accent`      | Subtle accents               | Light beige          | Medium warm gray |
+| `destructive` | Error/delete states          | Red (#EF4444)        | Light red        |
+
+#### Status & Semantic Tokens
+
+**Status Indicators** (for user feedback):
+
+```css
+/* Success - for completed/synced operations */
+--success: green --success-light: light green background --success-border: light
+  green border /* Info - for informational/loading states */ --info: blue
+  (matches primary) --info-light: light blue background --info-border: light
+  blue border /* Highlight - for special/categorized items */ --highlight: soft
+  green --highlight-bg: very light green;
+```
+
+**Type Indicators** (for theme classification):
+
+```css
+/* Mixte type badges */
+--type-mixte: light blue background --type-mixte-foreground: dark blue text
+  --type-mixte-hover: hover blue background /* Comparée type badges */
+  --type-comparee: light purple background --type-comparee-foreground: dark
+  purple text --type-comparee-hover: hover purple background;
+```
+
+#### Usage Examples
+
+**✅ Correct - Using design system tokens:**
+
+```vue
+<!-- Status indicators -->
+<Check v-if="synced" class="text-success" />
+<Loader2 v-else-if="saving" class="text-info animate-spin" />
+<AlertCircle v-else class="text-destructive" />
+
+<!-- Theme type badges -->
+<button
+  :class="
+    type === 'Mixte'
+      ? 'bg-type-mixte text-type-mixte-foreground hover:bg-type-mixte-hover'
+      : 'bg-type-comparee text-type-comparee-foreground hover:bg-type-comparee-hover'
+  "
+>
+  {{ type }}
+</button>
+
+<!-- Category highlight -->
+<div :class="category !== 'Libre' ? 'border-highlight bg-highlight-bg' : ''">
+  {{ category }}
+</div>
+
+<!-- Labels and neutral text -->
+<Label class="text-xs text-muted-foreground">Participation</Label>
+
+<!-- Success message -->
+<Alert variant="default" class="bg-success-light border-success-border">
+  <p class="text-success">Operation completed successfully</p>
+</Alert>
+```
+
+**❌ Avoid - Hardcoded colors:**
+
+```vue
+<!-- DON'T DO THIS -->
+<div class="bg-blue-100 text-blue-700">...</div>
+<div class="bg-green-50 border-green-200">...</div>
+<div class="text-yellow-800">...</div>
+```
+
+#### Where to Find Color Definitions
+
+- **CSS Variables**: [`src/styles.css`](../../src/styles.css) (both light and dark mode)
+- **Tailwind Config**: [`tailwind.config.js`](../../tailwind.config.js) (exposes variables as utilities)
+- **Safelist**: Classes for dynamic `:class` bindings to ensure they're generated
+
+#### Adding New Color Tokens
+
+If you need to add a new semantic color:
+
+1. **Define the CSS variable** in `src/styles.css`:
+
+   ```css
+   :root {
+     --my-custom-color: 210 100% 50%;
+     --my-custom-color-light: 210 100% 95%;
+   }
+
+   .dark {
+     --my-custom-color: 210 90% 40%;
+     --my-custom-color-light: 210 90% 20%;
+   }
+   ```
+
+2. **Export in Tailwind config** in `tailwind.config.js`:
+
+   ```javascript
+   'my-custom': {
+     DEFAULT: 'hsl(var(--my-custom-color))',
+     light: 'hsl(var(--my-custom-color-light))',
+   }
+   ```
+
+3. **Add to safelist** if using in dynamic `:class` bindings:
+
+   ```javascript
+   safelist: [
+     'bg-my-custom',
+     'text-my-custom',
+     // ...
+   ];
+   ```
+
+4. **Document the token** in this file with its purpose and usage
 
 ### Custom CSS
 

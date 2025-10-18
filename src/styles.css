@@ -24,6 +24,23 @@
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
+    /* Status colors */
+    --success: 142 76% 36%;
+    --success-light: 138 76% 97%;
+    --success-border: 141 77% 83%;
+    --info: 221 83% 53%;
+    --info-light: 214 100% 97%;
+    --info-border: 213 97% 87%;
+    /* Highlight color for categorized themes */
+    --highlight: 142 69% 58%;
+    --highlight-bg: 138 76% 97%;
+    /* Type indicator colors */
+    --type-mixte: 214 95% 93%;
+    --type-mixte-foreground: 221 83% 29%;
+    --type-mixte-hover: 213 97% 87%;
+    --type-comparee: 271 76% 93%;
+    --type-comparee-foreground: 271 91% 29%;
+    --type-comparee-hover: 270 95% 87%;
     /* Warmer borders */
     --border: 52 25% 85%;
     --input: 52 25% 85%;
@@ -48,6 +65,23 @@
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+    /* Status colors for dark mode */
+    --success: 142 70% 45%;
+    --success-light: 138 70% 15%;
+    --success-border: 141 70% 25%;
+    --info: 217 91% 60%;
+    --info-light: 217 32% 17%;
+    --info-border: 217 32% 27%;
+    /* Highlight color for dark mode */
+    --highlight: 142 69% 45%;
+    --highlight-bg: 138 70% 15%;
+    /* Type indicators for dark mode */
+    --type-mixte: 217 32% 20%;
+    --type-mixte-foreground: 217 91% 70%;
+    --type-mixte-hover: 217 32% 25%;
+    --type-comparee: 271 32% 20%;
+    --type-comparee-foreground: 271 91% 70%;
+    --type-comparee-hover: 271 32% 25%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;

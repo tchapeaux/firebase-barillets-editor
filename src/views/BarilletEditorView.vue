@@ -261,21 +261,21 @@ watchDeep(localBarillet, (newValue) => {
             <div class="flex items-center gap-2">
               <Check
                 v-if="syncStatus === 'synced'"
-                class="h-4 w-4 text-green-600"
+                class="h-4 w-4 text-success"
               />
               <Loader2
                 v-else-if="syncStatus === 'saving'"
-                class="h-4 w-4 animate-spin text-blue-600"
+                class="h-4 w-4 animate-spin text-info"
               />
               <AlertCircle
                 v-else-if="syncStatus === 'error'"
-                class="h-4 w-4 text-red-600"
+                class="h-4 w-4 text-destructive"
               />
               <span
                 :class="{
-                  'text-green-600': syncStatus === 'synced',
-                  'text-blue-600': syncStatus === 'saving',
-                  'text-red-600': syncStatus === 'error',
+                  'text-success': syncStatus === 'synced',
+                  'text-info': syncStatus === 'saving',
+                  'text-destructive': syncStatus === 'error',
                 }"
                 class="text-sm font-medium"
               >
@@ -337,7 +337,8 @@ watchDeep(localBarillet, (newValue) => {
 
       <Alert
         v-if="validationErrors.length > 0"
-        class="mb-6 bg-yellow-50 border-yellow-200 text-yellow-800"
+        variant="destructive"
+        class="mb-6"
       >
         <strong>Erreurs de validation :</strong>
         <ul class="mt-2 ml-5 list-disc">

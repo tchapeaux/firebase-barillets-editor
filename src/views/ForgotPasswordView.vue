@@ -51,8 +51,11 @@
 
         <!-- Success Message -->
         <div v-else class="space-y-4">
-          <Alert variant="default" class="bg-green-50 border-green-200">
-            <p class="text-green-800">
+          <Alert
+            variant="default"
+            class="bg-success-light border-success-border"
+          >
+            <p class="text-success">
               Un email de réinitialisation a été envoyé à
               <strong>{{ email }}</strong
               >. Veuillez vérifier votre boîte de réception.

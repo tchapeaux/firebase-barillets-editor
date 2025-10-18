@@ -63,7 +63,7 @@
           <span class="text-xs text-muted-foreground uppercase tracking-wide"
             >Mixtes</span
           >
-          <Badge variant="default" class="bg-blue-600 w-fit">{{
+          <Badge variant="default" class="bg-type-mixte-foreground w-fit">{{
             stats.typeProportions.mixte
           }}</Badge>
         </div>
@@ -71,7 +71,7 @@
           <span class="text-xs text-muted-foreground uppercase tracking-wide"
             >Comparées</span
           >
-          <Badge variant="default" class="bg-purple-600 w-fit">{{
+          <Badge variant="default" class="bg-type-comparee-foreground w-fit">{{
             stats.typeProportions.comparee
           }}</Badge>
         </div>

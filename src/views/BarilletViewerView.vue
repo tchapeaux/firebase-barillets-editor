@@ -179,8 +179,8 @@ const exportToPdf = async () => {
         </div>
 
         <!-- Owner notice -->
-        <Alert v-if="isOwner" class="mt-4 bg-blue-50 border-blue-200">
-          <p class="text-sm text-blue-800">
+        <Alert v-if="isOwner" class="mt-4 bg-info-light border-info-border">
+          <p class="text-sm text-info">
             Vous êtes le propriétaire de ce barillet. Vous pouvez le modifier en
             cliquant sur le bouton "Modifier".
           </p>
