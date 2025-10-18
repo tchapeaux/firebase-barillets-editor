@@ -270,8 +270,6 @@ export const validateBarillet = (barillet: Barillet): ValidationResult => {
 
   if (!barillet.themes || !Array.isArray(barillet.themes)) {
     errors.push('themes must be an array');
-  } else if (barillet.themes.length !== 18) {
-    errors.push('barillet must have exactly 18 themes');
   } else {
     barillet.themes.forEach((theme, index) => {
       if (!isValidTheme(theme)) {
