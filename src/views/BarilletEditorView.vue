@@ -281,9 +281,9 @@ watchDeep(localBarillet, (newValue) => {
               >
                 {{
                   syncStatus === 'synced'
-                    ? 'Enregistré'
+                    ? 'Synchronisé'
                     : syncStatus === 'saving'
-                      ? 'Enregistrement...'
+                      ? 'Synchronisation...'
                       : 'Erreur'
                 }}
               </span>
