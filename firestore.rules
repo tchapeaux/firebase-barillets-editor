@@ -14,8 +14,12 @@ service cloud.firestore {
 
     // Barillets collection
     match /barillets/{barilletId} {
-      // Anyone can read any barillet (public read access)
-      allow read: if true;
+      // Anyone can read a specific barillet if they know its ID
+      allow get: if true;
+
+      // Only authenticated users can list/query their own barillets
+      allow list: if isAuthenticated()
+                  && request.auth.uid == resource.data.userId;
 
       // Users can create barillets with their own userId
       allow create: if isAuthenticated()
