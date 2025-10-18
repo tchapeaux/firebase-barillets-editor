@@ -1,5 +1,15 @@
 <template>
   <div class="app-layout min-h-screen flex flex-col">
+    <!-- Offline Status Banner -->
+    <div
+      v-if="!isOnline"
+      class="bg-yellow-100 dark:bg-yellow-900 text-yellow-900 dark:text-yellow-100 px-4 py-2 text-center text-sm border-b border-yellow-200 dark:border-yellow-800"
+    >
+      <span class="font-medium">Mode hors ligne</span>
+      <span class="mx-2">•</span>
+      <span>Les modifications seront synchronisées lors de la reconnexion</span>
+    </div>
+
     <!-- Header -->
     <header class="bg-background border-b sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -7,8 +17,12 @@
           class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 py-4"
         >
           <h1 class="text-2xl font-bold tracking-tight">
-            <router-link to="/" class="hover:text-primary transition-colors">
-              Editeur de barillets
+            <router-link
+              to="/"
+              class="hover:text-primary transition-colors flex items-center gap-3"
+            >
+              <img aria-hidden="true" src="/logo-zebra.png" class="h-14 w-14" />
+              <span>Editeur de barillets</span>
             </router-link>
           </h1>
           <div v-if="user" class="flex items-center gap-4">
@@ -59,12 +73,14 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { useOnline } from '@vueuse/core';
 import { useAuth } from '../composables/useAuth';
 import Button from '@/components/ui/button.vue';
 import { LogOut } from 'lucide-vue-next';
 
 const router = useRouter();
 const { user, signOut } = useAuth();
+const isOnline = useOnline();
 
 const handleSignOut = async () => {
   const result = await signOut();
