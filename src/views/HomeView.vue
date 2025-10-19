@@ -6,11 +6,30 @@
         class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
       >
         <h2 class="text-2xl font-semibold">Mes barillets</h2>
-        <Button @click="handleCreateBarillet">
-          <Plus class="h-4 w-4 mr-2" />
-          Créer un nouveau barillet
-        </Button>
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button class="w-full sm:w-auto" @click="handleCreateBarillet">
+            <Plus class="h-4 w-4 mr-2" />
+            Créer un nouveau barillet
+          </Button>
+          <Button
+            variant="outline"
+            class="w-full sm:w-auto"
+            @click="triggerFileInput"
+          >
+            <Upload class="h-4 w-4 mr-2" />
+            Importer depuis JSON
+          </Button>
+        </div>
       </div>
+
+      <!-- Hidden file input for import -->
+      <input
+        ref="fileInput"
+        type="file"
+        accept=".json"
+        style="display: none"
+        @change="handleFileChange"
+      />
 
       <!-- Loading state -->
       <div v-if="loading" class="text-center py-12">
@@ -60,18 +79,21 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 import { useAuth } from '../composables/useAuth';
 import { useBarillets } from '../composables/useBarillets';
 import { useBarilletExport } from '../composables/useBarilletExport';
+import { useBarilletImport } from '../composables/useBarilletImport';
 import BarilletCard from '../components/BarilletCard.vue';
 import Button from '@/components/ui/button.vue';
 import Alert from '@/components/ui/alert.vue';
-import { Plus } from 'lucide-vue-next';
+import { Plus, Upload } from 'lucide-vue-next';
 
 const router = useRouter();
 const { user } = useAuth();
 const { exportToPdf, exportToJson, exportToCsv, exportToExcel } =
   useBarilletExport();
+const { importFromJson } = useBarilletImport(user);
 
 // Get user's barillets
 const {
@@ -82,6 +104,10 @@ const {
   duplicateBarillet,
   deleteBarillet,
 } = useBarillets(user);
+
+// File input reference for import
+const fileInput = ref<HTMLInputElement | null>(null);
+const importing = ref(false);
 
 const handleCreateBarillet = async () => {
   const result = await createBarillet({
@@ -147,6 +173,37 @@ const handleExport = async (
   } catch (err) {
     console.error(`Export to ${format} failed:`, err);
     alert(`Impossible d'exporter en ${format.toUpperCase()}`);
+  }
+};
+
+const triggerFileInput = () => {
+  fileInput.value?.click();
+};
+
+const handleFileChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+
+  if (!file) return;
+
+  importing.value = true;
+
+  try {
+    const result = await importFromJson(file);
+
+    if (!result.success) {
+      alert(`Erreur lors de l'import : ${result.error || 'Erreur inconnue'}`);
+    } else if (result.barilletId) {
+      // Success - redirect to editor
+      router.push({ name: 'barillet-edit', params: { id: result.barilletId } });
+    }
+  } catch (err) {
+    console.error('Import failed:', err);
+    alert("Erreur lors de l'import du fichier");
+  } finally {
+    importing.value = false;
+    // Reset file input
+    input.value = '';
   }
 };
 </script>

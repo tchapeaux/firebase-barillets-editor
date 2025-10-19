@@ -59,6 +59,7 @@ export default [
     ignores: [
       'dist/**',
       'dist-ssr/**',
+      'dev-dist/**',
       'node_modules/**',
       '.firebase/**',
       'coverage/**',

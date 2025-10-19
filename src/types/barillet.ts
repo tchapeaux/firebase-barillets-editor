@@ -44,6 +44,17 @@ export interface Barillet {
 }
 
 /**
+ * Barillet data structure from JSON import
+ * Represents the clean export format (without userId, timestamps, and id)
+ */
+export interface ImportedBarilletData {
+  title: string;
+  date: string | null; // ISO date string from JSON (e.g., "2025-10-19")
+  location: string;
+  themes: Theme[];
+}
+
+/**
  * Folder for organizing barillets
  */
 export interface Folder {
