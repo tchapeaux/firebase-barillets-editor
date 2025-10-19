@@ -4,31 +4,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ## High Priority - Enhanced Features
 
-### 1. Export/Import Functionality
-
-**What**: Export barillets to various formats for printing or sharing.
-
-**Why**: Users need to print barillets for live shows and share with team members.
-
-**Tasks**:
-
-- [ ] Export to PDF (printable barillet sheet with 18 theme cards)
-- [ ] Export to JSON (data backup/transfer)
-- [ ] Export to CSV/Excel (spreadsheet format for analysis)
-- [ ] Import from JSON (restore backups)
-- [ ] Print-friendly view with CSS print styles
-- [ ] Batch export (multiple barillets to ZIP)
-
-**Acceptance Criteria**:
-
-- PDF export generates printable cards (ready for physical barillet)
-- JSON export/import preserves all data without loss
-- CSV export is readable in Excel/Google Sheets
-- Print view works in all major browsers
-
----
-
-### 2. Theme Duration Input Component
+### 1. Theme Duration Input Component
 
 **What**: Create a specialized input for duration values with proper validation.
 
@@ -56,7 +32,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ## Medium Priority - Enhanced Features
 
-### 3. Category Management
+### 2. Category Management
 
 **What**: Allow users to create and manage custom theme categories beyond "Libre".
 
@@ -82,7 +58,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 4. Folder Organization
+### 3. Folder Organization
 
 **What**: Organize barillets into folders for better management.
 
@@ -109,7 +85,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 5. Barillet Templates
+### 4. Barillet Templates
 
 **What**: Save barillets as templates for reuse.
 
@@ -133,7 +109,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 6. Statistics Dashboard
+### 5. Statistics Dashboard
 
 **What**: Aggregate view of all user's barillets with insights.
 
@@ -161,7 +137,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ## Low Priority - Polish & UX
 
-### 7. Search and Filtering
+### 6. Search and Filtering
 
 **What**: Find barillets quickly.
 
@@ -182,7 +158,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 8. Dark Mode
+### 7. Dark Mode
 
 **What**: Support dark theme for better accessibility.
 
@@ -205,7 +181,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 9. Keyboard Shortcuts
+### 8. Keyboard Shortcuts
 
 **What**: Power user features for faster editing.
 
@@ -224,7 +200,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 10. Offline Support
+### 9. Offline Support
 
 **What**: Work without internet connection.
 
@@ -245,7 +221,7 @@ This document outlines planned features, improvements, and technical debt to add
 
 ---
 
-### 11. Collaborative Features
+### 10. Collaborative Features
 
 **What**: Share barillets with other users.
 
@@ -332,4 +308,4 @@ These are strategic questions that should be discussed before implementing certa
 
 ---
 
-**Last Updated**: 2025-10-17
+**Last Updated**: 2025-10-19

@@ -95,6 +95,9 @@ Each category in `categories.json` contains:
 - [x] **LoginView.vue** - Authentication interface with email/password and Google Sign-in
 - [x] **ForgotPasswordView.vue** - Password reset request interface
 - [x] **HomeView.vue** - Dashboard with barillet list
+  - Create new barillet button
+  - Import from JSON button
+  - Grid view of all user barillets
 - [x] **BarilletEditorView.vue** - Full editor implementation with:
   - Barillet metadata editing (title, location, date)
   - All 18 themes editable
@@ -105,6 +108,7 @@ Each category in `categories.json` contains:
   - Public viewing without authentication
   - Edit button for owners
   - Share link functionality
+  - Export dropdown menu (PDF, JSON, Excel, CSV)
   - Theme display in read-only format
 
 **Components** (reusable UI in `src/components/`):
@@ -118,9 +122,10 @@ Each category in `categories.json` contains:
 - [x] **BarilletCard.vue** - Summary card with:
   - Title, date, location
   - Computed stats (duration, type counts, libre percentage)
-  - Actions menu (edit, view, duplicate, delete)
+  - Actions menu (edit, view, duplicate, delete, export to PDF/JSON/Excel/CSV)
   - Edit and view buttons navigate to respective routes
   - Simplified date formatting
+  - Export options with dropdown menu
 - [x] **ThemeCard.vue** - Individual theme editor (grid layout only) with:
   - Type selector (Mixte/Comparée)
   - Title input with "No title" checkbox
@@ -145,6 +150,33 @@ Each category in `categories.json` contains:
 - [x] Loading states
 - [x] Error handling
 
+### ✅ Data Export & Import
+
+- [x] **Export to PDF** - Printable A4 landscape format with 3x3 grid (9 themes per page)
+  - Beautiful themed cards with type badges, titles, participation, category, duration, notes
+  - Auto-filename based on barillet title
+- [x] **Export to JSON** - Clean format (excludes userId, timestamps) for portability
+  - Minimal structure: title, date, location, 18 themes
+  - Compatible with import functionality
+- [x] **Export to CSV** - Tabular format for spreadsheet applications
+  - Header row with all theme fields
+  - One theme per row for easy analysis
+- [x] **Export to Excel** - Formatted `.xlsx` workbook with metadata and themed table
+  - Metadata sheet: title, date, location, theme count
+  - Themes sheet with bold headers and auto-width columns
+- [x] **Import from JSON** - Create new barillets from exported JSON files
+  - Schema validation ensuring data integrity
+  - Date parsing from ISO format
+  - Clear French error messages for validation failures
+  - Auto-redirect to editor after successful import
+
+**Implementation**:
+
+- [Composable: useBarilletExport.ts](../../src/composables/useBarilletExport.ts) - All export functionality with dynamic imports for PDF and Excel
+- [Composable: useBarilletImport.ts](../../src/composables/useBarilletImport.ts) - Import validation and creation logic
+- [Type: ImportedBarilletData](../../src/types/barillet.ts) - Type definition for JSON import format
+- Dynamic imports reduce initial bundle: jsPDF and xlsx loaded only when needed
+
 ### ✅ Features Working
 
 - Create new barillets with default 18 empty themes
@@ -153,6 +185,8 @@ Each category in `categories.json` contains:
 - **Auto-save with real-time sync** (1.5s debounce, onChange behavior)
 - **Sync status indicator** (shows Enregistré/Enregistrement.../Erreur)
 - **View barillets in read-only mode** (shareable public links)
+- Export barillets to PDF, JSON, CSV, and Excel formats
+- Import barillets from JSON files
 - View all user's barillets in a grid
 - Duplicate existing barillets
 - Delete barillets with confirmation
@@ -175,7 +209,9 @@ firebase-barillets-editor/
 │   │   ├── useBarillets.ts       # Firestore CRUD + Timestamp conversion
 │   │   ├── useBarilletById.ts    # Single barillet fetching logic
 │   │   ├── useCategories.ts      # Category management and lookup
-│   │   └── useThemeDuration.ts   # Theme duration logic
+│   │   ├── useThemeDuration.ts   # Theme duration logic
+│   │   ├── useBarilletExport.ts  # Export to PDF, JSON, CSV, Excel
+│   │   └── useBarilletImport.ts  # Import from JSON files
 │   ├── data/
 │   │   └── categories.json       # FBIA 2025 preset categories (87 items)
 │   ├── router/
@@ -297,4 +333,4 @@ This ensures type consistency throughout the Vue components while maintaining Fi
 
 ---
 
-**Last Updated**: 2025-10-17
+**Last Updated**: 2025-10-19
