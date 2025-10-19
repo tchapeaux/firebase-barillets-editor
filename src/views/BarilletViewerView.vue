@@ -3,26 +3,33 @@ import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 import { useBarilletById } from '../composables/useBarilletById';
-import { usePdfExport } from '../composables/usePdfExport';
+import { useBarilletExport } from '../composables/useBarilletExport';
 import ThemeCardReadOnly from '../components/ThemeCardReadOnly.vue';
 import Button from '@/components/ui/button.vue';
 import Card from '@/components/ui/card.vue';
 import Label from '@/components/ui/label.vue';
 import Alert from '@/components/ui/alert.vue';
+import DropdownMenu from '@/components/ui/dropdownMenu.vue';
+import DropdownMenuItem from '@/components/ui/dropdownMenuItem.vue';
 import {
   AlertCircle,
   ArrowLeft,
   Check,
   Edit,
   FileDown,
+  FileJson,
+  FileSpreadsheet,
+  FileText,
   Loader2,
   Share2,
+  ChevronDown,
 } from 'lucide-vue-next';
 
 const route = useRoute();
 const router = useRouter();
 const { user } = useAuth();
-const { exportBarilletToPdf } = usePdfExport();
+const { exportToPdf, exportToJson, exportToCsv, exportToExcel } =
+  useBarilletExport();
 
 const barilletId = computed(() => route.params.id as string);
 
@@ -74,14 +81,27 @@ const copyShareLink = async () => {
   }
 };
 
-// Export barillet to PDF
-const exportToPdf = async () => {
+// Export barillet to different formats
+const handleExportFile = async (format: 'pdf' | 'json' | 'xlsx' | 'csv') => {
   if (!barillet.value) return;
   try {
-    await exportBarilletToPdf(barillet.value);
+    switch (format) {
+      case 'pdf':
+        await exportToPdf(barillet.value);
+        break;
+      case 'json':
+        await exportToJson(barillet.value);
+        break;
+      case 'csv':
+        await exportToCsv(barillet.value);
+        break;
+      case 'xlsx':
+        await exportToExcel(barillet.value);
+        break;
+    }
   } catch (err) {
-    console.error('Failed to export PDF:', err);
-    alert("Impossible d'exporter en PDF");
+    console.error(`Failed to export ${format}:`, err);
+    alert(`Impossible d'exporter en ${format.toUpperCase()}`);
   }
 };
 </script>
@@ -167,14 +187,31 @@ const exportToPdf = async () => {
               <Share2 v-else class="mr-2 h-4 w-4" />
               {{ linkCopied ? 'Lien copié !' : 'Partager' }}
             </Button>
-            <Button
-              variant="outline"
-              class="w-full sm:w-auto"
-              @click="exportToPdf"
-            >
-              <FileDown class="mr-2 h-4 w-4" />
-              Exporter en PDF
-            </Button>
+            <DropdownMenu>
+              <template #trigger>
+                <Button variant="outline" class="w-full sm:w-auto">
+                  <FileDown class="mr-2 h-4 w-4" />
+                  Exporter
+                  <ChevronDown class="ml-2 h-4 w-4" />
+                </Button>
+              </template>
+              <DropdownMenuItem @click="() => handleExportFile('pdf')">
+                <FileDown class="h-4 w-4" />
+                PDF
+              </DropdownMenuItem>
+              <DropdownMenuItem @click="() => handleExportFile('json')">
+                <FileJson class="h-4 w-4" />
+                JSON
+              </DropdownMenuItem>
+              <DropdownMenuItem @click="() => handleExportFile('xlsx')">
+                <FileSpreadsheet class="h-4 w-4" />
+                Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem @click="() => handleExportFile('csv')">
+                <FileText class="h-4 w-4" />
+                CSV
+              </DropdownMenuItem>
+            </DropdownMenu>
           </div>
         </div>
 

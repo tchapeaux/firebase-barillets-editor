@@ -34,9 +34,21 @@
           <Copy class="h-4 w-4" />
           Dupliquer
         </DropdownMenuItem>
-        <DropdownMenuItem @click="handleExportPdf">
+        <DropdownMenuItem @click="() => handleExport('pdf')">
           <Download class="h-4 w-4" />
           Exporter en PDF
+        </DropdownMenuItem>
+        <DropdownMenuItem @click="() => handleExport('json')">
+          <FileJson class="h-4 w-4" />
+          Exporter en JSON
+        </DropdownMenuItem>
+        <DropdownMenuItem @click="() => handleExport('xlsx')">
+          <FileSpreadsheet class="h-4 w-4" />
+          Exporter en Excel
+        </DropdownMenuItem>
+        <DropdownMenuItem @click="() => handleExport('csv')">
+          <FileText class="h-4 w-4" />
+          Exporter en CSV
         </DropdownMenuItem>
         <DropdownMenuItem variant="destructive" @click="handleDelete">
           <Trash2 class="h-4 w-4" />
@@ -108,6 +120,9 @@ import {
   Copy,
   Trash2,
   Download,
+  FileJson,
+  FileSpreadsheet,
+  FileText,
 } from 'lucide-vue-next';
 
 interface Props {
@@ -121,7 +136,7 @@ const emit = defineEmits<{
   view: [id: string];
   duplicate: [id: string];
   delete: [id: string];
-  exportPdf: [id: string];
+  export: [id: string, format: 'pdf' | 'json' | 'xlsx' | 'csv'];
 }>();
 
 const stats = computed(() => calculateBarilletStats(props.barillet));
@@ -165,9 +180,9 @@ const handleDelete = () => {
   }
 };
 
-const handleExportPdf = () => {
+const handleExport = (format: 'pdf' | 'json' | 'xlsx' | 'csv') => {
   if (props.barillet.id) {
-    emit('exportPdf', props.barillet.id);
+    emit('export', props.barillet.id, format);
   }
 };
 </script>

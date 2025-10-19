@@ -51,7 +51,7 @@
           @view="handleView"
           @duplicate="handleDuplicate"
           @delete="handleDelete"
-          @export-pdf="handleExportPdf"
+          @export="handleExport"
         />
       </div>
     </div>
@@ -62,7 +62,7 @@
 import { useRouter } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 import { useBarillets } from '../composables/useBarillets';
-import { usePdfExport } from '../composables/usePdfExport';
+import { useBarilletExport } from '../composables/useBarilletExport';
 import BarilletCard from '../components/BarilletCard.vue';
 import Button from '@/components/ui/button.vue';
 import Alert from '@/components/ui/alert.vue';
@@ -70,7 +70,8 @@ import { Plus } from 'lucide-vue-next';
 
 const router = useRouter();
 const { user } = useAuth();
-const { exportBarilletToPdf } = usePdfExport();
+const { exportToPdf, exportToJson, exportToCsv, exportToExcel } =
+  useBarilletExport();
 
 // Get user's barillets
 const {
@@ -121,10 +122,31 @@ const handleDelete = async (barilletId: string) => {
   // Note: The barillet will disappear automatically
 };
 
-const handleExportPdf = async (barilletId: string) => {
+const handleExport = async (
+  barilletId: string,
+  format: 'pdf' | 'json' | 'xlsx' | 'csv'
+) => {
   const barillet = barillets.value.find((b) => b.id === barilletId);
-  if (barillet) {
-    await exportBarilletToPdf(barillet);
+  if (!barillet) return;
+
+  try {
+    switch (format) {
+      case 'pdf':
+        await exportToPdf(barillet);
+        break;
+      case 'json':
+        await exportToJson(barillet);
+        break;
+      case 'csv':
+        await exportToCsv(barillet);
+        break;
+      case 'xlsx':
+        await exportToExcel(barillet);
+        break;
+    }
+  } catch (err) {
+    console.error(`Export to ${format} failed:`, err);
+    alert(`Impossible d'exporter en ${format.toUpperCase()}`);
   }
 };
 </script>
