@@ -68,6 +68,7 @@
           :barillet="barillet"
           @edit="handleEdit"
           @view="handleView"
+          @live="handleLive"
           @duplicate="handleDuplicate"
           @delete="handleDelete"
           @export="handleExport"
@@ -130,6 +131,10 @@ const handleEdit = (barilletId: string) => {
 
 const handleView = (barilletId: string) => {
   router.push({ name: 'barillet-view', params: { id: barilletId } });
+};
+
+const handleLive = (barilletId: string) => {
+  router.push({ name: 'barillet-live', params: { id: barilletId } });
 };
 
 const handleDuplicate = async (barilletId: string) => {

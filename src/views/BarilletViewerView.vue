@@ -23,6 +23,7 @@ import {
   Loader2,
   Share2,
   ChevronDown,
+  Play,
 } from 'lucide-vue-next';
 
 const route = useRoute();
@@ -63,6 +64,13 @@ const goBack = () => {
 const goToEdit = () => {
   if (barillet.value?.id) {
     router.push({ name: 'barillet-edit', params: { id: barillet.value.id } });
+  }
+};
+
+// Navigate to live mode
+const goToLive = () => {
+  if (barillet.value?.id) {
+    router.push({ name: 'barillet-live', params: { id: barillet.value.id } });
   }
 };
 
@@ -177,6 +185,14 @@ const handleExportFile = async (format: 'pdf' | 'json' | 'xlsx' | 'csv') => {
             >
               <Edit class="mr-2 h-4 w-4" />
               Modifier
+            </Button>
+            <Button
+              variant="default"
+              class="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+              @click="goToLive"
+            >
+              <Play class="mr-2 h-4 w-4" />
+              Mode Live
             </Button>
             <Button
               variant="outline"
