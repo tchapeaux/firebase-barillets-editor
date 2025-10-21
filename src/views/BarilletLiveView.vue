@@ -227,18 +227,21 @@ const recommencer = () => {
         </div>
 
         <!-- Statistics Bar -->
-        <Card class="mb-6 bg-accent border-accent">
+        <Card class="mb-6">
           <CardContent class="pt-6">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <!-- Remaining Count -->
               <div class="text-center">
-                <div class="text-3xl sm:text-4xl font-bold text-primary">
+                <div
+                  class="text-xs uppercase tracking-wide text-muted-foreground mb-2 font-semibold"
+                >
+                  Restants
+                </div>
+                <div class="text-4xl sm:text-5xl font-bold text-primary">
                   {{ remainingCount }}
                 </div>
                 <div class="text-sm text-muted-foreground mt-1">
-                  Thème{{ remainingCount > 1 ? 's' : '' }} restant{{
-                    remainingCount > 1 ? 's' : ''
-                  }}
+                  thème{{ remainingCount > 1 ? 's' : '' }}
                 </div>
               </div>
 
@@ -247,14 +250,16 @@ const recommencer = () => {
                 v-if="discardedStats"
                 class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
               >
-                <div class="text-sm text-muted-foreground mb-2">
+                <div
+                  class="text-xs uppercase tracking-wide text-muted-foreground mb-2 font-semibold"
+                >
                   Retirés ({{ discardedStats.total }})
                 </div>
-                <div class="flex items-center justify-center gap-2">
-                  <Badge variant="outline">
+                <div class="flex items-center justify-center gap-2 flex-wrap">
+                  <Badge variant="secondary" class="text-sm">
                     Mixte {{ discardedStats.mixtePercentage }}%
                   </Badge>
-                  <Badge variant="outline">
+                  <Badge variant="secondary" class="text-sm">
                     Cat. {{ discardedStats.categoriePercentage }}%
                   </Badge>
                 </div>
@@ -265,12 +270,16 @@ const recommencer = () => {
                 v-if="discardedStats"
                 class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
               >
-                <div class="text-sm text-muted-foreground mb-2">Catégories</div>
-                <div class="flex items-center justify-center gap-2">
-                  <Badge variant="outline">
+                <div
+                  class="text-xs uppercase tracking-wide text-muted-foreground mb-2 font-semibold"
+                >
+                  Catégories
+                </div>
+                <div class="flex items-center justify-center gap-2 flex-wrap">
+                  <Badge variant="secondary" class="text-sm">
                     Libre {{ discardedStats.librePercentage }}%
                   </Badge>
-                  <Badge variant="outline">
+                  <Badge variant="secondary" class="text-sm">
                     Autres {{ discardedStats.otherCategoriesPercentage }}%
                   </Badge>
                 </div>
