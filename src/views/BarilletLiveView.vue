@@ -14,7 +14,6 @@ import {
 import Button from '../components/ui/button.vue';
 import Card from '../components/ui/card.vue';
 import CardContent from '../components/ui/cardContent.vue';
-import Badge from '../components/ui/badge.vue';
 import ThemeCardReadOnly from '../components/ThemeCardReadOnly.vue';
 
 const route = useRoute();
@@ -71,11 +70,11 @@ const discardedStats = computed(() => {
   const total = discardedThemes.value.length;
   if (total === 0) return null;
 
-  // Count Mixte vs Catégorie
+  // Count Mixte vs Comparée
   const mixteCount = discardedThemes.value.filter(
     (t) => t.type === 'Mixte'
   ).length;
-  const categorieCount = total - mixteCount;
+  const compareeCount = total - mixteCount;
 
   // Count Libre vs other categories
   const libreCount = discardedThemes.value.filter(
@@ -85,10 +84,10 @@ const discardedStats = computed(() => {
 
   return {
     total,
-    mixtePercentage: Math.round((mixteCount / total) * 100),
-    categoriePercentage: Math.round((categorieCount / total) * 100),
-    librePercentage: Math.round((libreCount / total) * 100),
-    otherCategoriesPercentage: Math.round((otherCategoriesCount / total) * 100),
+    mixteCount,
+    compareeCount,
+    libreCount,
+    otherCategoriesCount,
   };
 });
 
@@ -226,62 +225,75 @@ const recommencer = () => {
           </Button>
         </div>
 
-        <!-- Statistics Bar -->
+        <!-- Statistics Card -->
         <Card class="mb-6">
-          <CardContent class="pt-6">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <!-- Remaining Count -->
+          <CardContent class="pt-6 pb-6">
+            <!-- Remaining Count -->
+            <div class="text-center mb-6 pb-6 border-b border-border">
+              <div
+                class="text-xs uppercase tracking-wide text-muted-foreground mb-2 font-semibold"
+              >
+                Restants
+              </div>
+              <div class="text-5xl sm:text-6xl font-bold text-primary mb-1">
+                {{ remainingCount }}
+              </div>
+              <div class="text-sm text-muted-foreground">
+                Thème{{ remainingCount > 1 ? 's' : '' }}
+              </div>
+            </div>
+
+            <!-- Discarded Stats -->
+            <div v-if="discardedStats" class="space-y-4">
               <div class="text-center">
                 <div
-                  class="text-xs uppercase tracking-wide text-muted-foreground mb-2 font-semibold"
+                  class="text-xs uppercase tracking-wide text-muted-foreground mb-3 font-semibold"
                 >
-                  Restants
-                </div>
-                <div class="text-4xl sm:text-5xl font-bold text-primary">
-                  {{ remainingCount }}
-                </div>
-                <div class="text-sm text-muted-foreground mt-1">
-                  thème{{ remainingCount > 1 ? 's' : '' }}
+                  Retirés
                 </div>
               </div>
 
-              <!-- Discarded Stats: Mixte vs Catégorie -->
-              <div
-                v-if="discardedStats"
-                class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
-              >
-                <div
-                  class="text-xs uppercase tracking-wide text-muted-foreground mb-2 font-semibold"
-                >
-                  Retirés ({{ discardedStats.total }})
-                </div>
-                <div class="flex items-center justify-center gap-2 flex-wrap">
-                  <Badge variant="secondary" class="text-sm">
-                    Mixte {{ discardedStats.mixtePercentage }}%
-                  </Badge>
-                  <Badge variant="secondary" class="text-sm">
-                    Cat. {{ discardedStats.categoriePercentage }}%
-                  </Badge>
+              <!-- Nature -->
+              <div class="text-center">
+                <div class="text-xs text-muted-foreground mb-2">Nature</div>
+                <div class="text-lg">
+                  <span class="font-semibold">{{
+                    discardedStats.mixteCount
+                  }}</span>
+                  <span class="text-muted-foreground mx-2"
+                    >Mixte{{ discardedStats.mixteCount > 1 ? 's' : '' }}</span
+                  >
+                  <span class="text-muted-foreground mx-1">-</span>
+                  <span class="font-semibold">{{
+                    discardedStats.compareeCount
+                  }}</span>
+                  <span class="text-muted-foreground mx-2"
+                    >Comparée{{
+                      discardedStats.compareeCount > 1 ? 's' : ''
+                    }}</span
+                  >
                 </div>
               </div>
 
-              <!-- Discarded Stats: Libre vs Others -->
-              <div
-                v-if="discardedStats"
-                class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
-              >
-                <div
-                  class="text-xs uppercase tracking-wide text-muted-foreground mb-2 font-semibold"
-                >
-                  Catégories
-                </div>
-                <div class="flex items-center justify-center gap-2 flex-wrap">
-                  <Badge variant="secondary" class="text-sm">
-                    Libre {{ discardedStats.librePercentage }}%
-                  </Badge>
-                  <Badge variant="secondary" class="text-sm">
-                    Autres {{ discardedStats.otherCategoriesPercentage }}%
-                  </Badge>
+              <!-- Categories -->
+              <div class="text-center">
+                <div class="text-xs text-muted-foreground mb-2">Catégories</div>
+                <div class="text-lg">
+                  <span class="font-semibold">{{
+                    discardedStats.libreCount
+                  }}</span>
+                  <span class="text-muted-foreground mx-2"
+                    >Libre{{ discardedStats.libreCount > 1 ? 's' : '' }}</span
+                  >
+                  <span class="text-muted-foreground mx-1">-</span>
+                  <span class="font-semibold">{{
+                    discardedStats.otherCategoriesCount
+                  }}</span>
+                  <span class="text-muted-foreground mx-2"
+                    >Autre{{
+                      discardedStats.otherCategoriesCount > 1 ? 's' : ''
+                    }}</span
+                  >
                 </div>
               </div>
             </div>
