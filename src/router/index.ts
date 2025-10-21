@@ -38,6 +38,12 @@ const router = createRouter({
       component: () => import('../views/BarilletViewerView.vue'),
       meta: { requiresAuth: false, requiresLayout: true },
     },
+    {
+      path: '/barillet/:id/live',
+      name: 'barillet-live',
+      component: () => import('../views/BarilletLiveView.vue'),
+      meta: { requiresAuth: false, requiresLayout: true },
+    },
   ],
 });
 

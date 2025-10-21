@@ -30,6 +30,10 @@
           <Eye class="h-4 w-4" />
           Voir
         </DropdownMenuItem>
+        <DropdownMenuItem @click="handleLive">
+          <Play class="h-4 w-4" />
+          Mode Live
+        </DropdownMenuItem>
         <DropdownMenuItem @click="handleDuplicate">
           <Copy class="h-4 w-4" />
           Dupliquer
@@ -123,6 +127,7 @@ import {
   FileJson,
   FileSpreadsheet,
   FileText,
+  Play,
 } from 'lucide-vue-next';
 
 interface Props {
@@ -134,6 +139,7 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
   edit: [id: string];
   view: [id: string];
+  live: [id: string];
   duplicate: [id: string];
   delete: [id: string];
   export: [id: string, format: 'pdf' | 'json' | 'xlsx' | 'csv'];
@@ -160,6 +166,12 @@ const handleEdit = () => {
 const handleView = () => {
   if (props.barillet.id) {
     emit('view', props.barillet.id);
+  }
+};
+
+const handleLive = () => {
+  if (props.barillet.id) {
+    emit('live', props.barillet.id);
   }
 };
 
