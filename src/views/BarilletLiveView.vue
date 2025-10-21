@@ -194,61 +194,8 @@ const recommencer = () => {
         </div>
       </div>
 
-      <!-- Statistics Bar -->
-      <Card class="mb-6 bg-accent border-accent">
-        <CardContent class="pt-6">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <!-- Remaining Count -->
-            <div class="text-center">
-              <div class="text-3xl sm:text-4xl font-bold text-primary">
-                {{ remainingCount }}
-              </div>
-              <div class="text-sm text-muted-foreground mt-1">
-                Thème{{ remainingCount > 1 ? 's' : '' }} restant{{
-                  remainingCount > 1 ? 's' : ''
-                }}
-              </div>
-            </div>
-
-            <!-- Discarded Stats: Mixte vs Catégorie -->
-            <div
-              v-if="discardedStats"
-              class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
-            >
-              <div class="text-sm text-muted-foreground mb-2">
-                Retirés ({{ discardedStats.total }})
-              </div>
-              <div class="flex items-center justify-center gap-2">
-                <Badge variant="outline">
-                  Mixte {{ discardedStats.mixtePercentage }}%
-                </Badge>
-                <Badge variant="outline">
-                  Cat. {{ discardedStats.categoriePercentage }}%
-                </Badge>
-              </div>
-            </div>
-
-            <!-- Discarded Stats: Libre vs Others -->
-            <div
-              v-if="discardedStats"
-              class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
-            >
-              <div class="text-sm text-muted-foreground mb-2">Catégories</div>
-              <div class="flex items-center justify-center gap-2">
-                <Badge variant="outline">
-                  Libre {{ discardedStats.librePercentage }}%
-                </Badge>
-                <Badge variant="outline">
-                  Autres {{ discardedStats.otherCategoriesPercentage }}%
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       <!-- Current Theme Card (or Empty State) -->
-      <div v-if="currentTheme" class="mb-6">
+      <div v-if="currentTheme">
         <!-- Theme Display -->
         <div class="mb-6">
           <ThemeCardReadOnly
@@ -258,26 +205,79 @@ const recommencer = () => {
         </div>
 
         <!-- Action Buttons -->
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4 mb-6">
           <Button
             variant="outline"
             size="lg"
-            class="h-16 sm:h-20 text-lg sm:text-xl font-bold border-2 border-destructive text-destructive hover:bg-destructive/10"
-            @click="retirerTheme"
-          >
-            <X class="h-6 w-6 sm:h-8 sm:w-8 mr-2" />
-            Retirer
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            class="h-16 sm:h-20 text-lg sm:text-xl font-bold border-2 border-primary text-primary hover:bg-primary/10"
+            class="h-16 sm:h-20 text-lg sm:text-xl font-bold"
             @click="passerTheme"
           >
             <SkipForward class="h-6 w-6 sm:h-8 sm:w-8 mr-2" />
             Passer
           </Button>
+          <Button
+            variant="default"
+            size="lg"
+            class="h-16 sm:h-20 text-lg sm:text-xl font-bold"
+            @click="retirerTheme"
+          >
+            <X class="h-6 w-6 sm:h-8 sm:w-8 mr-2" />
+            Retirer
+          </Button>
         </div>
+
+        <!-- Statistics Bar -->
+        <Card class="mb-6 bg-accent border-accent">
+          <CardContent class="pt-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- Remaining Count -->
+              <div class="text-center">
+                <div class="text-3xl sm:text-4xl font-bold text-primary">
+                  {{ remainingCount }}
+                </div>
+                <div class="text-sm text-muted-foreground mt-1">
+                  Thème{{ remainingCount > 1 ? 's' : '' }} restant{{
+                    remainingCount > 1 ? 's' : ''
+                  }}
+                </div>
+              </div>
+
+              <!-- Discarded Stats: Mixte vs Catégorie -->
+              <div
+                v-if="discardedStats"
+                class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
+              >
+                <div class="text-sm text-muted-foreground mb-2">
+                  Retirés ({{ discardedStats.total }})
+                </div>
+                <div class="flex items-center justify-center gap-2">
+                  <Badge variant="outline">
+                    Mixte {{ discardedStats.mixtePercentage }}%
+                  </Badge>
+                  <Badge variant="outline">
+                    Cat. {{ discardedStats.categoriePercentage }}%
+                  </Badge>
+                </div>
+              </div>
+
+              <!-- Discarded Stats: Libre vs Others -->
+              <div
+                v-if="discardedStats"
+                class="text-center border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0"
+              >
+                <div class="text-sm text-muted-foreground mb-2">Catégories</div>
+                <div class="flex items-center justify-center gap-2">
+                  <Badge variant="outline">
+                    Libre {{ discardedStats.librePercentage }}%
+                  </Badge>
+                  <Badge variant="outline">
+                    Autres {{ discardedStats.otherCategoriesPercentage }}%
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <!-- Empty State -->
