@@ -107,9 +107,22 @@ Each category in `categories.json` contains:
 - [x] **BarilletViewerView.vue** - Read-only view for sharing barillets with:
   - Public viewing without authentication
   - Edit button for owners
+  - Mode Live button for interactive theme review
   - Share link functionality
   - Export dropdown menu (PDF, JSON, Excel, CSV)
   - Theme display in read-only format
+- [x] **BarilletLiveView.vue** - Interactive theme review mode with:
+  - Client-only session (no Firestore persistence)
+  - Random theme presentation (one at a time)
+  - Two actions per theme:
+    - "Passer" (left): Skip and show different theme
+    - "Retirer" (right, primary): Remove theme from stack
+  - Real-time statistics tracking:
+    - Remaining theme count
+    - Discarded themes breakdown (Mixte/Comparée, Libre/Autres)
+  - Empty state with restart functionality
+  - Prevents consecutive duplicate themes
+  - Mobile-first responsive design
 
 **Components** (reusable UI in `src/components/`):
 
@@ -122,8 +135,8 @@ Each category in `categories.json` contains:
 - [x] **BarilletCard.vue** - Summary card with:
   - Title, date, location
   - Computed stats (duration, type counts, libre percentage)
-  - Actions menu (edit, view, duplicate, delete, export to PDF/JSON/Excel/CSV)
-  - Edit and view buttons navigate to respective routes
+  - Actions menu (edit, view, Mode Live, duplicate, delete, export to PDF/JSON/Excel/CSV)
+  - Edit, view, and Mode Live buttons navigate to respective routes
   - Simplified date formatting
   - Export options with dropdown menu
 - [x] **ThemeCard.vue** - Individual theme editor (grid layout only) with:
@@ -185,6 +198,7 @@ Each category in `categories.json` contains:
 - **Auto-save with real-time sync** (1.5s debounce, onChange behavior)
 - **Sync status indicator** (shows Enregistré/Enregistrement.../Erreur)
 - **View barillets in read-only mode** (shareable public links)
+- **Interactive theme review mode (Live View)** with random selection and statistics
 - Export barillets to PDF, JSON, CSV, and Excel formats
 - Import barillets from JSON files
 - View all user's barillets in a grid
@@ -221,7 +235,8 @@ firebase-barillets-editor/
 │   │   ├── ForgotPasswordView.vue # Password reset page
 │   │   ├── HomeView.vue          # Dashboard page (wrapped in AppLayout)
 │   │   ├── BarilletEditorView.vue # Full editor (wrapped in AppLayout)
-│   │   └── BarilletViewerView.vue # Read-only viewer (wrapped in AppLayout)
+│   │   ├── BarilletViewerView.vue # Read-only viewer (wrapped in AppLayout)
+│   │   └── BarilletLiveView.vue  # Interactive theme review mode (wrapped in AppLayout)
 │   ├── components/
 │   │   ├── AppLayout.vue         # App-wide layout with header & footer
 │   │   ├── BarilletCard.vue      # Barillet summary card
@@ -256,13 +271,14 @@ firebase-barillets-editor/
 
 ### Available Routes
 
-| Route                | Name              | Component          | Auth Required | Layout | Description                         |
-| -------------------- | ----------------- | ------------------ | ------------- | ------ | ----------------------------------- |
-| `/`                  | `home`            | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list        |
-| `/login`             | `login`           | LoginView          | ❌ No         | ❌ No  | Authentication page                 |
-| `/forgot-password`   | `forgot-password` | ForgotPasswordView | ❌ No         | ❌ No  | Password reset request page         |
-| `/barillet/:id/edit` | `barillet-edit`   | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes     |
-| `/barillet/:id/view` | `barillet-view`   | BarilletViewerView | ❌ No         | ✅ Yes | Read-only public view of a barillet |
+| Route                | Name              | Component          | Auth Required | Layout | Description                            |
+| -------------------- | ----------------- | ------------------ | ------------- | ------ | -------------------------------------- |
+| `/`                  | `home`            | HomeView           | ✅ Yes        | ✅ Yes | Dashboard with barillet list           |
+| `/login`             | `login`           | LoginView          | ❌ No         | ❌ No  | Authentication page                    |
+| `/forgot-password`   | `forgot-password` | ForgotPasswordView | ❌ No         | ❌ No  | Password reset request page            |
+| `/barillet/:id/edit` | `barillet-edit`   | BarilletEditorView | ✅ Yes        | ✅ Yes | Full editor for barillet themes        |
+| `/barillet/:id/view` | `barillet-view`   | BarilletViewerView | ❌ No         | ✅ Yes | Read-only public view of a barillet    |
+| `/barillet/:id/live` | `barillet-live`   | BarilletLiveView   | ❌ No         | ✅ Yes | Interactive theme review mode (public) |
 
 ### Authentication Guards
 
@@ -333,4 +349,4 @@ This ensures type consistency throughout the Vue components while maintaining Fi
 
 ---
 
-**Last Updated**: 2025-10-19
+**Last Updated**: 2025-10-21
