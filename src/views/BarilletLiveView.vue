@@ -94,8 +94,18 @@ const discardedStats = computed(() => {
 // Get random theme from remaining stack
 const getRandomTheme = (): Theme | null => {
   if (remainingThemes.value.length === 0) return null;
-  const randomIndex = Math.floor(Math.random() * remainingThemes.value.length);
-  return remainingThemes.value[randomIndex];
+
+  // If there's more than one theme and we have a current theme,
+  // exclude it to ensure "Passer" always shows a different theme
+  let availableThemes = remainingThemes.value;
+  if (remainingThemes.value.length > 1 && currentTheme.value) {
+    availableThemes = remainingThemes.value.filter(
+      (t) => t !== currentTheme.value
+    );
+  }
+
+  const randomIndex = Math.floor(Math.random() * availableThemes.length);
+  return availableThemes[randomIndex];
 };
 
 // Draw next theme
