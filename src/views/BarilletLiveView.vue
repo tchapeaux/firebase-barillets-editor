@@ -131,6 +131,12 @@ const passerTheme = () => {
 const goBack = () => {
   router.push({ name: 'home' });
 };
+
+// Reset the live session
+const recommencer = () => {
+  isInitialized.value = false;
+  initializeStack();
+};
 </script>
 
 <template>
@@ -283,34 +289,19 @@ const goBack = () => {
             <p class="text-muted-foreground mb-6">
               Tous les thèmes ont été retirés du barillet.
             </p>
-            <div v-if="discardedStats" class="mb-6 text-left">
-              <div class="text-sm font-semibold text-muted-foreground mb-3">
-                Récapitulatif ({{ discardedStats.total }} thèmes retirés)
-              </div>
-              <div class="space-y-2">
-                <div class="flex justify-between items-center">
-                  <span class="text-muted-foreground">Mixte</span>
-                  <Badge>{{ discardedStats.mixtePercentage }}%</Badge>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-muted-foreground">Catégorie</span>
-                  <Badge>{{ discardedStats.categoriePercentage }}%</Badge>
-                </div>
-                <div
-                  class="flex justify-between items-center border-t pt-2 mt-2"
-                >
-                  <span class="text-muted-foreground">Libre</span>
-                  <Badge>{{ discardedStats.librePercentage }}%</Badge>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-muted-foreground">Autres catégories</span>
-                  <Badge>{{ discardedStats.otherCategoriesPercentage }}%</Badge>
-                </div>
-              </div>
+            <div class="flex flex-col gap-3">
+              <Button size="lg" class="w-full" @click="recommencer">
+                Recommencer
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                class="w-full"
+                @click="goBack"
+              >
+                Retour à l'accueil
+              </Button>
             </div>
-            <Button size="lg" class="w-full" @click="goBack">
-              Retour à l'accueil
-            </Button>
           </CardContent>
         </Card>
       </div>
