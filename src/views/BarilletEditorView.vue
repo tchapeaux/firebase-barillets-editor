@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useDebounceFn, watchDeep } from '@vueuse/core';
+import { toast } from 'vue-sonner';
 import { useAuth } from '../composables/useAuth';
 import { useBarilletById } from '../composables/useBarilletById';
 import { updateBarillet } from '../services/barillet';
@@ -173,7 +174,7 @@ const copyShareLink = async () => {
     }, 2000);
   } catch (err) {
     console.error('Failed to copy link:', err);
-    alert('Impossible de copier le lien');
+    toast.error('Impossible de copier le lien');
   }
 };
 

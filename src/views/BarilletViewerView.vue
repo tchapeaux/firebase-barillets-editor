@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { toast } from 'vue-sonner';
 import { useAuth } from '../composables/useAuth';
 import { useBarilletById } from '../composables/useBarilletById';
 import { useBarilletExport } from '../composables/useBarilletExport';
@@ -85,7 +86,7 @@ const copyShareLink = async () => {
     }, 2000);
   } catch (err) {
     console.error('Failed to copy link:', err);
-    alert('Impossible de copier le lien');
+    toast.error('Impossible de copier le lien');
   }
 };
 
@@ -109,7 +110,7 @@ const handleExportFile = async (format: 'pdf' | 'json' | 'xlsx' | 'csv') => {
     }
   } catch (err) {
     console.error(`Failed to export ${format}:`, err);
-    alert(`Impossible d'exporter en ${format.toUpperCase()}`);
+    toast.error(`Impossible d'exporter en ${format.toUpperCase()}`);
   }
 };
 </script>

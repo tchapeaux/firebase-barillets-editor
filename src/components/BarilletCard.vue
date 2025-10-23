@@ -48,7 +48,7 @@
           Exporter en CSV
         </DropdownMenuItem>
 
-        <DropdownMenuItem variant="destructive" @click="handleDelete">
+        <DropdownMenuItem variant="destructive" @click="showDeleteConfirm">
           <Trash2 class="h-4 w-4" />
           Supprimer
         </DropdownMenuItem>
@@ -124,11 +124,22 @@
         Live
       </Button>
     </div>
+
+    <!-- Delete Confirmation Dialog -->
+    <ConfirmDialog
+      v-model:open="deleteDialogOpen"
+      title="Confirmer la suppression"
+      :description="`Êtes-vous sûr de vouloir supprimer &quot;${barillet.title || 'ce barillet'}&quot; ? Cette action est irréversible.`"
+      confirm-text="Supprimer"
+      cancel-text="Annuler"
+      variant="destructive"
+      @confirm="handleDelete"
+    />
   </Card>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { calculateBarilletStats, type Barillet } from '../types/barillet';
 import Card from '@/components/ui/card.vue';
 import CardHeader from '@/components/ui/cardHeader.vue';
@@ -138,6 +149,7 @@ import Button from '@/components/ui/button.vue';
 import Badge from '@/components/ui/badge.vue';
 import DropdownMenu from '@/components/ui/dropdownMenu.vue';
 import DropdownMenuItem from '@/components/ui/dropdownMenuItem.vue';
+import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 import {
   Calendar,
   MapPin,
@@ -167,6 +179,8 @@ const emit = defineEmits<{
   delete: [id: string];
   export: [id: string, format: 'pdf' | 'json' | 'xlsx' | 'csv'];
 }>();
+
+const deleteDialogOpen = ref(false);
 
 const stats = computed(() => calculateBarilletStats(props.barillet));
 
@@ -204,13 +218,12 @@ const handleDuplicate = () => {
   }
 };
 
+const showDeleteConfirm = () => {
+  deleteDialogOpen.value = true;
+};
+
 const handleDelete = () => {
-  if (
-    props.barillet.id &&
-    confirm(
-      `Êtes-vous sûr de vouloir supprimer "${props.barillet.title || 'ce barillet'}" ?`
-    )
-  ) {
+  if (props.barillet.id) {
     emit('delete', props.barillet.id);
   }
 };
