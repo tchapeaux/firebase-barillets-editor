@@ -314,7 +314,43 @@ export type ThemeType = 'Mixte' | 'Comparée';
 
 - Mobile-first approach
 - Use Tailwind CSS responsive utilities (`sm:`, `md:`, `lg:`)
+- Use container queries (`@container`, `@sm:`, `@lg:`, etc.) for component-level responsive behavior
 - Test on mobile viewport (375px minimum)
+
+**Container Queries vs Media Queries:**
+
+Container queries allow components to respond to their container's size rather than the viewport size, making them more reusable and context-aware.
+
+**When to use container queries:**
+
+- Card components that appear in different layouts (grids, sidebars, modals)
+- Components with internal responsive layouts (button groups, field layouts)
+- Reusable components that need to adapt to their container
+
+**When to use media queries:**
+
+- Page-level layouts and navigation
+- Global breakpoints for major layout shifts
+- Features that should respond to device/viewport size
+
+**Example:**
+
+```vue
+<template>
+  <!-- Container query - responds to card width -->
+  <Card class="@container">
+    <div class="flex flex-col @lg:flex-row gap-2">
+      <Button>Action 1</Button>
+      <Button>Action 2</Button>
+    </div>
+  </Card>
+
+  <!-- Media query - responds to viewport width -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <!-- Cards in grid -->
+  </div>
+</template>
+```
 
 ### Accessibility
 
@@ -438,7 +474,40 @@ export const useBarillets = () => {
 - Prefer utilities over custom CSS
 - Use `@apply` directive sparingly (only for repeated patterns)
 - Follow mobile-first responsive design
+- Use container queries (`@container`) for component-level responsive behavior
 - Prefer design system tokens instead of hardcoded color names
+
+**Container Query Usage:**
+
+The project uses `@tailwindcss/container-queries` plugin. To make a component container-aware:
+
+1. Add `@container` class to the container element
+2. Use container query modifiers (`@sm:`, `@md:`, `@lg:`, etc.) on child elements
+3. Use arbitrary values for custom breakpoints: `@[22rem]:flex-row`
+
+**Example:**
+
+```vue
+<Card class="@container">
+  <!-- Buttons stack vertically when card < 384px, horizontal when wider -->
+  <div class="flex flex-col @sm:flex-row gap-2">
+    <Button class="flex-1 @sm:h-9">Edit</Button>
+    <Button class="flex-1 @sm:h-9">View</Button>
+  </div>
+</Card>
+```
+
+**Container Breakpoints:**
+
+Default container query breakpoints (configurable in `tailwind.config.js`):
+
+- `@xs`: 20rem (320px)
+- `@sm`: 24rem (384px)
+- `@md`: 28rem (448px)
+- `@lg`: 32rem (512px)
+- `@xl`: 36rem (576px)
+
+For precise control, use arbitrary values: `@[22rem]:flex-row`
 
 ### Design System & Color Tokens
 
@@ -603,4 +672,4 @@ When custom CSS is needed:
 
 ---
 
-**Last Updated**: 2025-10-17
+**Last Updated**: 2025-10-23

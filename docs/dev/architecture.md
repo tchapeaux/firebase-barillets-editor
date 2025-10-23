@@ -6,7 +6,7 @@
 - **Routing**: Vue Router 4.x
 - **Backend**: Firebase (Firestore + Authentication)
 - **Build Tool**: Vite 7.x
-- **Styling**: Tailwind CSS 3.4+ with PostCSS & Autoprefixer
+- **Styling**: Tailwind CSS 3.4+ with PostCSS, Autoprefixer, and Container Queries plugin
 - **UI Components**: shadcn-vue (Radix Vue primitives + Tailwind)
 - **Icons**: Lucide Vue Next
 
@@ -19,6 +19,7 @@
 - [x] Firebase SDK integration (Firestore + Auth)
 - [x] Development and build scripts
 - [x] Tailwind CSS 3.4+ configuration with custom theme
+- [x] Container queries plugin for responsive components
 - [x] shadcn-vue component library setup
 - [x] CSS variables for theming (light/dark mode ready)
 
@@ -129,7 +130,7 @@ Each category in `categories.json` contains:
   - Title, date, location
   - Computed stats (duration, type counts, libre percentage)
   - Actions menu (edit, view, duplicate, delete, export to PDF/JSON/Excel/CSV)
-  - Edit and view buttons navigate to respective routes
+  - Edit, view, and live action buttons
   - Simplified date formatting
   - Export options with dropdown menu
 - [x] **ThemeCard.vue** - Individual theme editor (grid layout only) with:
@@ -139,8 +140,9 @@ Each category in `categories.json` contains:
   - Category input with autocomplete (CategoryCombobox)
   - Duration input (value, special/fixed type)
   - Internal notes field
-  - **Auto-emit changes on input** (triggers parent auto-save)
+  - Auto-emit changes on input (triggers parent auto-save)
 - [x] **ThemeCardReadOnly.vue** - Read-only theme display for viewer mode and live mode
+  - Container-aware 2-column layout matching editable card behavior
 - [x] **ThemeTableRow.vue** - Table row theme editor (compact layout) with:
   - Auto-save functionality
   - Category input with autocomplete (CategoryCombobox)
@@ -376,4 +378,4 @@ This ensures type consistency throughout the Vue components while maintaining Fi
 
 ---
 
-**Last Updated**: 2025-10-21
+**Last Updated**: 2025-10-23
