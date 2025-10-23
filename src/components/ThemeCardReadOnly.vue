@@ -25,7 +25,7 @@ const categoryDescription = computed(() => {
 </script>
 
 <template>
-  <Card class="overflow-hidden">
+  <Card class="overflow-hidden @container">
     <!-- Header with Title and Type -->
     <div class="bg-muted px-3 py-2 border-b border-muted">
       <div class="flex items-center gap-2">
@@ -56,7 +56,7 @@ const categoryDescription = computed(() => {
     <!-- Card Body -->
     <div class="px-3 py-3 bg-white space-y-3">
       <!-- Row 1: Category and Participation -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 @lg:grid-cols-2 gap-3">
         <!-- Participation Field -->
         <div>
           <Label class="text-xs text-muted-foreground mb-1 block"
@@ -106,7 +106,7 @@ const categoryDescription = computed(() => {
       </div>
 
       <!-- Row 2: Duration and Notes -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 @lg:grid-cols-2 gap-3">
         <!-- Duration Field -->
         <div>
           <Label class="text-xs text-muted-foreground mb-1 block">Durée</Label>

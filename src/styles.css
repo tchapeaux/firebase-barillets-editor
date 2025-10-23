@@ -99,3 +99,44 @@
       Arial, sans-serif;
   }
 }
+
+/* Vue Sonner Toast Styling */
+[data-sonner-toaster] {
+  @apply fixed bottom-0 right-0 z-50 flex flex-col gap-3 p-4;
+}
+
+[data-sonner-toast] {
+  @apply rounded-lg border px-4 py-3 shadow-lg transition-all;
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-color: hsl(var(--border));
+}
+
+/* Success Toast */
+[data-sonner-toast][data-type='success'] {
+  @apply border-l-4;
+  border-left-color: hsl(var(--success));
+  background: hsl(var(--success-light));
+  color: hsl(var(--success));
+}
+
+/* Error Toast */
+[data-sonner-toast][data-type='error'] {
+  @apply border-l-4;
+  border-left-color: hsl(var(--destructive));
+  background: hsl(0 84.2% 97%);
+  color: hsl(var(--destructive));
+}
+
+/* Info Toast */
+[data-sonner-toast][data-type='info'] {
+  @apply border-l-4;
+  border-left-color: hsl(var(--info));
+  background: hsl(var(--info-light));
+  color: hsl(var(--info));
+}
+
+/* Close Button */
+[data-sonner-close-button] {
+  @apply text-muted-foreground hover:text-foreground transition-colors;
+}

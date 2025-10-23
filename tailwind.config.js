@@ -92,7 +92,14 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      containers: {
+        xs: '20rem', // 320px
+        sm: '24rem', // 384px - minimum width for 3 buttons side-by-side
+        md: '28rem', // 448px
+        lg: '32rem', // 512px
+        xl: '36rem', // 576px
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/container-queries')],
 };

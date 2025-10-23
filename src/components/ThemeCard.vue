@@ -88,7 +88,7 @@ updateDurationInputs(props.theme.duration.value);
 </script>
 
 <template>
-  <Card class="overflow-hidden hover:shadow-md transition-shadow">
+  <Card class="overflow-hidden hover:shadow-md transition-shadow @container">
     <!-- Header with Title Input and Type Selector -->
     <div class="bg-muted px-3 py-2 border-b border-muted">
       <div class="flex items-center gap-2">
@@ -144,7 +144,7 @@ updateDurationInputs(props.theme.duration.value);
     <!-- Card Body -->
     <div class="px-3 py-3 bg-white space-y-3">
       <!-- Row 1: Category and Participation -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 @lg:grid-cols-2 gap-3">
         <!-- Participation Field -->
         <div>
           <Label class="text-xs text-muted-foreground mb-1 block"
@@ -192,7 +192,7 @@ updateDurationInputs(props.theme.duration.value);
       </div>
 
       <!-- Row 2: Duration and Notes (2 columns on desktop) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 @lg:grid-cols-2 gap-3">
         <!-- Duration Field -->
         <div>
           <Label class="text-xs text-muted-foreground mb-1.5 block"

@@ -1,5 +1,7 @@
 <template>
-  <Card class="transition-shadow hover:shadow-lg">
+  <Card
+    class="transition-shadow hover:shadow-lg flex flex-col h-full @container"
+  >
     <CardHeader class="flex-row justify-between items-start space-y-0 pb-2">
       <div class="flex-1">
         <CardTitle>{{ barillet.title || 'Sans titre' }}</CardTitle>
@@ -15,29 +17,20 @@
         </div>
       </div>
 
+      <!-- More Actions Dropdown -->
       <DropdownMenu>
         <template #trigger>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" class="h-8 w-8">
             <MoreVertical class="h-4 w-4" />
           </Button>
         </template>
 
-        <DropdownMenuItem @click="handleEdit">
-          <Pencil class="h-4 w-4" />
-          Modifier
-        </DropdownMenuItem>
-        <DropdownMenuItem @click="handleView">
-          <Eye class="h-4 w-4" />
-          Voir
-        </DropdownMenuItem>
-        <DropdownMenuItem @click="handleLive">
-          <Play class="h-4 w-4" />
-          Mode Live
-        </DropdownMenuItem>
         <DropdownMenuItem @click="handleDuplicate">
           <Copy class="h-4 w-4" />
           Dupliquer
         </DropdownMenuItem>
+
+        <!-- Export options -->
         <DropdownMenuItem @click="() => handleExport('pdf')">
           <Download class="h-4 w-4" />
           Exporter en PDF
@@ -54,6 +47,7 @@
           <FileText class="h-4 w-4" />
           Exporter en CSV
         </DropdownMenuItem>
+
         <DropdownMenuItem variant="destructive" @click="handleDelete">
           <Trash2 class="h-4 w-4" />
           Supprimer
@@ -61,46 +55,75 @@
       </DropdownMenu>
     </CardHeader>
 
-    <CardContent class="pt-4">
-      <div class="flex flex-wrap gap-4 border-t pt-4">
-        <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide"
-            >Durée totale</span
-          >
-          <span class="text-base font-semibold">{{ stats.totalDuration }}</span>
+    <CardContent class="pt-4 flex-1">
+      <div class="border-t pt-4">
+        <!-- First row: Duration and Theme count -->
+        <div class="flex gap-6 mb-3">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs text-muted-foreground uppercase tracking-wide"
+              >Durée</span
+            >
+            <span class="text-lg font-semibold">{{ stats.totalDuration }}</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs text-muted-foreground uppercase tracking-wide"
+              >Thèmes</span
+            >
+            <span class="text-lg font-semibold">{{ stats.themeCount }}</span>
+          </div>
         </div>
-        <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide"
-            >Thèmes</span
-          >
-          <span class="text-base font-semibold">{{ stats.themeCount }}</span>
-        </div>
-        <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide"
-            >Mixtes</span
-          >
-          <Badge variant="default" class="bg-type-mixte-foreground w-fit">{{
-            stats.typeProportions.mixte
-          }}</Badge>
-        </div>
-        <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide"
-            >Comparées</span
-          >
-          <Badge variant="default" class="bg-type-comparee-foreground w-fit">{{
-            stats.typeProportions.comparee
-          }}</Badge>
-        </div>
-        <div class="flex flex-col gap-1">
-          <span class="text-xs text-muted-foreground uppercase tracking-wide"
-            >Libres</span
-          >
-          <Badge variant="secondary" class="w-fit"
-            >{{ stats.libreCount }} ({{ stats.librePercentage }}%)</Badge
-          >
+
+        <!-- Second row: Type distribution -->
+        <div class="flex flex-wrap gap-3">
+          <div class="flex items-center gap-2">
+            <Badge variant="default" class="bg-type-mixte-foreground">
+              {{ stats.typeProportions.mixte }}
+            </Badge>
+            <span class="text-xs text-muted-foreground">Mixte</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <Badge variant="default" class="bg-type-comparee-foreground">
+              {{ stats.typeProportions.comparee }}
+            </Badge>
+            <span class="text-xs text-muted-foreground">Comparée</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <Badge variant="secondary">
+              {{ Math.round(stats.librePercentage) }}%
+            </Badge>
+            <span class="text-xs text-muted-foreground">Libre</span>
+          </div>
         </div>
       </div>
     </CardContent>
+
+    <!-- Primary Actions Footer -->
+    <div class="border-t px-4 py-3 flex gap-2 flex-col @[22rem]:flex-row">
+      <Button
+        variant="default"
+        class="flex-1 h-10 whitespace-nowrap"
+        @click="handleEdit"
+      >
+        <Pencil class="h-4 w-4 mr-2" />
+        Modifier
+      </Button>
+      <Button
+        variant="outline"
+        class="flex-1 h-10 whitespace-nowrap"
+        @click="handleView"
+      >
+        <Eye class="h-4 w-4 mr-2" />
+        Voir
+      </Button>
+      <Button
+        variant="outline"
+        class="flex-1 h-10 whitespace-nowrap"
+        @click="handleLive"
+      >
+        <Play class="h-4 w-4 mr-2" />
+        Live
+      </Button>
+    </div>
   </Card>
 </template>
 

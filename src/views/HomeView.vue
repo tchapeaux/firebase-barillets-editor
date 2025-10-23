@@ -81,6 +81,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { toast } from 'vue-sonner';
 import { useAuth } from '../composables/useAuth';
 import { useBarillets } from '../composables/useBarillets';
 import { useBarilletExport } from '../composables/useBarilletExport';
@@ -118,7 +119,7 @@ const handleCreateBarillet = async () => {
   });
 
   if (!result.success) {
-    alert(`Erreur lors de la création : ${result.error}`);
+    toast.error(`Erreur lors de la création : ${result.error}`);
   } else if (result.id) {
     // Redirect to the editor for the newly created barillet
     router.push({ name: 'barillet-edit', params: { id: result.id } });
@@ -140,7 +141,9 @@ const handleLive = (barilletId: string) => {
 const handleDuplicate = async (barilletId: string) => {
   const result = await duplicateBarillet(barilletId);
   if (!result.success) {
-    alert(`Erreur lors de la duplication : ${result.error}`);
+    toast.error(`Erreur lors de la duplication : ${result.error}`);
+  } else {
+    toast.success('Barillet dupliqué');
   }
   // Note: The duplicated barillet will appear automatically
 };
@@ -148,9 +151,10 @@ const handleDuplicate = async (barilletId: string) => {
 const handleDelete = async (barilletId: string) => {
   const result = await deleteBarillet(barilletId);
   if (!result.success) {
-    alert(`Erreur lors de la suppression : ${result.error}`);
+    toast.error(`Erreur lors de la suppression : ${result.error}`);
+  } else {
+    toast.success('Barillet supprimé');
   }
-  // Note: The barillet will disappear automatically
 };
 
 const handleExport = async (
@@ -175,9 +179,10 @@ const handleExport = async (
         await exportToExcel(barillet);
         break;
     }
+    toast.success(`Barillet exporté en ${format.toUpperCase()}`);
   } catch (err) {
     console.error(`Export to ${format} failed:`, err);
-    alert(`Impossible d'exporter en ${format.toUpperCase()}`);
+    toast.error(`Impossible d'exporter en ${format.toUpperCase()}`);
   }
 };
 
@@ -197,14 +202,17 @@ const handleFileChange = async (event: Event) => {
     const result = await importFromJson(file);
 
     if (!result.success) {
-      alert(`Erreur lors de l'import : ${result.error || 'Erreur inconnue'}`);
+      toast.error(
+        `Erreur lors de l'import : ${result.error || 'Erreur inconnue'}`
+      );
     } else if (result.barilletId) {
+      toast.success('Barillet importé avec succès');
       // Success - redirect to editor
       router.push({ name: 'barillet-edit', params: { id: result.barilletId } });
     }
   } catch (err) {
     console.error('Import failed:', err);
-    alert("Erreur lors de l'import du fichier");
+    toast.error("Erreur lors de l'import du fichier");
   } finally {
     importing.value = false;
     // Reset file input
