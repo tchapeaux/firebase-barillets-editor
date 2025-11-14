@@ -13,7 +13,7 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'logo-zebra.png'],
+      includeAssets: ['logo-zebra.svg', 'favicon.ico', 'apple-touch-icon.png'],
       manifest: {
         name: 'Editeur de barillets',
         short_name: 'Mes Barillets',

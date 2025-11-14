@@ -21,7 +21,11 @@
               to="/"
               class="hover:text-primary transition-colors flex items-center gap-3"
             >
-              <img aria-hidden="true" src="/logo-zebra.png" class="h-14 w-14" />
+              <img
+                aria-hidden="true"
+                src="/logo-zebra.svg"
+                class="h-14 w-auto"
+              />
               <span>Editeur de barillets</span>
             </router-link>
           </h1>

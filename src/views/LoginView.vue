@@ -4,7 +4,7 @@
       <!-- Title Card -->
       <div class="text-center space-y-4">
         <div class="flex justify-center">
-          <img aria-hidden="true" src="/logo-zebra.png" class="h-20 w-20" />
+          <img aria-hidden="true" src="/logo-zebra.svg" class="h-20 w-auto" />
         </div>
         <h1 class="text-3xl font-bold tracking-tight">Editeur de barillets</h1>
         <h2 class="text-xl font-medium text-muted-foreground">
