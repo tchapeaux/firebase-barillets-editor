@@ -91,7 +91,7 @@ const categoryDescription = computed(() => {
               <template #trigger>
                 <button
                   type="button"
-                  class="shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-green-500 rounded"
+                  class="shrink-0 focus:outline-hidden focus:ring-2 focus:ring-offset-1 focus:ring-green-500 rounded"
                   aria-label="Afficher la description de la catégorie"
                 >
                   <Info class="w-4 h-4 opacity-70 hover:opacity-100" />

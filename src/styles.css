@@ -1,6 +1,62 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme inline {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-light: hsl(var(--success-light));
+  --color-success-border: hsl(var(--success-border));
+
+  --color-info: hsl(var(--info));
+  --color-info-light: hsl(var(--info-light));
+  --color-info-border: hsl(var(--info-border));
+
+  --color-highlight: hsl(var(--highlight));
+  --color-highlight-bg: hsl(var(--highlight-bg));
+
+  --color-type-mixte: hsl(var(--type-mixte));
+  --color-type-mixte-foreground: hsl(var(--type-mixte-foreground));
+  --color-type-mixte-hover: hsl(var(--type-mixte-hover));
+
+  --color-type-comparee: hsl(var(--type-comparee));
+  --color-type-comparee-foreground: hsl(var(--type-comparee-foreground));
+  --color-type-comparee-hover: hsl(var(--type-comparee-hover));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 36rem;
+}
 
 @layer base {
   :root {

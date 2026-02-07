@@ -189,7 +189,7 @@ const handleExportFile = async (format: 'pdf' | 'json' | 'xlsx' | 'csv') => {
             </Button>
             <Button
               variant="default"
-              class="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+              class="w-full sm:w-auto bg-linear-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
               @click="goToLive"
             >
               <Play class="mr-2 h-4 w-4" />
