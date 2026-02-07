@@ -170,7 +170,7 @@ This document outlines planned features, improvements, and technical debt to add
 - [ ] System theme detection (prefers-color-scheme)
 - [ ] Smooth transition animations between themes
 
-**Note**: CSS variables for theming are already set up.
+**Note**: The theming infrastructure uses CSS variables in `src/styles.css`. Dark mode values would need to be added in a `.dark` selector block.
 
 **Acceptance Criteria**:
 

@@ -517,16 +517,16 @@ The application uses a design system based on **CSS custom properties (CSS varia
 
 **Base Colors** (available as `bg-*`, `text-*`, `border-*`):
 
-| Token         | Purpose                      | Light Value          | Dark Value       |
-| ------------- | ---------------------------- | -------------------- | ---------------- |
-| `background`  | Page background              | Warm cream (#fffac9) | Dark blue-gray   |
-| `foreground`  | Primary text                 | Dark gray            | Light gray       |
-| `card`        | Card/surface backgrounds     | Warm off-white       | Dark gray        |
-| `primary`     | Primary actions (buttons)    | Blue (#3B82F6)       | Light blue       |
-| `secondary`   | Secondary UI elements        | Warm gray            | Cool gray        |
-| `muted`       | Disabled/neutral backgrounds | Light warm gray      | Medium gray      |
-| `accent`      | Subtle accents               | Light beige          | Medium warm gray |
-| `destructive` | Error/delete states          | Red (#EF4444)        | Light red        |
+| Token         | Purpose                      | Value                |
+| ------------- | ---------------------------- | -------------------- |
+| `background`  | Page background              | Warm cream (#fffac9) |
+| `foreground`  | Primary text                 | Dark gray            |
+| `card`        | Card/surface backgrounds     | Warm off-white       |
+| `primary`     | Primary actions (buttons)    | Blue (#3B82F6)       |
+| `secondary`   | Secondary UI elements        | Warm gray            |
+| `muted`       | Disabled/neutral backgrounds | Light warm gray      |
+| `accent`      | Subtle accents               | Light beige          |
+| `destructive` | Error/delete states          | Red (#EF4444)        |
 
 #### Status & Semantic Tokens
 
@@ -597,24 +597,19 @@ The application uses a design system based on **CSS custom properties (CSS varia
 
 #### Where to Find Color Definitions
 
-- **CSS Variables**: [`src/styles.css`](../../src/styles.css) (both light and dark mode values in `:root` / `.dark`)
+- **CSS Variables**: [`src/styles.css`](../../src/styles.css) (values in `:root` block)
 - **Theme Mapping**: [`src/styles.css`](../../src/styles.css) (`@theme inline` block maps CSS variables to Tailwind utility classes)
 
 #### Adding New Color Tokens
 
 If you need to add a new semantic color:
 
-1. **Define the CSS variable** in `src/styles.css` (inside the `:root` and `.dark` blocks):
+1. **Define the CSS variable** in `src/styles.css` (inside the `:root` block):
 
    ```css
    :root {
      --my-custom-color: 210 100% 50%;
      --my-custom-color-light: 210 100% 95%;
-   }
-
-   .dark {
-     --my-custom-color: 210 90% 40%;
-     --my-custom-color-light: 210 90% 20%;
    }
    ```
 

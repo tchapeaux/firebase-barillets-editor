@@ -20,7 +20,7 @@
 - [x] Development and build scripts
 - [x] Tailwind CSS 4.x configuration with CSS-based theme (@theme directive)
 - [x] shadcn-vue component library setup
-- [x] CSS variables for theming (light/dark mode ready)
+- [x] CSS variables for theming
 
 ### ✅ Authentication
 
