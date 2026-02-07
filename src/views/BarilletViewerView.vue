@@ -37,6 +37,7 @@ const barilletId = computed(() => route.params.id as string);
 
 // Fetch barillet data
 const { barillet, loading, error, isOwner } = useBarilletById(barilletId, user);
+const isAuthenticated = computed(() => !!user.value);
 
 // State for copy link functionality
 const linkCopied = ref(false);
@@ -73,6 +74,10 @@ const goToLive = () => {
   if (barillet.value?.id) {
     router.push({ name: 'barillet-live', params: { id: barillet.value.id } });
   }
+};
+
+const goToLogin = () => {
+  router.push({ name: 'login' });
 };
 
 // Copy share link to clipboard
@@ -255,6 +260,41 @@ const handleExportFile = async (format: 'pdf' | 'json' | 'xlsx' | 'csv') => {
           />
         </div>
       </div>
+
+      <!-- Public CTA banner -->
+      <Card
+        v-if="!isAuthenticated"
+        class="mt-8 p-6 border-primary/20 bg-gradient-to-r from-primary/5 via-transparent to-primary/5"
+      >
+        <div class="flex flex-col md:flex-row md:items-center gap-4">
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold mb-2">
+              Créez vos propres barillets, en quelques minutes
+            </h3>
+            <p class="text-sm text-muted-foreground">
+              Centralisez vos thèmes, éditez vos barillets en temps réel,
+              partagez-les facilement et exportez en PDF/CSV/Excel pour vos
+              matchs d'impro.
+            </p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <Button
+              variant="default"
+              class="w-full sm:w-auto"
+              @click="goToLogin"
+            >
+              Créer un compte gratuit
+            </Button>
+            <Button
+              variant="outline"
+              class="w-full sm:w-auto"
+              @click="goToLogin"
+            >
+              Se connecter
+            </Button>
+          </div>
+        </div>
+      </Card>
     </div>
   </div>
 </template>
