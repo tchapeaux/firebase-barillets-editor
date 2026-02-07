@@ -276,25 +276,24 @@ export function useBarilletExport() {
    * Export a barillet to Excel format
    */
   const exportToExcel = async (barillet: Barillet): Promise<void> => {
-    // Dynamic import of xlsx to reduce initial bundle size
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const XLSX: any = await import('xlsx');
+    // Dynamic import of ExcelJS to reduce initial bundle size
+    const ExcelJS = await import('exceljs');
 
-    // Create a new workbook
-    const wb = XLSX.utils.book_new();
+    const wb = new ExcelJS.Workbook();
 
     // Create metadata sheet
-    const metadataData = [
-      ['Title', barillet.title],
-      ['Date', barillet.date ? barillet.date.toLocaleDateString('fr-FR') : ''],
-      ['Location', barillet.location],
-      ['Total Themes', barillet.themes.length],
-    ];
-
-    const metadataSheet = XLSX.utils.aoa_to_sheet(metadataData);
-    XLSX.utils.book_append_sheet(wb, metadataSheet, 'Metadata');
+    const metadataSheet = wb.addWorksheet('Metadata');
+    metadataSheet.addRow(['Title', barillet.title]);
+    metadataSheet.addRow([
+      'Date',
+      barillet.date ? barillet.date.toLocaleDateString('fr-FR') : '',
+    ]);
+    metadataSheet.addRow(['Location', barillet.location]);
+    metadataSheet.addRow(['Total Themes', barillet.themes.length]);
 
     // Create themes sheet
+    const themesSheet = wb.addWorksheet('Themes');
+
     const themeHeaders = [
       'Theme #',
       'Type',
@@ -306,9 +305,10 @@ export function useBarilletExport() {
       'Notes',
     ];
 
-    const themeData = [
-      themeHeaders,
-      ...barillet.themes.map((theme, index) => [
+    themesSheet.addRow(themeHeaders);
+
+    barillet.themes.forEach((theme, index) => {
+      themesSheet.addRow([
         index + 1,
         theme.type,
         theme.title || '',
@@ -317,30 +317,33 @@ export function useBarilletExport() {
         theme.duration.value,
         theme.duration.type,
         theme.notes || '',
-      ]),
-    ];
-
-    const themesSheet = XLSX.utils.aoa_to_sheet(themeData);
+      ]);
+    });
 
     // Set column widths
     const colWidths = [10, 10, 25, 15, 15, 12, 12, 20];
-    themesSheet['!cols'] = colWidths.map((width) => ({ wch: width }));
+    themesSheet.columns.forEach((col, i) => {
+      col.width = colWidths[i];
+    });
 
-    // Style header row (bold)
-    for (let i = 0; i < themeHeaders.length; i++) {
-      const cellRef = XLSX.utils.encode_cell({ r: 0, c: i });
-      if (!themesSheet[cellRef]) continue;
-      themesSheet[cellRef].s = {
-        font: { bold: true },
-        fill: { fgColor: { rgb: 'FFF3CD' } },
+    // Style header row (bold + fill color)
+    const headerRow = themesSheet.getRow(1);
+    headerRow.font = { bold: true };
+    headerRow.eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFFF3CD' },
       };
-    }
-
-    XLSX.utils.book_append_sheet(wb, themesSheet, 'Themes');
+    });
 
     // Save the workbook
     const filename = `${sanitizeFilename(barillet.title)}.xlsx`;
-    XLSX.writeFile(wb, filename);
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    downloadFile(blob, filename);
   };
 
   return {

@@ -217,7 +217,7 @@ Live Mode provides an interactive way to review and filter themes from a barille
 - [Composable: useBarilletExport.ts](../../src/composables/useBarilletExport.ts) - All export functionality with dynamic imports for PDF and Excel
 - [Composable: useBarilletImport.ts](../../src/composables/useBarilletImport.ts) - Import validation and creation logic
 - [Type: ImportedBarilletData](../../src/types/barillet.ts) - Type definition for JSON import format
-- Dynamic imports reduce initial bundle: jsPDF and xlsx loaded only when needed
+- Dynamic imports reduce initial bundle: jsPDF and ExcelJS loaded only when needed
 
 ### ✅ Features Working
 
