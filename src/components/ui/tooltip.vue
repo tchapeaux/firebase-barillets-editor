@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  TooltipContent,
-  TooltipProvider,
-  TooltipRoot,
-  TooltipTrigger,
-} from 'radix-vue';
-import { cn } from '@/lib/utils';
+import { ref, computed, onBeforeUnmount } from 'vue';
 
 interface Props {
   delayDuration?: number;
@@ -16,28 +10,91 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   delayDuration: 400,
   side: 'top',
-  sideOffset: 4,
+  sideOffset: 6,
+});
+
+const anchorId = `--tooltip-${Math.random().toString(36).slice(2, 9)}`;
+const isOpen = ref(false);
+let openTimeout: ReturnType<typeof setTimeout> | null = null;
+let closeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+const positionArea = computed(() => {
+  const map: Record<string, string> = {
+    top: 'top center',
+    bottom: 'bottom center',
+    left: 'left center',
+    right: 'right center',
+  };
+  return map[props.side];
+});
+
+const marginProp = computed(() => {
+  const map: Record<string, string> = {
+    top: 'margin-bottom',
+    bottom: 'margin-top',
+    left: 'margin-right',
+    right: 'margin-left',
+  };
+  return map[props.side];
+});
+
+const tooltipStyle = computed(
+  () =>
+    `position: fixed; position-anchor: ${anchorId}; position-area: ${positionArea.value}; ${marginProp.value}: ${props.sideOffset}px; position-try-fallbacks: flip-block flip-inline; position-visibility: anchors-visible; z-index: 50; max-width: 20rem; width: max-content;`
+);
+
+const show = () => {
+  if (closeTimeout) {
+    clearTimeout(closeTimeout);
+    closeTimeout = null;
+  }
+  openTimeout = setTimeout(() => {
+    isOpen.value = true;
+  }, props.delayDuration);
+};
+
+const hide = () => {
+  if (openTimeout) {
+    clearTimeout(openTimeout);
+    openTimeout = null;
+  }
+  closeTimeout = setTimeout(() => {
+    isOpen.value = false;
+  }, 100);
+};
+
+const onTooltipEnter = () => {
+  if (closeTimeout) {
+    clearTimeout(closeTimeout);
+    closeTimeout = null;
+  }
+};
+
+onBeforeUnmount(() => {
+  if (openTimeout) clearTimeout(openTimeout);
+  if (closeTimeout) clearTimeout(closeTimeout);
 });
 </script>
 
 <template>
-  <TooltipProvider :delay-duration="props.delayDuration">
-    <TooltipRoot>
-      <TooltipTrigger as-child>
-        <slot name="trigger" />
-      </TooltipTrigger>
+  <span
+    :style="`anchor-name: ${anchorId}`"
+    @mouseenter="show"
+    @mouseleave="hide"
+    @focus="show"
+    @blur="hide"
+  >
+    <slot name="trigger" />
+  </span>
 
-      <TooltipContent
-        :side="props.side"
-        :side-offset="props.sideOffset"
-        :class="
-          cn(
-            'z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'
-          )
-        "
-      >
-        <slot />
-      </TooltipContent>
-    </TooltipRoot>
-  </TooltipProvider>
+  <div
+    v-if="isOpen"
+    role="tooltip"
+    :style="tooltipStyle"
+    class="overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md"
+    @mouseenter="onTooltipEnter"
+    @mouseleave="hide"
+  >
+    <slot />
+  </div>
 </template>
