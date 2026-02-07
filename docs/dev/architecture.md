@@ -6,7 +6,7 @@
 - **Routing**: Vue Router 4.x
 - **Backend**: Firebase (Firestore + Authentication)
 - **Build Tool**: Vite 7.x
-- **Styling**: Tailwind CSS 3.4+ with PostCSS, Autoprefixer, and Container Queries plugin
+- **Styling**: Tailwind CSS 4.x with Vite plugin
 - **UI Components**: shadcn-vue (Radix Vue primitives + Tailwind)
 - **Icons**: Lucide Vue Next
 
@@ -18,8 +18,7 @@
 - [x] Full TypeScript migration with strict mode
 - [x] Firebase SDK integration (Firestore + Auth)
 - [x] Development and build scripts
-- [x] Tailwind CSS 3.4+ configuration with custom theme
-- [x] Container queries plugin for responsive components
+- [x] Tailwind CSS 4.x configuration with CSS-based theme (@theme directive)
 - [x] shadcn-vue component library setup
 - [x] CSS variables for theming (light/dark mode ready)
 
@@ -292,7 +291,6 @@ firebase-barillets-editor/
 ├── README.md                     # Quick start guide
 ├── tsconfig.json                 # TypeScript config
 ├── vite.config.ts                # Vite config
-├── tailwind.config.js            # Tailwind CSS config
 └── package.json                  # Dependencies & scripts
 ```
 
@@ -378,4 +376,4 @@ This ensures type consistency throughout the Vue components while maintaining Fi
 
 ---
 
-**Last Updated**: 2025-10-23
+**Last Updated**: 2026-02-07

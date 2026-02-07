@@ -138,11 +138,12 @@ This document tracks current limitations, workarounds, and open questions about 
 
 ### Supported Browsers
 
-- ✅ Chrome/Edge 90+ (Chromium-based)
-- ✅ Firefox 88+
-- ✅ Safari 14+
-- ⚠️ Mobile Safari (iOS 14+) - some input quirks
+- ✅ Chrome/Edge 111+ (Chromium-based)
+- ✅ Firefox 128+
+- ✅ Safari 16.4+
+- ⚠️ Mobile Safari (iOS 16.4+) - some input quirks
 - ❌ Internet Explorer (not supported)
+- ❌ Older browsers (Tailwind CSS v4 requires modern CSS features like `@property` and `color-mix()`)
 
 ### Known Browser Issues
 
@@ -283,4 +284,4 @@ If you encounter a bug or limitation not listed here:
 
 ---
 
-**Last Updated**: 2025-10-19
+**Last Updated**: 2026-02-07

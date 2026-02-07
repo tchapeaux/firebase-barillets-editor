@@ -30,7 +30,7 @@ This directory contains comprehensive project context for AI coding assistants a
 - **Frontend**: Vue 3 + TypeScript + Vite
 - **Routing**: Vue Router 4.x
 - **Backend**: Firebase (Firestore + Authentication)
-- **Styling**: Tailwind CSS 3.4+ with PostCSS & Autoprefixer
+- **Styling**: Tailwind CSS 4.x with Vite plugin
 - **UI Components**: shadcn-vue (Radix Vue primitives + Tailwind)
 
 ### Primary Language
@@ -54,4 +54,4 @@ This directory contains comprehensive project context for AI coding assistants a
 
 ---
 
-**Last Updated**: 2025-10-21
+**Last Updated**: 2026-02-07

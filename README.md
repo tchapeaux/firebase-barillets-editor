@@ -66,7 +66,7 @@ If you want to use your own Firebase project:
 - **Routing**: Vue Router 4
 - **Backend**: Firebase (Firestore + Authentication)
 - **Build Tool**: Vite 7
-- **Styling**: Tailwind CSS 3.4+ with shadcn-vue components
+- **Styling**: Tailwind CSS 4.x with shadcn-vue components
 
 ## Documentation
 

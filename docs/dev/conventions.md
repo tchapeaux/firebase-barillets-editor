@@ -479,7 +479,7 @@ export const useBarillets = () => {
 
 **Container Query Usage:**
 
-The project uses `@tailwindcss/container-queries` plugin. To make a component container-aware:
+Tailwind CSS v4 has built-in container query support. To make a component container-aware:
 
 1. Add `@container` class to the container element
 2. Use container query modifiers (`@sm:`, `@md:`, `@lg:`, etc.) on child elements
@@ -499,7 +499,7 @@ The project uses `@tailwindcss/container-queries` plugin. To make a component co
 
 **Container Breakpoints:**
 
-Default container query breakpoints (configurable in `tailwind.config.js`):
+Default container query breakpoints (configured in `src/styles.css` via `@theme`):
 
 - `@xs`: 20rem (320px)
 - `@sm`: 24rem (384px)
@@ -597,15 +597,14 @@ The application uses a design system based on **CSS custom properties (CSS varia
 
 #### Where to Find Color Definitions
 
-- **CSS Variables**: [`src/styles.css`](../../src/styles.css) (both light and dark mode)
-- **Tailwind Config**: [`tailwind.config.js`](../../tailwind.config.js) (exposes variables as utilities)
-- **Safelist**: Classes for dynamic `:class` bindings to ensure they're generated
+- **CSS Variables**: [`src/styles.css`](../../src/styles.css) (both light and dark mode values in `:root` / `.dark`)
+- **Theme Mapping**: [`src/styles.css`](../../src/styles.css) (`@theme inline` block maps CSS variables to Tailwind utility classes)
 
 #### Adding New Color Tokens
 
 If you need to add a new semantic color:
 
-1. **Define the CSS variable** in `src/styles.css`:
+1. **Define the CSS variable** in `src/styles.css` (inside the `:root` and `.dark` blocks):
 
    ```css
    :root {
@@ -619,26 +618,14 @@ If you need to add a new semantic color:
    }
    ```
 
-2. **Export in Tailwind config** in `tailwind.config.js`:
+2. **Map to Tailwind** in the `@theme inline` block in `src/styles.css`:
 
-   ```javascript
-   'my-custom': {
-     DEFAULT: 'hsl(var(--my-custom-color))',
-     light: 'hsl(var(--my-custom-color-light))',
+   ```css
+   @theme inline {
+     --color-my-custom: hsl(var(--my-custom-color));
+     --color-my-custom-light: hsl(var(--my-custom-color-light));
    }
    ```
-
-3. **Add to safelist** if using in dynamic `:class` bindings:
-
-   ```javascript
-   safelist: [
-     'bg-my-custom',
-     'text-my-custom',
-     // ...
-   ];
-   ```
-
-4. **Document the token** in this file with its purpose and usage
 
 ### Custom CSS
 
@@ -672,4 +659,4 @@ When custom CSS is needed:
 
 ---
 
-**Last Updated**: 2025-10-23
+**Last Updated**: 2026-02-07
