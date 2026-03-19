@@ -39,6 +39,7 @@ export default defineConfig({
         ],
       },
       workbox: {
+        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024, // 2 MiB
         // Precache app shell and static assets
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
 
@@ -99,13 +100,16 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Split Firebase into its own chunk for better caching (~500 kB)
-          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
-          // Split Vue ecosystem
-          'vue-vendor': ['vue', 'vue-router'],
-          // Split UI library
-          'ui-vendor': ['radix-vue', 'lucide-vue-next'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('/firebase/')) return 'firebase';
+          if (id.includes('/vue-router/') || id.includes('/vue/'))
+            return 'vue-vendor';
+          if (id.includes('/radix-vue/') || id.includes('/lucide-vue-next/'))
+            return 'ui-vendor';
+          if (id.includes('/exceljs/')) return 'exceljs';
+          if (id.includes('/jspdf/')) return 'jspdf';
+          if (id.includes('/html2canvas/')) return 'html2canvas';
         },
       },
     },
