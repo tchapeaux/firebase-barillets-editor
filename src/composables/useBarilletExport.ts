@@ -177,11 +177,8 @@ export function useBarilletExport() {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(0, 0, 0);
 
-    const prefix =
-      theme.type === 'Comparée' && theme.duration.type === 'fixed' ? '2x ' : '';
-
-    const durationText = theme.duration.value || '-';
-    doc.text(prefix + durationText, x + padding, bottomY);
+    const durationText = theme.duration || '-';
+    doc.text(durationText, x + padding, bottomY);
 
     // Notes (right-aligned, multiline if needed)
     if (theme.notes && theme.notes.trim() !== '') {
@@ -243,7 +240,6 @@ export function useBarilletExport() {
       'Participation',
       'Category',
       'Duration',
-      'Duration Type',
       'Notes',
     ];
 
@@ -254,8 +250,7 @@ export function useBarilletExport() {
       theme.title || '',
       theme.participation,
       theme.category,
-      theme.duration.value,
-      theme.duration.type,
+      theme.duration,
       theme.notes || '',
     ]);
 
@@ -301,7 +296,6 @@ export function useBarilletExport() {
       'Participation',
       'Category',
       'Duration',
-      'Duration Type',
       'Notes',
     ];
 
@@ -314,14 +308,13 @@ export function useBarilletExport() {
         theme.title || '',
         theme.participation,
         theme.category,
-        theme.duration.value,
-        theme.duration.type,
+        theme.duration,
         theme.notes || '',
       ]);
     });
 
     // Set column widths
-    const colWidths = [10, 10, 25, 15, 15, 12, 12, 20];
+    const colWidths = [10, 10, 25, 15, 15, 12, 20];
     themesSheet.columns.forEach((col, i) => {
       col.width = colWidths[i];
     });

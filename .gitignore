@@ -1,3 +1,7 @@
+# Secret keys
+scripts/serviceAccountKey.json
+
+
 .claude
 .firebase
 .node_modules

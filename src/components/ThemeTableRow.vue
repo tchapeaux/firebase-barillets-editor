@@ -4,8 +4,6 @@ import { watchDeep } from '@vueuse/core';
 import type { Theme } from '../types/barillet';
 import Input from '@/components/ui/input.vue';
 import CategoryCombobox from '@/components/ui/CategoryCombobox.vue';
-import DurationTypeBadge from './DurationTypeBadge.vue';
-import { useThemeDuration } from '../composables/useThemeDuration';
 
 interface Props {
   theme: Theme;
@@ -18,7 +16,7 @@ const emit = defineEmits<{
 }>();
 
 // Local state for the theme
-const localTheme = ref<Theme>({ ...props.theme });
+const localTheme = ref<Theme>(JSON.parse(JSON.stringify(props.theme)));
 const skipAutoEmit = ref(true);
 
 // Watch for external changes (if parent updates the theme)
@@ -27,8 +25,7 @@ watch(
   (newTheme) => {
     // Pause auto-emit during external update to prevent loops
     skipAutoEmit.value = true;
-    localTheme.value = { ...newTheme };
-    updateDurationInputs(newTheme.duration.value);
+    localTheme.value = JSON.parse(JSON.stringify(newTheme));
     // Resume auto-emit after update completes
     setTimeout(() => {
       skipAutoEmit.value = false;
@@ -60,19 +57,6 @@ const toggleType = () => {
     localTheme.value.type === 'Mixte' ? 'Comparée' : 'Mixte';
   updateTheme();
 };
-
-// Use shared duration composable
-const {
-  durationMinutes,
-  durationSeconds,
-  updateDurationInputs,
-  updateDurationFromInputs,
-  formatSeconds,
-  toggleDurationType,
-} = useThemeDuration(localTheme, updateTheme);
-
-// Initialize duration inputs
-updateDurationInputs(props.theme.duration.value);
 </script>
 
 <template>
@@ -133,46 +117,11 @@ updateDurationInputs(props.theme.duration.value);
 
     <!-- Duration -->
     <td class="px-2 py-2">
-      <div class="flex items-center gap-1">
-        <DurationTypeBadge
-          :duration-type="localTheme.duration.type"
-          @toggle="toggleDurationType"
-        />
-
-        <!-- Numeric Duration Input (fixed) -->
-        <div
-          v-if="localTheme.duration.type === 'fixed'"
-          class="flex items-center gap-1"
-        >
-          <Input
-            v-model="durationMinutes"
-            type="number"
-            min="0"
-            max="60"
-            placeholder="3"
-            class="text-sm w-12 h-8 text-center p-1"
-            @blur="updateDurationFromInputs"
-          />
-          <span class="text-muted-foreground text-xs">:</span>
-          <Input
-            v-model="durationSeconds"
-            type="number"
-            min="0"
-            max="59"
-            placeholder="00"
-            class="text-sm w-12 h-8 text-center p-1"
-            @blur="formatSeconds"
-          />
-        </div>
-
-        <!-- Free Text Duration Input (special) -->
-        <Input
-          v-else
-          v-model="localTheme.duration.value"
-          placeholder="jusqu'à la fin"
-          class="text-sm h-8 flex-1"
-        />
-      </div>
+      <Input
+        v-model="localTheme.duration"
+        placeholder="3:00"
+        class="text-sm h-8 w-20"
+      />
     </td>
 
     <!-- Notes -->

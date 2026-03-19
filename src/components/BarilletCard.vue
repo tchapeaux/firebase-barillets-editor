@@ -57,14 +57,8 @@
 
     <CardContent class="pt-4 flex-1">
       <div class="border-t pt-4">
-        <!-- First row: Duration and Theme count -->
+        <!-- First row: Theme count -->
         <div class="flex gap-6 mb-3">
-          <div class="flex flex-col gap-1">
-            <span class="text-xs text-muted-foreground uppercase tracking-wide"
-              >Durée</span
-            >
-            <span class="text-lg font-semibold">{{ stats.totalDuration }}</span>
-          </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs text-muted-foreground uppercase tracking-wide"
               >Thèmes</span

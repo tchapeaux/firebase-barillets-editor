@@ -7,7 +7,19 @@ import {
 } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { db } from '../firebase-app';
-import type { Barillet } from '../types/barillet';
+import type { Barillet, Theme } from '../types/barillet';
+
+/**
+ * Migrate theme duration from old object format { value, type } to plain string.
+ * Documents saved before the simplification stored duration as an object.
+ */
+function migrateDuration(duration: unknown): string {
+  if (typeof duration === 'string') return duration;
+  if (duration && typeof duration === 'object' && 'value' in duration) {
+    return (duration as { value: string }).value || '3:00';
+  }
+  return '3:00';
+}
 
 /**
  * Convert Firestore Timestamp to JavaScript Date
@@ -79,6 +91,11 @@ export function useBarilletById(
                 date: convertTimestampToDate(data.date),
                 createdAt: convertTimestampToDate(data.createdAt),
                 updatedAt: convertTimestampToDate(data.updatedAt),
+                // Migrate duration from old { value, type } object to plain string
+                themes: (data.themes || []).map((theme: Theme) => ({
+                  ...theme,
+                  duration: migrateDuration(theme.duration),
+                })),
               } as Barillet;
 
               // Check if the current user is the owner

@@ -110,17 +110,8 @@ const categoryDescription = computed(() => {
         <!-- Duration Field -->
         <div>
           <Label class="text-xs text-muted-foreground mb-1 block">Durée</Label>
-          <div class="flex items-center gap-2">
-            <span
-              :class="
-                theme.duration.type === 'special'
-                  ? 'bg-accent border-accent text-accent-foreground'
-                  : 'bg-muted border-muted'
-              "
-              class="text-sm px-3 py-2 rounded border flex-1"
-            >
-              {{ theme.duration.value }}
-            </span>
+          <div class="text-sm px-3 py-2 bg-muted rounded border border-muted">
+            {{ theme.duration }}
           </div>
         </div>
 

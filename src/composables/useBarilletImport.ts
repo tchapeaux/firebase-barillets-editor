@@ -16,22 +16,37 @@ export function useBarilletImport(user: Ref<User | null>) {
   const { createBarillet } = useBarillets(user);
 
   /**
-   * Validates that all required fields exist in a theme
+   * Migrate duration from old object format { value, type } to plain string.
+   * Accepts both old and new format for backward compatibility.
+   */
+  const migrateDuration = (duration: unknown): string => {
+    if (typeof duration === 'string') return duration;
+    if (duration && typeof duration === 'object' && 'value' in duration) {
+      return (duration as { value: string }).value || '3:00';
+    }
+    return '3:00';
+  };
+
+  /**
+   * Validates that all required fields exist in a theme.
+   * Accepts both old duration format { value, type } and new plain string.
    */
   const isValidThemeStructure = (theme: unknown): theme is Theme => {
     if (typeof theme !== 'object' || theme === null) return false;
 
     const t = theme as Record<string, unknown>;
+    const hasDuration =
+      typeof t.duration === 'string' ||
+      (typeof t.duration === 'object' &&
+        t.duration !== null &&
+        'value' in t.duration);
+
     return (
       (t.type === 'Mixte' || t.type === 'Comparée') &&
       typeof t.title === 'string' &&
       typeof t.participation === 'string' &&
       typeof t.category === 'string' &&
-      typeof t.duration === 'object' &&
-      t.duration !== null &&
-      'value' in t.duration &&
-      'type' in t.duration &&
-      (t.duration.type === 'fixed' || t.duration.type === 'special')
+      hasDuration
     );
   };
 
@@ -159,12 +174,17 @@ export function useBarilletImport(user: Ref<User | null>) {
       // Parse date from ISO string
       const parsedDate = parseDate(data.date);
 
-      // Prepare barillet data for creation
+      // Prepare barillet data for creation, migrating duration to plain string
       const barilletData: Partial<Barillet> = {
         title: `${data.title} (importé)`,
         date: parsedDate,
         location: data.location || '',
-        themes: data.themes,
+        themes: data.themes.map((theme) => ({
+          ...theme,
+          duration: migrateDuration(
+            (theme as unknown as Record<string, unknown>).duration
+          ),
+        })),
       };
 
       // Create barillet
